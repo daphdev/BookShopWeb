@@ -5,5 +5,5 @@ public interface ConstantUtils {
     String DB_NAME = "bookshopdb";
     String DB_USERNAME = "root";
     String DB_PASSWORD = "12345";
-    String IMAGE_PATH = "/var/webapp/images";
+    String IMAGE_PATH = "C:\\var\\webapp\\images";
 }
