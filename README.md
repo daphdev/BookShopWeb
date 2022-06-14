@@ -18,7 +18,7 @@ Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from
 
 ### 6. Run (Shift+F10)
 
-## B. Cấu hình utils.ConstUtils
+## B. Cấu hình utils.ConstantUtils
 * Mặc định, DB_NAME là bookshopdb, DB_USERNAME là root, DB_PASSWORD là 12345.
 * Có thể thay đổi nếu như khác.
 
