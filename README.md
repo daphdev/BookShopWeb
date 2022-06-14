@@ -16,7 +16,7 @@ Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from
 * [Add Configuration...] → [+] Tomcat Server Local
 * [Fix] → BookShopWeb:war exploded
 
-### 6. Run (Shift+F10)
+### 5. Run (Shift+F10)
 
 ## B. Cấu hình utils.ConstantUtils
 * Mặc định, DB_NAME là bookshopdb, DB_USERNAME là root, DB_PASSWORD là 12345.
