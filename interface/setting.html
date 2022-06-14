@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Giỏ hàng</title>
+  <title>Thiết đặt</title>
 
   <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
@@ -110,7 +110,7 @@
 
   <section class="section-pagetop bg-light">
     <div class="container">
-      <h2 class="title-page">Giỏ hàng</h2>
+      <h2 class="title-page">Thiết đặt</h2>
     </div> <!-- container.// -->
   </section> <!-- section-pagetop.// -->
 
@@ -118,123 +118,61 @@
     <div class="container">
       <div class="row">
 
-        <main class="col-lg-9 mb-lg-0 mb-3">
-          <div class="card">
-
-            <div class="table-responsive-xl">
-              <table class="cart-table table table-borderless">
-                <thead class="text-muted">
-                  <tr class="small text-uppercase">
-                    <th scope="col" style="min-width: 280px;">Sản phẩm</th>
-                    <th scope="col" width="150" style="min-width: 150px;">Giá</th>
-                    <th scope="col" width="150" style="min-width: 150px;">Số lượng</th>
-                    <th scope="col" width="100" style="min-width: 100px;"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <figure class="itemside">
-                        <div class="float-start me-3"><img src="img/80px.png"></div>
-                        <figcaption class="info">
-                          <a href="#" class="title">Tiếng Việt lớp 1</a>
-                        </figcaption>
-                      </figure>
-                    </td>
-                    <td>
-                      <div class="price-wrap">
-                        <span class="price">20.000₫</span>
-                      </div>
-                    </td>
-                    <td>
-                      <input type="number" value="1" min="1" class="form-control">
-                    </td>
-                    <td class="text-center text-nowrap">
-                      <a href="#" class="btn btn-success">Cập nhật</a>
-                      <a href="#" class="btn btn-danger ms-1">Xóa</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <figure class="itemside">
-                        <div class="float-start me-3"><img src="img/80px.png"></div>
-                        <figcaption class="info">
-                          <a href="#" class="title">Tiếng Việt lớp 2</a>
-                        </figcaption>
-                      </figure>
-                    </td>
-                    <td>
-                      <div class="price-wrap">
-                        <span class="price">30.000₫</span>
-                      </div>
-                    </td>
-                    <td>
-                      <input type="number" value="1" min="1" class="form-control">
-                    </td>
-                    <td class="text-center text-nowrap">
-                      <a href="#" class="btn btn-success">Cập nhật</a>
-                      <a href="#" class="btn btn-danger ms-1">Xóa</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div> <!-- table.responsive-md.// -->
-
-            <div class="card-body border-top">
-              <a href="#" class="btn btn-primary float-end">Đặt hàng</a>
-              <a href="#" class="btn btn-light">Tiếp tục mua sắm</a>
-            </div> <!-- card-body.// -->
-
-          </div> <!-- card.// -->
-        </main> <!-- col.// -->
-
-        <aside class="col-lg-3">
-
-          <div class="card mb-3">
-            <div class="card-body">
-              <p class="card-title">Hình thức giao hàng</p>
-              <form action="">
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="delivery_method" id="delivery_method_1" checked>
-                  <label class="form-check-label" for="delivery_method_1">Giao tiêu chuẩn</label>
-                </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="delivery_method" id="delivery_method_2">
-                  <label class="form-check-label" for="delivery_method_2">Giao nhanh</label>
-                </div>
-              </form>
-            </div> <!-- card-body.// -->
-          </div> <!-- card.// -->
-
-          <div class="card mb-3">
-            <div class="card-body">
-              <p class="card-title">Mã giảm giá</p>
-              <form action="">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="">
-                  <button class="btn btn-primary" type="button">Áp dụng</button>
-                </div>
-              </form>
-            </div> <!-- card-body.// -->
-          </div> <!-- card.// -->
-
-          <div class="card">
-            <div class="card-body">
-              <dl class="row mb-0">
-                <dt class="col-xxl-6 col-lg-12 col-6">Tạm tính:</dt>
-                <dd class="col-xxl-6 col-lg-12 col-6 text-end mb-3">50.000₫</dd>
-                <dt class="col-xxl-6 col-lg-12 col-6">Phí vận chuyển:</dt>
-                <dd class="col-xxl-6 col-lg-12 col-6 text-end mb-3">10.000₫</dd>
-                <dt class="col-xxl-6 col-lg-12 col-6">Tổng cộng:</dt>
-                <dd class="col-xxl-6 col-lg-12 col-6 text-end mb-3"><strong>60.000₫</strong></dd>
-              </dl>
-            </div> <!-- card-body.// -->
-          </div> <!-- card.// -->
-
+        <aside class="col-md-3 mb-md-0 mb-3">
+          <nav class="list-group">
+            <a class="list-group-item" href="#"> Tài khoản </a>
+            <a class="list-group-item" href="#"> Đơn hàng của tôi </a>
+            <a class="list-group-item" href="#"> Sản phẩm yêu thích </a>
+            <a class="list-group-item" href="#"> Đổi mật khẩu </a>
+            <a class="list-group-item active" href="#"> Thiết đặt </a>
+            <a class="list-group-item" href="#"> Đăng xuất </a>
+          </nav>
         </aside> <!-- col.// -->
 
+        <main class="col-md-9">
+          <article class="card">
+            <div class="card-body">
+              <div class="col-lg-6">
+                <form>
+                  <div class="mb-3">
+                    <label for="inputUsername" class="form-label">Tên đăng nhập</label>
+                    <input type="text" class="form-control" id="inputUsername">
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputName" class="form-label">Họ tên</label>
+                    <input type="text" class="form-control" id="inputName">
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputEmail">
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputPhoneNumber" class="form-label">Số điện thoại</label>
+                    <input type="number" class="form-control" id="inputPhoneNumber">
+                  </div>
+                  <div class="mb-3">
+                    <div class="form-check d-inline-block me-4">
+                      <input class="form-check-input" type="radio" name="radioGender" id="radioGender1" checked>
+                      <label class="form-check-label" for="radioGender1">Nam</label>
+                    </div>
+                    <div class="form-check d-inline-block">
+                      <input class="form-check-input" type="radio" name="radioGender" id="radioGender2">
+                      <label class="form-check-label" for="radioGender2">Nữ</label>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="inputAddress" class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" id="inputAddress">
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Cập nhật thông tin mới</button>
+                </form>
+              </div>
+            </div> <!-- card-body.// -->
+          </article>
+        </main> <!-- col.// -->
+
       </div> <!-- row.// -->
-    </div> <!-- container -->
+    </div> <!-- container.// -->
   </section> <!-- section-content.// -->
 
   <footer class="section-footer">
