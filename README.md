@@ -10,11 +10,9 @@ Tạo thư mục C:/var/webapp/images và giải nén tất cả hình từ file
 Mở MySQL Workbench → Open SQL Script → Execute [bookshopdb.sql](https://github.com/markiusphan/BookShopWeb/blob/main/init/bookshopdb.sql)
 
 ### 3. Nạp project vào IDEA
-Mở IDEA → File | New | Project from Version Control → Clone project theo URL: https://github.com/markiusphan/BookShopWeb.git
+Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from Version Control (màn hình bình thường) → Clone project theo URL: https://github.com/markiusphan/BookShopWeb.git
 
-### 4. Trust project
-
-### 5. Cấu hình Tomcat
+### 4. Cấu hình Tomcat
 * [Add Configuration...] → [+] Tomcat Server Local
 * [Fix] → BookShopWeb:war exploded
 
