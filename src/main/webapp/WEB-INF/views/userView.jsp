@@ -24,7 +24,13 @@
 <section class="section-content padding-y">
   <div class="container">
     <div class="row">
-
+      <c:choose>
+      <c:when test="${empty sessionScope.currentUser}">
+        <p>
+          Vui lòng <a href="${pageContext.request.contextPath}/signin">đăng nhập</a> để xem thông tin tài khoản.
+        </p>
+      </c:when>
+      <c:otherwise>
       <aside class="col-md-3 mb-md-0 mb-3">
         <nav class="list-group">
           <a class="list-group-item active" href="#"> Tài khoản </a>
@@ -80,7 +86,8 @@
           </div> <!-- card-body.// -->
         </article>
       </main> <!-- col.// -->
-
+      </c:otherwise>
+      </c:choose>
     </div> <!-- row.// -->
   </div> <!-- container.// -->
 </section> <!-- section-content.// -->
