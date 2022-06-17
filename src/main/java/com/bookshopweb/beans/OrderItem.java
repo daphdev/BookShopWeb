@@ -15,6 +15,10 @@ public class OrderItem {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Product product;
+    
+    public OrderItem() {
+    	
+    }
 
     public OrderItem(long id,
                      long orderId,

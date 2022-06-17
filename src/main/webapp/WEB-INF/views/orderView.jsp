@@ -33,91 +33,7 @@
 
 <body>
 
-<header class="section-header">
-  <section class="header-main border-bottom">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-3 py-3">
-          <a class="text-body" href="./home.html">
-            <h3>Shop Bán Sách</h3>
-          </a>
-        </div> <!-- col.// -->
-        <div class="col-lg-4 col-xl-5">
-          <form action="#" class="search">
-            <div class="input-group w-100">
-              <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm ...">
-              <button class="btn btn-primary" type="button">
-                <i class="bi bi-search"></i>
-              </button>
-            </div>
-          </form>
-        </div> <!-- col.// -->
-        <div class="col-lg-5 col-xl-4">
-          <ul class="nav col-12 col-lg-auto my-2 my-lg-0 justify-content-center justify-content-lg-end text-small">
-            <li>
-              <a href="#" class="nav-link text-body">
-                <i class="bi bi-person d-block text-center fs-3"></i>
-                Tài khoản
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-body">
-                <i class="bi bi-list-check d-block text-center fs-3"></i>
-                Đơn hàng
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-body">
-                <i class="bi bi-cart d-block text-center fs-3"></i>
-                Giỏ hàng
-              </a>
-            </li>
-          </ul>
-        </div> <!-- col.// -->
-      </div> <!-- row.// -->
-    </div> <!-- container.// -->
-  </section> <!-- header-main.// -->
-</header> <!-- section-header.// -->
-
-<nav class="navbar navbar-main navbar-expand-lg navbar-light border-bottom">
-  <div class="container">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-             aria-expanded="false">
-            <strong><i class="bi bi-list"></i> Danh mục sản phẩm</strong>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Sách giáo khoa</a></li>
-            <li><a class="dropdown-item" href="#">Sách khoa học</a></li>
-            <li><a class="dropdown-item" href="#">Truyện tranh</a></li>
-            <li><a class="dropdown-item" href="#">Tiểu thuyết</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="#">Tất cả danh mục</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Sản phẩm mới</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Sản phẩm bán chạy</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Khuyến mãi</a>
-        </li>
-      </ul>
-      <a class="btn btn-light me-2" href="#" role="button">Đăng ký</a>
-      <a class="btn btn-primary" href="#" role="button">Đăng nhập</a>
-    </div>
-  </div> <!-- container.// -->
-</nav> <!-- navbar-main.// -->
+<jsp:include page="_header.jsp"/>
 
 <section class="section-pagetop bg-light">
   <div class="container">
@@ -128,17 +44,9 @@
 <section class="section-content padding-y">
   <div class="container">
     <div class="row">
-
-      <aside class="col-md-3 mb-md-0 mb-3">
-        <nav class="list-group">
-          <a class="list-group-item" href="#"> Tài khoản </a>
-          <a class="list-group-item active" href="#"> Đơn hàng của tôi </a>
-          <a class="list-group-item" href="#"> Sản phẩm yêu thích </a>
-          <a class="list-group-item" href="#"> Đổi mật khẩu </a>
-          <a class="list-group-item" href="#"> Thiết đặt </a>
-          <a class="list-group-item" href="#"> Đăng xuất </a>
-        </nav>
-      </aside> <!-- col.// -->
+    <c:choose>
+     <c:when test="${not empty sessionScope.currentUser}">
+      <jsp:include page="_navbar.jsp"/>
 
       <main class="col-md-9">
 
@@ -155,100 +63,83 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <th scope="row">3</th>
-              <td>15/12/2021</td>
-              <td>Tiếng Việt lớp 1</td>
-              <td>10.000₫</td>
-              <td><span class="badge bg-warning text-dark">Đang giao hàng</span></td>
-              <td class="text-center text-nowrap">
-                <a class="btn btn-primary me-2" href="#" role="button">Xem đơn hàng</a>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>10/12/2021</td>
-              <td>Tiếng Việt lớp 2 ...và 1 sản phẩm khác</td>
-              <td>60.000₫</td>
-              <td><span class="badge bg-danger">Hủy đơn hàng</span></td>
-              <td class="text-center text-nowrap">
-                <a class="btn btn-primary me-2" href="#" role="button">Xem đơn hàng</a>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">1</th>
-              <td>10/12/2021</td>
-              <td>Tiếng Việt lớp 2 ...và 1 sản phẩm khác</td>
-              <td>60.000₫</td>
-              <td><span class="badge bg-success">Giao hàng thành công</span></td>
-              <td class="text-center text-nowrap">
-                <a class="btn btn-primary me-2" href="#" role="button">Xem đơn hàng</a>
-              </td>
-            </tr>
+            <c:forEach var="orders" items="${requestScope.orders}">
+	            <tr>
+	              <th scope="row">${orders.id}</th>
+	              <td>${orders.createdAt}</td>
+	              <td>${orders.name}</td>
+	              <td><fmt:formatNumber pattern="#,##0" value="${orders.total}"/>₫</td>
+	              <td>
+	              	<c:choose>
+     					<c:when test="${orders.status == 1}">
+		              		<span class="badge bg-warning text-dark">Đang giao hàng</span>
+		              	</c:when>
+		              	<c:when test="${orders.status == 2}">
+		              		<span class="badge bg-success">Giao hàng thành công</span>
+		              	</c:when>
+		              	<c:when test="${orders.status == 3}">
+		              		<span class="badge bg-danger">Hủy đơn hàng</span>
+		              	</c:when>
+		             </c:choose>
+	              </td>
+	              <td class="text-center text-nowrap">
+	                <a class="btn btn-primary me-2" href="#" role="button">Xem đơn hàng</a>
+	              </td>
+	            </tr>
+            </c:forEach>
             </tbody>
           </table>
         </div>
 
-        <nav class="mt-4">
-          <ul class="pagination">
-            <li class="page-item disabled"><a class="page-link" href="#">Trang trước</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Trang sau</a></li>
-          </ul>
-        </nav>
+        <c:if test="${requestScope.totalPages != 0}">
+          <nav class="mt-4">
+            <ul class="pagination">
+              <li class="page-item ${requestScope.page == 1 ? 'disabled' : ''}">
+                <a class="page-link"
+                   href="${pageContext.request.contextPath}/order?page=${requestScope.page - 1}">
+                  Trang trước
+                </a>
+              </li>
+
+              <c:forEach begin="1" end="${requestScope.totalPages}" var="i">
+                <c:choose>
+                  <c:when test="${requestScope.page == i}">
+                    <li class="page-item active">
+                      <a class="page-link">${i}</a>
+                    </li>
+                  </c:when>
+                  <c:otherwise>
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="${pageContext.request.contextPath}/order?page=${i}">
+                          ${i}
+                      </a>
+                    </li>
+                  </c:otherwise>
+                </c:choose>
+              </c:forEach>
+
+              <li class="page-item ${requestScope.page == requestScope.totalPages ? 'disabled' : ''}">
+                <a class="page-link"
+                   href="${pageContext.request.contextPath}/order?page=${requestScope.page + 1}">
+                  Trang sau
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </c:if>
 
       </main> <!-- col.// -->
-
+     </c:when>
+     <c:otherwise>
+       <p>Vui lòng <a href="${pageContext.request.contextPath}/signin">đăng nhập</a> để sử dụng trang này</p>
+     </c:otherwise>
+   </c:choose>
     </div> <!-- row.// -->
   </div> <!-- container.// -->
 </section> <!-- section-content.// -->
 
-<footer class="section-footer">
-  <section class="footer-top py-5 bg-light">
-    <div class="container">
-      <div class="row">
-        <aside class="col-sm-6 col-lg-3">
-          <h6 class="pb-2">Giới thiệu</h6>
-          <ul class="list-unstyled">
-            <li><a href="#">Về Shop</a></li>
-            <li><a href="#">Tuyển dụng</a></li>
-            <li><a href="#">Chính sách thanh toán</a></li>
-            <li><a href="#">Chính sách bảo mật</a></li>
-            <li><a href="#">Giải quyết khiếu nại</a></li>
-            <li><a href="#">Hợp tác</a></li>
-          </ul>
-        </aside>
-        <aside class="col-sm-6 col-lg-3">
-          <h6 class="pb-2">Hỗ trợ khách hàng</h6>
-          <ul class="list-unstyled">
-            <li>Hotline: 1900-80xx</li>
-            <li><a href="#">Câu hỏi thường gặp</a></li>
-            <li><a href="#">Hướng dẫn đặt hàng</a></li>
-            <li><a href="#">Phương thức vận chuyển</a></li>
-            <li><a href="#">Chính sách đổi trả</a></li>
-          </ul>
-        </aside>
-        <aside class="col-lg-5">
-          <h6 class="pb-2">Đăng ký nhận tin</h6>
-          <form action="#">
-            <div class="input-group w-100">
-              <input type="text" class="form-control" placeholder="Email của bạn ...">
-              <button class="btn btn-primary" type="button">
-                Đăng ký
-              </button>
-            </div>
-          </form>
-        </aside>
-      </div> <!-- row.// -->
-    </div> <!-- container.// -->
-  </section> <!-- footer-top.// -->
-
-  <section class="footer-bottom text-center bg-light border-top py-3">
-    <div class="container-fluid">© 2021 — Shop Bán Sách</div> <!-- container-fluid.// -->
-  </section> <!-- footer-bottom.// -->
-</footer> <!-- section-footer.// -->
+<jsp:include page="_footer.jsp"/>
 
 </body>
 

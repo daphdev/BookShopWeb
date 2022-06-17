@@ -12,7 +12,10 @@ public class Order {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Order(long id,
+    public Order() {
+	}
+
+	public Order(long id,
                  long userId,
                  int status,
                  int deliveryMethod,
