@@ -34,11 +34,15 @@
       <aside class="col-md-3 mb-md-0 mb-3">
         <nav class="list-group">
           <a class="list-group-item active" href="#"> Tài khoản </a>
-          <a class="list-group-item" href="#"> Đơn hàng của tôi </a>
+          <a class="list-group-item" href="${pageContext.request.contextPath}/order" role="button">
+            Đơn hàng của tôi
+          </a>
           <a class="list-group-item" href="#"> Sản phẩm yêu thích </a>
           <a class="list-group-item" href="#"> Đổi mật khẩu </a>
           <a class="list-group-item" href="#"> Thiết đặt </a>
-          <a class="list-group-item" href="#"> Đăng xuất </a>
+          <a class="list-group-item" href="${pageContext.request.contextPath}/signout" role="button">
+            Đăng xuất
+          </a>
         </nav>
       </aside> <!-- col.// -->
 
@@ -46,15 +50,15 @@
         <article class="card">
           <div class="card-body">
             <div>
-              <h5>Nguyễn Thị A</h5>
-              <p>nguyenthia@gmail.com</p>
+              <strong>${sessionScope.currentUser.fullname}</strong>
+              <p>${sessionScope.currentUser.email}</p>
             </div>
             <hr>
             <div>
               <p class="bi bi-map d-block lh-lg">
                 Địa chỉ:
                 <br>
-                Đường Nguyễn Duy Trinh, Phường Bình Trưng Đông, Quận 2, TP.HCM
+                  ${sessionScope.currentUser.address}
               </p>
             </div>
             <article class="card-group">
