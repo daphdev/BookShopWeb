@@ -10,7 +10,7 @@ public class OrderService extends Service<Order, OrderDAO> implements OrderDAO {
         super(OrderDAO.class);
     }
 
-	public List<Order> getOrdersByUserId(long userId) {
-		return jdbi.withExtension(OrderDAO.class, dao -> dao.getOrdersByUserId(userId));
-	}
+    public List<Order> getOrdersByUserId(long userId) {
+        return jdbi.withExtension(OrderDAO.class, dao -> dao.getOrdersByUserId(userId));
+    }
 }

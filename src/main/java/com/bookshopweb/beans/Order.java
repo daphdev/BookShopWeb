@@ -13,9 +13,9 @@ public class Order {
     private LocalDateTime updatedAt;
 
     public Order() {
-	}
+    }
 
-	public Order(long id,
+    public Order(long id,
                  long userId,
                  int status,
                  int deliveryMethod,

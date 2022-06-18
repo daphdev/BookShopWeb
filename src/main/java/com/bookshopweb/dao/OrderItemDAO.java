@@ -23,7 +23,7 @@ public interface OrderItemDAO extends DAO<OrderItem> {
 
     @Override
     @SqlUpdate("UPDATE order_item SET orderId = :orderId, productId = :productId, price = :price, discount = :discount, " +
-               "quantity = :quantity, createdAt = :createdAt, updatedAt = :updatedAt WHERE id = :id")
+            "quantity = :quantity, createdAt = :createdAt, updatedAt = :updatedAt WHERE id = :id")
     void update(@BindBean OrderItem orderItem);
 
     @Override
@@ -49,10 +49,10 @@ public interface OrderItemDAO extends DAO<OrderItem> {
 
     @SqlBatch("INSERT INTO order_item VALUES (default, :orderId, :productId, :price, :discount, :quantity, :createdAt, :updatedAt)")
     void bulkInsert(@BindBean List<OrderItem> orderItems);
-    
+
     @SqlQuery("SELECT * FROM order_item where orderId in (<ids>) LIMIT :limit OFFSET :offset")
     List<OrderItem> getByOrderId(@BindList("ids") List<Long> ids, @Bind("limit") int limit, @Bind("offset") int offset);
-    
+
     @SqlQuery("SELECT COUNT(order_item.id) FROM order_item where orderId in (<ids>)")
     int countByOrderId(@BindList("ids") List<Long> ids);
 }
