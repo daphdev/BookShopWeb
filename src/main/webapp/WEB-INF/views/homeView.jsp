@@ -7,7 +7,7 @@
 
 <head>
     <jsp:include page="_meta.jsp"/>
-    <title>Trang chủ</title>
+    <title>Trang chủ</title>//homeView
 </head>
 
 <body>

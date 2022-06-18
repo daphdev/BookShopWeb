@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <jsp:include page="_meta.jsp"/>
-    <title>Đơn hàng</title>
+    <title>Đơn hàng</title>//orderView
 
     <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
