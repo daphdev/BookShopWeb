@@ -1,9 +1,9 @@
 package com.bookshopweb.service;
 
-import java.util.List;
-
 import com.bookshopweb.beans.Order;
 import com.bookshopweb.dao.OrderDAO;
+
+import java.util.List;
 
 public class OrderService extends Service<Order, OrderDAO> implements OrderDAO {
     public OrderService() {

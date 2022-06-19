@@ -1,5 +1,7 @@
 package com.bookshopweb.dto;
 
+import java.util.StringJoiner;
+
 public class OrderItemCustom {
     private long id;
     private String createdAt;
@@ -7,8 +9,11 @@ public class OrderItemCustom {
     private int status;
     private double total;
 
-    public OrderItemCustom(long id, String createdAt, String name, int status, double total) {
-        super();
+    public OrderItemCustom(long id,
+                           String createdAt,
+                           String name,
+                           int status,
+                           double total) {
         this.id = id;
         this.createdAt = createdAt;
         this.name = name;
@@ -56,4 +61,14 @@ public class OrderItemCustom {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", OrderItemCustom.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("createdAt='" + createdAt + "'")
+                .add("name='" + name + "'")
+                .add("status=" + status)
+                .add("total=" + total)
+                .toString();
+    }
 }

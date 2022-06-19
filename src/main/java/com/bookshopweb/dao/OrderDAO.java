@@ -1,8 +1,6 @@
 package com.bookshopweb.dao;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.bookshopweb.beans.Order;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
@@ -11,7 +9,8 @@ import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
-import com.bookshopweb.beans.Order;
+import java.util.List;
+import java.util.Optional;
 
 @RegisterBeanMapper(Order.class)
 public interface OrderDAO extends DAO<Order> {
@@ -21,8 +20,8 @@ public interface OrderDAO extends DAO<Order> {
     long insert(@BindBean Order order);
 
     @Override
-    @SqlUpdate("UPDATE orders SET userId = :userId, status = :status, deliveryMethod = :deliveryMethod, "
-            + "deliveryPrice = :deliveryPrice, createdAt = :createdAt, updatedAt = :updatedAt WHERE id = :id")
+    @SqlUpdate("UPDATE orders SET userId = :userId, status = :status, deliveryMethod = :deliveryMethod, " +
+               "deliveryPrice = :deliveryPrice, createdAt = :createdAt, updatedAt = :updatedAt WHERE id = :id")
     void update(@BindBean Order order);
 
     @Override
@@ -43,9 +42,9 @@ public interface OrderDAO extends DAO<Order> {
 
     @Override
     @SqlQuery("SELECT * FROM orders ORDER BY <orderBy> <orderDir> LIMIT :limit OFFSET :offset")
-    List<Order> getOrderedPart(@Bind("limit") int limit, @Bind("offset") int offset, @Define("orderBy") String orderBy,
-                               @Define("orderDir") String orderDir);
+    List<Order> getOrderedPart(@Bind("limit") int limit, @Bind("offset") int offset,
+                               @Define("orderBy") String orderBy, @Define("orderDir") String orderDir);
 
-    @SqlQuery("select * from orders where userId = :userId order by orders.createdAt desc")
+    @SqlQuery("SELECT * FROM orders WHERE userId = :userId ORDER BY orders.createdAt DESC")
     List<Order> getOrdersByUserId(@Bind("userId") long userId);
 }

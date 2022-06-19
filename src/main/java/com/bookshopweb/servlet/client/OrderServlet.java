@@ -1,19 +1,5 @@
 package com.bookshopweb.servlet.client;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.bookshopweb.beans.Order;
 import com.bookshopweb.beans.OrderItem;
 import com.bookshopweb.beans.Product;
@@ -24,16 +10,25 @@ import com.bookshopweb.service.OrderService;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.Protector;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @WebServlet(name = "OrderServlet", value = "/order")
 public class OrderServlet extends HttpServlet {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1691303973385206471L;
     private final OrderService orderService = new OrderService();
     private final OrderItemService orderItemService = new OrderItemService();
     private final ProductService productService = new ProductService();
-    private static final int PRODUCTS_PER_PAGE = 3;
+    private static final int ORDER_ITEMS_PER_PAGE = 3;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,12 +38,14 @@ public class OrderServlet extends HttpServlet {
         if (!Objects.isNull(user)) {
             // Get list order by userId
             List<Order> orders = Protector.of(() -> orderService.getOrdersByUserId(user.getId())).get(ArrayList::new);
-            List<Long> orderIds = orders.stream().map(x -> x.getId()).collect(Collectors.toList());
+            List<Long> orderIds = orders.stream().map(Order::getId).collect(Collectors.toList());
 
+            // Tổng số order item
             int totalOrderItem = Protector.of(() -> orderItemService.countByOrderId(orderIds)).get(0);
-            // Tính tổng số trang (= tổng số order item / số sản phẩm trên mỗi trang)
-            int totalPages = totalOrderItem / PRODUCTS_PER_PAGE;
-            if (totalOrderItem % PRODUCTS_PER_PAGE != 0) {
+
+            // Tính tổng số trang (= tổng số order item / số order item trên mỗi trang)
+            int totalPages = totalOrderItem / ORDER_ITEMS_PER_PAGE;
+            if (totalOrderItem % ORDER_ITEMS_PER_PAGE != 0) {
                 totalPages++;
             }
 
@@ -60,16 +57,18 @@ public class OrderServlet extends HttpServlet {
             }
 
             // Tính mốc truy vấn (offset)
-            int offset = (page - 1) * PRODUCTS_PER_PAGE;
+            int offset = (page - 1) * ORDER_ITEMS_PER_PAGE;
 
-            // Lấy danh sách order item, lấy với số lượng là PRODUCTS_PER_PAGE và tính từ mốc offset
-            List<OrderItem> orderItems = Protector.of(() -> orderItemService.getByOrderId(orderIds, PRODUCTS_PER_PAGE, offset))
-                    .get(ArrayList::new);
+            // Lấy danh sách order item, lấy với số lượng là ORDER_ITEMS_PER_PAGE và tính từ mốc offset
+            List<OrderItem> orderItems = Protector.of(() -> orderItemService.getByOrderId(
+                    orderIds, ORDER_ITEMS_PER_PAGE, offset
+            )).get(ArrayList::new);
 
-            List<OrderItemCustom> lst = new ArrayList<OrderItemCustom>();
+            List<OrderItemCustom> orderItemCustoms = new ArrayList<>();
+
             for (OrderItem orderItem : orderItems) {
                 Optional<Product> product = productService.getById(orderItem.getId());
-                Order order = orders.stream().filter(x -> x.getId() == orderItem.getOrderId()).findFirst().get();
+                Order order = orders.stream().filter(o -> o.getId() == orderItem.getOrderId()).findFirst().get();
 
                 double total = 0.0;
                 if (orderItem.getDiscount() == 0) {
@@ -77,17 +76,21 @@ public class OrderServlet extends HttpServlet {
                 } else {
                     total = (orderItem.getPrice() * (100 - orderItem.getDiscount()) / 100) * orderItem.getQuantity();
                 }
-                OrderItemCustom item = new OrderItemCustom(order.getId(),
-                        order.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), product.get().getName(),
-                        order.getStatus(), total);
-                lst.add(item);
+
+                OrderItemCustom orderItemCustom = new OrderItemCustom(
+                        order.getId(),
+                        order.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        product.get().getName(),
+                        order.getStatus(),
+                        total
+                );
+                orderItemCustoms.add(orderItemCustom);
             }
 
-            request.setAttribute("orders", lst);
+            request.setAttribute("orders", orderItemCustoms);
             request.setAttribute("totalProducts", totalOrderItem);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("page", page);
-
         }
 
         request.setAttribute("screen", "order");
@@ -96,7 +99,5 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
+            throws ServletException, IOException {}
 }

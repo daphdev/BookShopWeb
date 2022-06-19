@@ -12,8 +12,7 @@ public class Order {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Order() {
-    }
+    public Order() {}
 
     public Order(long id,
                  long userId,
