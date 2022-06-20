@@ -64,25 +64,25 @@
             <article class="card-group">
               <figure class="card bg-light">
                 <div class="p-3">
-                  <h4 class="title">2</h4>
+                  <h4 class="title">${countCartItemQuantity}</h4>
                   <span>Sản phẩm trong giỏ</span>
                 </div>
               </figure>
               <figure class="card bg-light">
                 <div class="p-3">
-                  <h4 class="title">5</h4>
+                  <h4 class="title">${countOrderItemQuantity}</h4>
                   <span>Đơn hàng</span>
                 </div>
               </figure>
               <figure class="card bg-light">
                 <div class="p-3">
-                  <h4 class="title">5</h4>
+                  <h4 class="title">${countOrderDeliver}</h4>
                   <span>Sản phẩm đang giao</span>
                 </div>
               </figure>
               <figure class="card bg-light">
                 <div class="p-3">
-                  <h4 class="title">10</h4>
+                  <h4 class="title">${countOrderReceived}</h4>
                   <span>Sản phẩm đã nhận</span>
                 </div>
               </figure>
