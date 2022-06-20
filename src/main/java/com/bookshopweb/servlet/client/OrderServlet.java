@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 
 @WebServlet(name = "OrderServlet", value = "/order")
 public class OrderServlet extends HttpServlet {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     private final OrderService orderService = new OrderService();
     private final OrderItemService orderItemService = new OrderItemService();
     private final ProductService productService = new ProductService();
@@ -35,7 +39,7 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("currentUser");
 
-        if (!Objects.isNull(user)) {
+        if (user != null) {
             // Get list order by userId
             List<Order> orders = Protector.of(() -> orderService.getOrdersByUserId(user.getId())).get(ArrayList::new);
             List<Long> orderIds = orders.stream().map(Order::getId).collect(Collectors.toList());
@@ -66,6 +70,10 @@ public class OrderServlet extends HttpServlet {
 
             List<OrderItemCustom> orderItemCustoms = new ArrayList<>();
 
+<<<<<<< Updated upstream
+=======
+            List<OrderItemCustom> orderItemCustoms = new ArrayList<>();
+>>>>>>> Stashed changes
             for (OrderItem orderItem : orderItems) {
                 Optional<Product> product = productService.getById(orderItem.getId());
                 Order order = orders.stream().filter(o -> o.getId() == orderItem.getOrderId()).findFirst().get();
@@ -76,6 +84,7 @@ public class OrderServlet extends HttpServlet {
                 } else {
                     total = (orderItem.getPrice() * (100 - orderItem.getDiscount()) / 100) * orderItem.getQuantity();
                 }
+<<<<<<< Updated upstream
 
                 OrderItemCustom orderItemCustom = new OrderItemCustom(
                         order.getId(),
@@ -85,6 +94,12 @@ public class OrderServlet extends HttpServlet {
                         total
                 );
                 orderItemCustoms.add(orderItemCustom);
+=======
+                OrderItemCustom item = new OrderItemCustom(order.getId(),
+                        order.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), product.get().getName(),
+                        order.getStatus(), total);
+                orderItemCustoms.add(item);
+>>>>>>> Stashed changes
             }
 
             request.setAttribute("orders", orderItemCustoms);

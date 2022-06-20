@@ -6,8 +6,16 @@
 <html lang="vi">
 
 <head>
+<<<<<<< Updated upstream
   <jsp:include page="_meta.jsp"/>
   <title>Đơn hàng</title>
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <jsp:include page="_meta.jsp"/>
+    <title>Đơn hàng</title>
+
+>>>>>>> Stashed changes
 </head>
 
 <body>

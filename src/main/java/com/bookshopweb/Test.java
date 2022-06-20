@@ -44,8 +44,8 @@ public class Test {
 //        System.out.println(test("hello", "hello2"));
 
         Validator validator = new Validator();
-//        System.out.println(validator.isNullString(null));
-//        System.out.println(validator.isNullString("abc"));
+//        System.out.println(validator.isNulorderItemCustomsring(null));
+//        System.out.println(validator.isNulorderItemCustomsring("abc"));
 //        Optional<String> opt = Optional.ofNullable(null);
 //        opt.ifPresent(System.out::println);
 
@@ -111,7 +111,7 @@ public class Test {
         System.out.println("violations3: " + violations3);
 
 //        Optional<String> shouldNotBeEmpty = Optional.empty();
-//        shouldNotBeEmpty.orElseThrow(() -> new IllegalStateException("This should not happen!!!"));
+//        shouldNotBeEmpty.orElseThrow(() -> new IllegaorderItemCustomsateException("This should not happen!!!"));
         System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
 //
