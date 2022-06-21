@@ -14,4 +14,24 @@ public class CartService extends Service<Cart, CartDAO> implements CartDAO {
     public Optional<Cart> getByUserId(long userId) {
         return jdbi.withExtension(CartDAO.class, dao -> dao.getByUserId(userId));
     }
+
+    @Override
+    public int countCartItemQuantityByUserId(long userId) {
+        return jdbi.withExtension(CartDAO.class, dao -> dao.countCartItemQuantityByUserId(userId));
+    }
+
+    @Override
+    public int countOrderItemQuantityByUserId(long userId) {
+        return jdbi.withExtension(CartDAO.class, dao -> dao.countOrderItemQuantityByUserId(userId));
+    }
+
+    @Override
+    public int countOrderDeliverByUserId(long userId) {
+        return jdbi.withExtension(CartDAO.class, dao -> dao.countOrderDeliverByUserId(userId));
+    }
+
+    @Override
+    public int countOrderReceivedByUserId(long userId) {
+        return jdbi.withExtension(CartDAO.class, dao -> dao.countOrderReceivedByUserId(userId));
+    }
 }
