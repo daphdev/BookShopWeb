@@ -1,5 +1,7 @@
 package com.bookshopweb.dao;
 
+import com.bookshopweb.beans.Order;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -17,4 +19,5 @@ public interface DAO<T> {
     List<T> getPart(int limit, int offset);
 
     List<T> getOrderedPart(int limit, int offset, String orderBy, String orderDir);
+
 }

@@ -52,33 +52,38 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="orders" items="${requestScope.orders}">
+                                <c:forEach var="order" items="${requestScope.orders}">
                                     <tr>
-                                        <th scope="row">${orders.id}</th>
-                                        <td>${orders.createdAt}</td>
+                                        <th scope="row">${order.id}</th>
+                                        <td>${order.createdAt}</td>
+                                        <td>sản phẩm</td>
+                                        <td>tổng tiền</td>
 <%--                                        <td>${orders.name}</td>--%>
 <%--                                        <td><fmt:formatNumber pattern="#,##0" value="${orders.total}"/>₫</td>--%>
-<%--                                        <td>--%>
-<%--                                            <c:choose>--%>
-<%--                                                <c:when test="${orders.status == 1}">--%>
-<%--                                                    <span class="badge bg-warning text-dark">Đang giao hàng</span>--%>
-<%--                                                </c:when>--%>
-<%--                                                <c:when test="${orders.status == 2}">--%>
-<%--                                                    <span class="badge bg-success">Giao hàng thành công</span>--%>
-<%--                                                </c:when>--%>
-<%--                                                <c:when test="${orders.status == 3}">--%>
-<%--                                                    <span class="badge bg-danger">Hủy đơn hàng</span>--%>
-<%--                                                </c:when>--%>
-<%--                                            </c:choose>--%>
-<%--                                        </td>--%>
-<%--                                        <td class="text-center text-nowrap">--%>
-<%--                                            <a class="btn btn-primary me-2" href="#" role="button">Xem đơn hàng</a>--%>
-<%--                                        </td>--%>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${order.status == 1}">
+                                                    <span class="badge bg-warning text-dark">Đang giao hàng</span>
+                                                </c:when>
+                                                <c:when test="${order.status == 2}">
+                                                    <span class="badge bg-success">Giao hàng thành công</span>
+                                                </c:when>
+                                                <c:when test="${order.status == 3}">
+                                                    <span class="badge bg-danger">Hủy đơn hàng</span>
+                                                </c:when>
+                                            </c:choose>
+                                        </td>
+                                        <td class="text-center text-nowrap">
+                                            <a class="btn btn-primary me-2" href="#" role="button">Xem đơn hàng</a>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>
                         </div>
+
+
+
 
                         <c:if test="${requestScope.totalPages != 0}">
                             <nav class="mt-4">
@@ -100,7 +105,7 @@
                                             <c:otherwise>
                                                 <li class="page-item">
                                                     <a class="page-link"
-                                                       href="${pageContext.request.contextPath}/order?page=${i}">
+                                                        href="${pageContext.request.contextPath}/order?page=${i}">
                                                             ${i}
                                                     </a>
                                                 </li>

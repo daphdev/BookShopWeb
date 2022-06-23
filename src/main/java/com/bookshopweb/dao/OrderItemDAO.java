@@ -55,4 +55,7 @@ public interface OrderItemDAO extends DAO<OrderItem> {
 
     @SqlQuery("SELECT COUNT(order_item.id) FROM order_item WHERE orderId IN (<ids>)")
     int countByOrderId(@BindList("ids") List<Long> ids);
+
+    @SqlQuery("SELECT name FROM product p JOIN order_item o ON p.id = o.productId WHERE o.orderId = :orderId")
+    List<String> getProductNamesByOrderId(@Bind("orderId"));
 }
