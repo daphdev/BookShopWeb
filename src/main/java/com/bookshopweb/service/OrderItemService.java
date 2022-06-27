@@ -24,4 +24,11 @@ public class OrderItemService extends Service<OrderItem, OrderItemDAO> implement
     public int countByOrderId(List<Long> ids) {
         return jdbi.withExtension(OrderItemDAO.class, dao -> dao.countByOrderId(ids));
     }
+
+    @Override
+    public List<String> getProductNamesByOrderId(int orderId) {
+        return jdbi.withExtension(OrderItemDAO.class, dao->dao.getProductNamesByOrderId(orderId));
+    }
+
+
 }

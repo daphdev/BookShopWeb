@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bookshopweb.beans.*;
 import com.bookshopweb.dto.OrderItemCustom;
+import com.bookshopweb.dto.OrderResponse;
 import com.bookshopweb.service.CategoryService;
 import com.bookshopweb.service.OrderItemService;
 import com.bookshopweb.service.OrderService;
@@ -27,6 +28,8 @@ public class OrderServlet2 extends HttpServlet {
 
     private final OrderService orderService = new OrderService();
     private static final int ORDERS_PER_PAGE = 3;
+    private final ProductService productService = new ProductService();
+    private final OrderItemService orderItemService = new OrderItemService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -35,7 +38,8 @@ public class OrderServlet2 extends HttpServlet {
         int totalPages = 0;
         int page = 0;
         if (user != null) {
-//            List<Order> orders = Protector.of(() -> orderService.getOrdersByUserId(user.getId())).get(ArrayList::new); đã xoá
+
+
 
 
             int totalOrders = orderService.countByUserId(user.getId());
@@ -58,6 +62,15 @@ public class OrderServlet2 extends HttpServlet {
 
             // Lấy danh sách order, lấy với số lượng là ORDERS_PER_PAGE và tính từ mốc offset
             List<Order> orders = Protector.of(() -> orderService.getOrderedPartByUserId(user.getId(), ORDERS_PER_PAGE, offset)).get(ArrayList::new);
+
+            List<OrderResponse> orderResponses = new ArrayList<>();
+            for(Order os : orders){
+                Optional<Product> product = productService.getById(orderItemService.getId());
+                Order order = orders.stream().filter(x -> x.getId() == os.getOrderId()).findFirst().get();
+                OrderResponse item = new OrderResponse(or)
+            }
+
+
 
             request.setAttribute("orders", orders);
         }
