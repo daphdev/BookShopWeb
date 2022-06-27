@@ -56,10 +56,8 @@
                                     <tr>
                                         <th scope="row">${order.id}</th>
                                         <td>${order.createdAt}</td>
-                                        <td>sản phẩm</td>
-                                        <td>tổng tiền</td>
-<%--                                        <td>${orders.name}</td>--%>
-<%--                                        <td><fmt:formatNumber pattern="#,##0" value="${orders.total}"/>₫</td>--%>
+                                        <td>${order.name}</td>
+                                        <td><fmt:formatNumber pattern="#,##0" value="${order.total}"/>₫</td>
                                         <td>
                                             <c:choose>
                                                 <c:when test="${order.status == 1}">

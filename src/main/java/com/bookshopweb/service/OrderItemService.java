@@ -26,9 +26,10 @@ public class OrderItemService extends Service<OrderItem, OrderItemDAO> implement
     }
 
     @Override
-    public List<String> getProductNamesByOrderId(int orderId) {
+    public List<String> getProductNamesByOrderId(long orderId) {
         return jdbi.withExtension(OrderItemDAO.class, dao->dao.getProductNamesByOrderId(orderId));
     }
+
 
 
 }
