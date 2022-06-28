@@ -16,20 +16,19 @@ public class OrderItemService extends Service<OrderItem, OrderItemDAO> implement
     }
 
     @Override
-    public List<OrderItem> getByOrderId(List<Long> ids, int limit, int offset) {
-        return jdbi.withExtension(OrderItemDAO.class, dao -> dao.getByOrderId(ids, limit, offset));
-    }
-
-    @Override
     public int countByOrderId(List<Long> ids) {
         return jdbi.withExtension(OrderItemDAO.class, dao -> dao.countByOrderId(ids));
     }
 
     @Override
     public List<String> getProductNamesByOrderId(long orderId) {
-        return jdbi.withExtension(OrderItemDAO.class, dao->dao.getProductNamesByOrderId(orderId));
+        return jdbi.withExtension(OrderItemDAO.class, dao -> dao.getProductNamesByOrderId(orderId));
     }
 
+    @Override
+    public List<OrderItem> getByOrderId(long orderId) {
+        return jdbi.withExtension(OrderItemDAO.class, dao -> dao.getByOrderId(orderId));
+    }
 
 
 }

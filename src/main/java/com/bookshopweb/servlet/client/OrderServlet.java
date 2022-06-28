@@ -5,22 +5,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.bookshopweb.beans.*;
 import com.bookshopweb.dto.OrderResponse;
 import com.bookshopweb.service.OrderItemService;
 import com.bookshopweb.service.OrderService;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.Protector;
-import com.google.protobuf.StringValue;
 
 @WebServlet(name = "OrderServlet", value = "/order")
-public class OrderServlet2 extends HttpServlet {
+public class OrderServlet extends HttpServlet {
 
     private final OrderService orderService = new OrderService();
     private static final int ORDERS_PER_PAGE = 3;
@@ -30,8 +29,7 @@ public class OrderServlet2 extends HttpServlet {
     private final OrderItem orderItem = new OrderItem();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         User user = (User) request.getSession().getAttribute("currentUser");
         int totalPages = 0;
@@ -57,32 +55,27 @@ public class OrderServlet2 extends HttpServlet {
 
             // Lấy danh sách order, lấy với số lượng là ORDERS_PER_PAGE và tính từ mốc offset
             List<Order> orders = Protector.of(() -> orderService.getOrderedPartByUserId(user.getId(), ORDERS_PER_PAGE, offset)).get(ArrayList::new);
-            
-            List<OrderItem> orderItems = Protector.of(() -> orderItemService.getAll()).get(ArrayList::new);
+
             double total = 0.0;
-            for (OrderItem orderItem : orderItems) {
-                if (orderItem.getDiscount() == 0) {
-                    total = orderItem.getPrice() * orderItem.getQuantity();
-                } else {
-                    total = (orderItem.getPrice() * (100 - orderItem.getDiscount()) / 100) * orderItem.getQuantity();
-                }
-            }
-
-
             List<OrderResponse> orderResponses = new ArrayList<>();
-            for(Order o : orders){
+            for (Order o : orders) {
 
+//                Tính total
+                List<OrderItem> orderItems = Protector.of(() -> orderItemService.getByOrderId(o.getId())).get(ArrayList::new);
+
+                for (OrderItem orderItem : orderItems) {
+                    if (orderItem.getDiscount() == 0) {
+                        total += orderItem.getPrice() * orderItem.getQuantity();
+                    } else {
+                        total += (orderItem.getPrice() * (100 - orderItem.getDiscount()) / 100) * orderItem.getQuantity();
+                    }
+                }
 
                 //OrderResponse orderResponseList = new OrderResponse(o.getId(), o.getCreatedAt().format(DateTimeFormatter.BASIC_ISO_DATE), orderItemService.getProductNamesByOrderId(o.getId()).toString(), o.getStatus(), total);
-                OrderResponse orderResponseList = new OrderResponse(o.getId(), o.getCreatedAt().format(DateTimeFormatter.BASIC_ISO_DATE),check(orderItemService.getProductNamesByOrderId(o.getId())), o.getStatus(), total);
+                OrderResponse orderResponseList = new OrderResponse(o.getId(), o.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/mm/yyyy")), check(orderItemService.getProductNamesByOrderId(o.getId())), o.getStatus(), total);
                 orderResponses.add(orderResponseList);
 
-             //   check(orderItemService.getProductNamesByOrderId(o.getId()));
-
-
             }
-
-
 
             request.setAttribute("orders", orderResponses);
         }
@@ -94,16 +87,15 @@ public class OrderServlet2 extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     public String check(List<String> list) {
-        if(list.size() == 1){
+        if (list.size() == 1) {
             return list.get(0);
         } else {
-            return list.get(0) + " và " + (list.size()-1) + " sản phẩm khác";
+            return list.get(0) + " và " + (list.size() - 1) + " sản phẩm khác";
         }
     }
 }

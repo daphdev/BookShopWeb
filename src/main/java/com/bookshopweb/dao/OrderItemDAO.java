@@ -50,14 +50,13 @@ public interface OrderItemDAO extends DAO<OrderItem> {
     @SqlBatch("INSERT INTO order_item VALUES (default, :orderId, :productId, :price, :discount, :quantity, :createdAt, :updatedAt)")
     void bulkInsert(@BindBean List<OrderItem> orderItems);
 
-    @SqlQuery("SELECT * FROM order_item WHERE orderId IN (<ids>) LIMIT :limit OFFSET :offset")
-    List<OrderItem> getByOrderId(@BindList("ids") List<Long> ids, @Bind("limit") int limit, @Bind("offset") int offset);
-
     @SqlQuery("SELECT COUNT(order_item.id) FROM order_item WHERE orderId IN (<ids>)")
     int countByOrderId(@BindList("ids") List<Long> ids);
 
     @SqlQuery("SELECT name FROM product p JOIN order_item o ON p.id = o.productId WHERE o.orderId = :orderId")
     List<String> getProductNamesByOrderId(@Bind("orderId") long orderId);
 
+    @SqlQuery("select * from order_item where orderId = :orderId")
+    List<OrderItem> getByOrderId(@Bind("orderId") long orderId);
 
 }
