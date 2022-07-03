@@ -68,20 +68,20 @@
                   </figure>
                   <figure class="card bg-light">
                     <div class="p-3">
-                      <h4 class="title">${requestScope.countOrderItemQuantity}</h4>
+                      <h4 class="title">${requestScope.countOrder}</h4>
                       <span>Đơn hàng</span>
                     </div>
                   </figure>
                   <figure class="card bg-light">
                     <div class="p-3">
                       <h4 class="title">${requestScope.countOrderDeliver}</h4>
-                      <span>Sản phẩm đang giao</span>
+                      <span>Đơn hàng đang giao</span>
                     </div>
                   </figure>
                   <figure class="card bg-light">
                     <div class="p-3">
                       <h4 class="title">${requestScope.countOrderReceived}</h4>
-                      <span>Sản phẩm đã nhận</span>
+                      <span>Đơn hàng đã nhận</span>
                     </div>
                   </figure>
                 </article> <!-- row .//  -->
