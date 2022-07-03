@@ -2033,7 +2033,7 @@
 
   function effect$2(_ref2) {
     var state = _ref2.state;
-    var initiaorderItemCustomsyles = {
+    var initialStyles = {
       popper: {
         position: state.options.strategy,
         left: '0',
@@ -2045,18 +2045,18 @@
       },
       reference: {}
     };
-    Object.assign(state.elements.popper.style, initiaorderItemCustomsyles.popper);
-    state.styles = initiaorderItemCustomsyles;
+    Object.assign(state.elements.popper.style, initialStyles.popper);
+    state.styles = initialStyles;
 
     if (state.elements.arrow) {
-      Object.assign(state.elements.arrow.style, initiaorderItemCustomsyles.arrow);
+      Object.assign(state.elements.arrow.style, initialStyles.arrow);
     }
 
     return function () {
       Object.keys(state.elements).forEach(function (name) {
         var element = state.elements[name];
         var attributes = state.attributes[name] || {};
-        var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initiaorderItemCustomsyles[name]); // Set all values to an empty string to unset them
+        var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
 
         var style = styleProperties.reduce(function (style, property) {
           style[property] = '';

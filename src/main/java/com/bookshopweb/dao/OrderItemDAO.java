@@ -4,7 +4,6 @@ import com.bookshopweb.beans.OrderItem;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
-import org.jdbi.v3.sqlobject.customizer.BindList;
 import org.jdbi.v3.sqlobject.customizer.Define;
 import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlBatch;
@@ -50,13 +49,9 @@ public interface OrderItemDAO extends DAO<OrderItem> {
     @SqlBatch("INSERT INTO order_item VALUES (default, :orderId, :productId, :price, :discount, :quantity, :createdAt, :updatedAt)")
     void bulkInsert(@BindBean List<OrderItem> orderItems);
 
-    @SqlQuery("SELECT COUNT(order_item.id) FROM order_item WHERE orderId IN (<ids>)")
-    int countByOrderId(@BindList("ids") List<Long> ids);
-
     @SqlQuery("SELECT name FROM product p JOIN order_item o ON p.id = o.productId WHERE o.orderId = :orderId")
     List<String> getProductNamesByOrderId(@Bind("orderId") long orderId);
 
-    @SqlQuery("select * from order_item where orderId = :orderId")
+    @SqlQuery("SELECT * FROM order_item WHERE orderId = :orderId")
     List<OrderItem> getByOrderId(@Bind("orderId") long orderId);
-
 }

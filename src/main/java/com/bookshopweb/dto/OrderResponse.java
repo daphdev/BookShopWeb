@@ -1,6 +1,6 @@
 package com.bookshopweb.dto;
 
-import java.util.List;
+import java.util.StringJoiner;
 
 public class OrderResponse {
     private long id;
@@ -59,12 +59,12 @@ public class OrderResponse {
 
     @Override
     public String toString() {
-        return "OrderResponse{" +
-                "id=" + id +
-                ", createdAt='" + createdAt + '\'' +
-                ", name='" + name + '\'' +
-                ", status=" + status +
-                ", total=" + total +
-                '}';
+        return new StringJoiner(", ", OrderResponse.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("createdAt='" + createdAt + "'")
+                .add("name='" + name + "'")
+                .add("status=" + status)
+                .add("total=" + total)
+                .toString();
     }
 }

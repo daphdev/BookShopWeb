@@ -24,11 +24,9 @@
         <div class="col-lg-3 col-md-6">
           <div class="card mb-4">
             <div class="card-body">
-              <a href="${pageContext.request.contextPath}/category?id=${category.id}"
-                 class="stretched-link">
+              <a href="${pageContext.request.contextPath}/category?id=${category.id}" class="stretched-link">
                 <div class="d-flex align-items-center">
-                  <img src="${pageContext.request.contextPath}/image/${category.imageName}"
-                       alt="${category.name}">
+                  <img src="${pageContext.request.contextPath}/image/${category.imageName}" alt="${category.name}">
                   <span class="category-title ms-3">${category.name}</span>
                 </div>
               </a>
@@ -50,14 +48,12 @@
       <c:forEach var="product" items="${requestScope.products}">
         <div class="col-lg-3 col-md-6">
           <div class="card p-3 mb-4">
-            <a href="${pageContext.request.contextPath}/product?id=${product.id}"
-               class="img-wrap text-center">
+            <a href="${pageContext.request.contextPath}/product?id=${product.id}" class="img-wrap text-center">
               <img class="img-fluid" src="${pageContext.request.contextPath}/image/${product.imageName}"
                    width="200" height="200" alt="${product.name}">
             </a>
             <figcaption class="info-wrap mt-2">
-              <a href="${pageContext.request.contextPath}/product?id=${product.id}"
-                 class="title">${product.name}</a>
+              <a href="${pageContext.request.contextPath}/product?id=${product.id}" class="title">${product.name}</a>
               <div>
                 <c:choose>
                   <c:when test="${product.discount == 0}">

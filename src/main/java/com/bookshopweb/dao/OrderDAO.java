@@ -45,16 +45,9 @@ public interface OrderDAO extends DAO<Order> {
     List<Order> getOrderedPart(@Bind("limit") int limit, @Bind("offset") int offset,
                                @Define("orderBy") String orderBy, @Define("orderDir") String orderDir);
 
-    @SqlQuery("SELECT * FROM orders WHERE userId = :userId ORDER BY orders.createdAt DESC")
-    List<Order> getOrdersByUserId(@Bind("userId") long userId);
-
     @SqlQuery("SELECT * FROM orders WHERE userId = :userId ORDER BY orders.createdAt DESC LIMIT :limit OFFSET :offset ")
     List<Order> getOrderedPartByUserId(@Bind("userId") long userId, @Bind("limit") int limit, @Bind("offset") int offset);
 
-
-   // sql count order theo userId
     @SqlQuery("SELECT COUNT(orders.id) FROM orders WHERE userId = :userId")
     int countByUserId(@Bind("userId") long userId);
-
-
 }
