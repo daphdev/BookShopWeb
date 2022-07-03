@@ -16,6 +16,8 @@ public class OrderItem {
     private LocalDateTime updatedAt;
     private Product product;
 
+    public OrderItem() {}
+
     public OrderItem(long id,
                      long orderId,
                      long productId,

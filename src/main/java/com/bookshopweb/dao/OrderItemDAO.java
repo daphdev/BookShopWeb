@@ -48,4 +48,10 @@ public interface OrderItemDAO extends DAO<OrderItem> {
 
     @SqlBatch("INSERT INTO order_item VALUES (default, :orderId, :productId, :price, :discount, :quantity, :createdAt, :updatedAt)")
     void bulkInsert(@BindBean List<OrderItem> orderItems);
+
+    @SqlQuery("SELECT name FROM product p JOIN order_item o ON p.id = o.productId WHERE o.orderId = :orderId")
+    List<String> getProductNamesByOrderId(@Bind("orderId") long orderId);
+
+    @SqlQuery("SELECT * FROM order_item WHERE orderId = :orderId")
+    List<OrderItem> getByOrderId(@Bind("orderId") long orderId);
 }
