@@ -46,4 +46,7 @@ public interface CategoryDAO extends DAO<Category> {
 
     @SqlQuery("SELECT c.* FROM product_category pc JOIN category c ON pc.categoryId = c.id WHERE productId = :productId")
     Optional<Category> getByProductId(@Bind("productId") long productId);
+
+    @SqlQuery("SELECT COUNT(id) FROM category")
+    long count();
 }

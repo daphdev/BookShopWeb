@@ -42,6 +42,11 @@ public class ProductService extends Service<Product, ProductDAO> implements Prod
         return jdbi.withExtension(ProductDAO.class, dao -> dao.getOrderedPartByCategoryIdAndFilters(limit, offset, orderBy, orderDir, categoryId, filters));
     }
 
+    @Override
+    public long count() {
+        return jdbi.withExtension(ProductDAO.class, ProductDAO::count);
+    }
+
     public String getFirst(String twopartString) {
         return twopartString.contains("-") ? twopartString.split("-")[0] : "";
     }

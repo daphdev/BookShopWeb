@@ -95,4 +95,7 @@ public interface ProductDAO extends DAO<Product> {
     List<Product> getOrderedPartByCategoryIdAndFilters(@Bind("limit") int limit, @Bind("offset") int offset,
                                                        @Define("orderBy") String orderBy, @Define("orderDir") String orderDir,
                                                        @Bind("categoryId") long categoryId, @Define("filters") String filters);
+
+    @SqlQuery("SELECT COUNT(id) FROM product")
+    long count();
 }

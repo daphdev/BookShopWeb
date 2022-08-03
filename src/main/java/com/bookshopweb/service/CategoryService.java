@@ -14,4 +14,9 @@ public class CategoryService extends Service<Category, CategoryDAO> implements C
     public Optional<Category> getByProductId(long productId) {
         return jdbi.withExtension(CategoryDAO.class, dao -> dao.getByProductId(productId));
     }
+
+    @Override
+    public long count() {
+        return jdbi.withExtension(CategoryDAO.class, CategoryDAO::count);
+    }
 }

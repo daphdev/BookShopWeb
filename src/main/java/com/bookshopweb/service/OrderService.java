@@ -19,4 +19,9 @@ public class OrderService extends Service<Order, OrderDAO> implements OrderDAO {
     public int countByUserId(long userId) {
         return jdbi.withExtension(OrderDAO.class, dao -> dao.countByUserId(userId));
     }
+
+    @Override
+    public long count() {
+        return jdbi.withExtension(OrderDAO.class, OrderDAO::count);
+    }
 }

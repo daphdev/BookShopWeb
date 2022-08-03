@@ -50,4 +50,7 @@ public interface OrderDAO extends DAO<Order> {
 
     @SqlQuery("SELECT COUNT(orders.id) FROM orders WHERE userId = :userId")
     int countByUserId(@Bind("userId") long userId);
+
+    @SqlQuery("SELECT COUNT(id) FROM orders")
+    long count();
 }
