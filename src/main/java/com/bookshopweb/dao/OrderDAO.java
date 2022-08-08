@@ -21,7 +21,7 @@ public interface OrderDAO extends DAO<Order> {
 
     @Override
     @SqlUpdate("UPDATE orders SET userId = :userId, status = :status, deliveryMethod = :deliveryMethod, " +
-               "deliveryPrice = :deliveryPrice, createdAt = :createdAt, updatedAt = :updatedAt WHERE id = :id")
+            "deliveryPrice = :deliveryPrice, createdAt = :createdAt, updatedAt = :updatedAt WHERE id = :id")
     void update(@BindBean Order order);
 
     @Override
@@ -50,4 +50,7 @@ public interface OrderDAO extends DAO<Order> {
 
     @SqlQuery("SELECT COUNT(orders.id) FROM orders WHERE userId = :userId")
     int countByUserId(@Bind("userId") long userId);
+
+    @SqlUpdate("UPDATE orders SET status = 3 WHERE id = :id")
+    void cancelOrder(@Bind("id") long id);
 }
