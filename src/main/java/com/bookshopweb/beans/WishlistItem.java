@@ -1,21 +1,24 @@
 package com.bookshopweb.beans;
 
 import java.time.LocalDateTime;
+import java.util.StringJoiner;
 
 public class WishlistItem {
     private long id;
     private long userId;
     private long productId;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
+    private Product product;
 
     public WishlistItem() {
     }
 
-    public WishlistItem(long id, long userId, long productId, LocalDateTime createAt) {
+    public WishlistItem(long id, long userId, long productId, LocalDateTime createdAt, Product product) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
+        this.product = product;
     }
 
     public long getId() {
@@ -42,21 +45,30 @@ public class WishlistItem {
         this.productId = productId;
     }
 
-    public LocalDateTime getCreateAt() {
-        return createAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
     public String toString() {
-        return "WishlistItem{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", productId=" + productId +
-                ", createAt=" + createAt +
-                '}';
+        return new StringJoiner(", ", WishlistItem.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("userId=" + userId)
+                .add("productId=" + productId)
+                .add("createdAt=" + createdAt)
+                .add("product=" + product)
+                .toString();
     }
 }
