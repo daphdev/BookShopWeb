@@ -49,4 +49,8 @@ public interface UserDAO extends DAO<User> {
 
     @SqlQuery("SELECT * FROM user WHERE username = :username")
     Optional<User> getByUsername(@Bind("username") String username);
+
+
+    @SqlUpdate("UPDATE user SET password = :newPassword  WHERE id = :userId")
+    void changePassword(@Bind("userId") long userId, @Bind("newPassword") String newPassword);
 }
