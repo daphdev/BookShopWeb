@@ -81,7 +81,7 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("pageReview", pageReview);
             request.setAttribute("averageRatingScore", averageRatingScore);
             request.setAttribute("relatedProducts", relatedProducts);
-            request.getRequestDispatcher("WEB-INF/views/productView.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/productView.jsp").forward(request, response);
         } else {
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng product
             response.sendRedirect(request.getContextPath() + "/");

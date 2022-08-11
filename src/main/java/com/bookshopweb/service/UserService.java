@@ -16,7 +16,17 @@ public class UserService extends Service<User, UserDAO> implements UserDAO {
     }
 
     @Override
-    public long count() {
+    public Optional<User> getByEmail(String email) {
+        return jdbi.withExtension(UserDAO.class, dao -> dao.getByEmail(email));
+    }
+
+    @Override
+    public Optional<User> getByPhoneNumber(String phoneNumber) {
+        return jdbi.withExtension(UserDAO.class, dao -> dao.getByPhoneNumber(phoneNumber));
+    }
+
+    @Override
+    public int count() {
         return jdbi.withExtension(UserDAO.class, UserDAO::count);
     }
 }

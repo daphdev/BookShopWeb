@@ -43,7 +43,7 @@ public class ProductService extends Service<Product, ProductDAO> implements Prod
     }
 
     @Override
-    public long count() {
+    public int count() {
         return jdbi.withExtension(ProductDAO.class, ProductDAO::count);
     }
 

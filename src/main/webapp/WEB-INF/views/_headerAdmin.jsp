@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="servletPath" scope="page" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 <header class="section-header">
   <section class="header-main border-bottom">
     <div class="container">
@@ -34,27 +36,32 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/userManager">
+          <a class="nav-link ${fn:startsWith(servletPath, '/admin/userManager') ? 'active' : ''}"
+             href="${pageContext.request.contextPath}/admin/userManager">
             <i class="bi bi-people"></i> Quản lý người dùng
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/categoryManager">
+          <a class="nav-link ${fn:startsWith(servletPath, '/admin/categoryManager') ? 'active' : ''}"
+             href="${pageContext.request.contextPath}/admin/categoryManager">
             <i class="bi bi-tags"></i> Quản lý thể loại
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/productManager">
+          <a class="nav-link ${fn:startsWith(servletPath, '/admin/productManager') ? 'active' : ''}"
+             href="${pageContext.request.contextPath}/admin/productManager">
             <i class="bi bi-book"></i> Quản lý sản phẩm
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/reviewManager">
+          <a class="nav-link ${fn:startsWith(servletPath, '/admin/reviewManager') ? 'active' : ''}"
+             href="${pageContext.request.contextPath}/admin/reviewManager">
             <i class="bi bi-star"></i> Quản lý đánh giá
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="${pageContext.request.contextPath}/admin/orderManager">
+          <a class="nav-link ${fn:startsWith(servletPath, '/admin/orderManager') ? 'active' : ''}"
+             href="${pageContext.request.contextPath}/admin/orderManager">
             <i class="bi bi-inboxes"></i> Quản lý đơn hàng
           </a>
         </li>

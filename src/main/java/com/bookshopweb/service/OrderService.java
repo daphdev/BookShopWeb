@@ -21,7 +21,7 @@ public class OrderService extends Service<Order, OrderDAO> implements OrderDAO {
     }
 
     @Override
-    public long count() {
+    public int count() {
         return jdbi.withExtension(OrderDAO.class, OrderDAO::count);
     }
 }

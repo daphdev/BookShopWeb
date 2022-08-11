@@ -35,7 +35,7 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("countOrderReceived", countOrderReceivedByUserId);
         }
 
-        request.getRequestDispatcher("WEB-INF/views/userView.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/userView.jsp").forward(request, response);
     }
 
     @Override

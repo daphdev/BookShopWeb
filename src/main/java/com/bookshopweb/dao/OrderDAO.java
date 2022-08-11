@@ -52,5 +52,5 @@ public interface OrderDAO extends DAO<Order> {
     int countByUserId(@Bind("userId") long userId);
 
     @SqlQuery("SELECT COUNT(id) FROM orders")
-    long count();
+    int count();
 }

@@ -97,5 +97,5 @@ public interface ProductDAO extends DAO<Product> {
                                                        @Bind("categoryId") long categoryId, @Define("filters") String filters);
 
     @SqlQuery("SELECT COUNT(id) FROM product")
-    long count();
+    int count();
 }

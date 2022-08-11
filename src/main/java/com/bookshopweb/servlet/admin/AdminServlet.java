@@ -22,15 +22,15 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        long totalUsers = Protector.of(userService::count).get(0L);
-        long totalCategories = Protector.of(categoryService::count).get(0L);
-        long totalProducts = Protector.of(productService::count).get(0L);
-        long totalOrders = Protector.of(orderService::count).get(0L);
+        int totalUsers = Protector.of(userService::count).get(0);
+        int totalCategories = Protector.of(categoryService::count).get(0);
+        int totalProducts = Protector.of(productService::count).get(0);
+        int totalOrders = Protector.of(orderService::count).get(0);
         request.setAttribute("totalUsers", totalUsers);
         request.setAttribute("totalCategories", totalCategories);
         request.setAttribute("totalProducts", totalProducts);
         request.setAttribute("totalOrders", totalOrders);
-        request.getRequestDispatcher("WEB-INF/views/adminView.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/adminView.jsp").forward(request, response);
     }
 
     @Override

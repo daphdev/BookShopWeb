@@ -16,7 +16,7 @@ public class CategoryService extends Service<Category, CategoryDAO> implements C
     }
 
     @Override
-    public long count() {
+    public int count() {
         return jdbi.withExtension(CategoryDAO.class, CategoryDAO::count);
     }
 }

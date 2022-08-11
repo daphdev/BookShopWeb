@@ -50,6 +50,12 @@ public interface UserDAO extends DAO<User> {
     @SqlQuery("SELECT * FROM user WHERE username = :username")
     Optional<User> getByUsername(@Bind("username") String username);
 
+    @SqlQuery("SELECT * FROM user WHERE email = :email")
+    Optional<User> getByEmail(@Bind("email") String email);
+
+    @SqlQuery("SELECT * FROM user WHERE phoneNumber = :phoneNumber")
+    Optional<User> getByPhoneNumber(@Bind("phoneNumber") String phoneNumber);
+
     @SqlQuery("SELECT COUNT(id) FROM user")
-    long count();
+    int count();
 }

@@ -28,7 +28,7 @@ public class HomeServlet extends HttpServlet {
                 .get(ArrayList::new);
         request.setAttribute("categories", categories);
         request.setAttribute("products", products);
-        request.getRequestDispatcher("WEB-INF/views/homeView.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/homeView.jsp").forward(request, response);
     }
 
     @Override

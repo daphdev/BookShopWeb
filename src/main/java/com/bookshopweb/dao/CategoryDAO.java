@@ -48,5 +48,5 @@ public interface CategoryDAO extends DAO<Category> {
     Optional<Category> getByProductId(@Bind("productId") long productId);
 
     @SqlQuery("SELECT COUNT(id) FROM category")
-    long count();
+    int count();
 }
