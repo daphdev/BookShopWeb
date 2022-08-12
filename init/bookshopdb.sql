@@ -37,7 +37,7 @@ CREATE TABLE bookshopdb.product (
     publisher VARCHAR(100) NOT NULL,
     yearPublishing YEAR NOT NULL,
     description TEXT NULL,
-    imageName VARCHAR(30) NULL,
+    imageName VARCHAR(35) NULL,
     shop BIT NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
@@ -73,7 +73,7 @@ CREATE TABLE bookshopdb.category (
     id BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     description TEXT NULL,
-    imageName VARCHAR(25) NULL,
+    imageName VARCHAR(35) NULL,
     PRIMARY KEY (id)
 );
 

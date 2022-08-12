@@ -1,7 +1,7 @@
-package com.bookshopweb.servlet.admin.user;
+package com.bookshopweb.servlet.admin.category;
 
-import com.bookshopweb.beans.User;
-import com.bookshopweb.service.UserService;
+import com.bookshopweb.beans.Category;
+import com.bookshopweb.service.CategoryService;
 import com.bookshopweb.utils.Protector;
 
 import javax.servlet.ServletException;
@@ -14,16 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet(name = "UserManagerServlet", value = "/admin/userManager")
-public class UserManagerServlet extends HttpServlet {
-    private final UserService userService = new UserService();
+@WebServlet(name = "CategoryManagerServlet", value = "/admin/categoryManager")
+public class CategoryManagerServlet extends HttpServlet {
+    private final CategoryService categoryService = new CategoryService();
 
-    private static final int USERS_PER_PAGE = 3;
+    private static final int CATEGORIES_PER_PAGE = 5;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int totalUsers = Protector.of(userService::count).get(0);
-        int totalPages = totalUsers / USERS_PER_PAGE + (totalUsers % USERS_PER_PAGE != 0 ? 1 : 0);
+        int totalCategories = Protector.of(categoryService::count).get(0);
+        int totalPages = totalCategories / CATEGORIES_PER_PAGE + (totalCategories % CATEGORIES_PER_PAGE != 0 ? 1 : 0);
 
         String pageParam = Optional.ofNullable(request.getParameter("page")).orElse("1");
         int page = Protector.of(() -> Integer.parseInt(pageParam)).get(1);
@@ -31,16 +31,16 @@ public class UserManagerServlet extends HttpServlet {
             page = 1;
         }
 
-        int offset = (page - 1) * USERS_PER_PAGE;
+        int offset = (page - 1) * CATEGORIES_PER_PAGE;
 
-        List<User> users = Protector.of(() -> userService.getOrderedPart(
-                USERS_PER_PAGE, offset, "id", "DESC"
+        List<Category> categories = Protector.of(() -> categoryService.getOrderedPart(
+                CATEGORIES_PER_PAGE, offset, "id", "DESC"
         )).get(ArrayList::new);
 
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("page", page);
-        request.setAttribute("users", users);
-        request.getRequestDispatcher("/WEB-INF/views/userManagerView.jsp").forward(request, response);
+        request.setAttribute("categories", categories);
+        request.getRequestDispatcher("/WEB-INF/views/categoryManagerView.jsp").forward(request, response);
     }
 
     @Override

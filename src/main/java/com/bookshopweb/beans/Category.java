@@ -1,19 +1,23 @@
 package com.bookshopweb.beans;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.StringJoiner;
 
 public class Category {
     private long id;
     private String name;
+    @Nullable
     private String description;
+    @Nullable
     private String imageName;
 
     public Category() {}
 
     public Category(long id,
                     String name,
-                    String description,
-                    String imageName) {
+                    @Nullable String description,
+                    @Nullable String imageName) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -36,19 +40,21 @@ public class Category {
         this.name = name;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 
+    @Nullable
     public String getImageName() {
         return imageName;
     }
 
-    public void setImageName(String imageName) {
+    public void setImageName(@Nullable String imageName) {
         this.imageName = imageName;
     }
 

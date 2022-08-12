@@ -7,7 +7,7 @@
 
 <head>
   <jsp:include page="_meta.jsp"/>
-  <title>Quản lý người dùng</title>
+  <title>Quản lý thể loại</title>
 </head>
 
 <body>
@@ -29,12 +29,12 @@
     <c:remove var="errorMessage" scope="session"/>
 
     <header class="section-heading py-4 d-flex justify-content-between">
-      <h3 class="section-title">Quản lý người dùng</h3>
+      <h3 class="section-title">Quản lý thể loại</h3>
       <a class="btn btn-primary"
-         href="${pageContext.request.contextPath}/admin/userManager/create"
+         href="${pageContext.request.contextPath}/admin/categoryManager/create"
          role="button"
          style="height: fit-content;">
-        Thêm người dùng
+        Thêm thể loại
       </a>
     </header> <!-- section-heading.// -->
 
@@ -44,37 +44,42 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">ID</th>
-          <th scope="col">Tên đăng nhập</th>
-          <th scope="col">Họ và tên</th>
-          <th scope="col">Email</th>
-          <th scope="col">Số điện thoại</th>
-          <th scope="col">Giới tính</th>
+          <th scope="col">Hình</th>
+          <th scope="col">Tên thể loại</th>
           <th scope="col" style="width: 225px;">Thao tác</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="user" varStatus="loop" items="${requestScope.users}">
+        <c:forEach var="category" varStatus="loop" items="${requestScope.categories}">
           <tr>
             <th scope="row">${loop.index + 1}</th>
-            <td>${user.id}</td>
-            <td>${user.username}</td>
-            <td>${user.fullname}</td>
-            <td>${user.email}</td>
-            <td>${user.phoneNumber}</td>
-            <td>${user.gender == 0 ? 'Nam' : 'Nữ'}</td>
+            <td>${category.id}</td>
+            <td class="text-center">
+              <c:choose>
+                <c:when test="${empty category.imageName}">
+                  <img width="38" src="${pageContext.request.contextPath}/img/50px.png"
+                       alt="50px.png">
+                </c:when>
+                <c:otherwise>
+                  <img width="38" src="${pageContext.request.contextPath}/image/${category.imageName}"
+                       alt="${category.imageName}">
+                </c:otherwise>
+              </c:choose>
+            </td>
+            <td>${category.name}</td>
             <td class="text-center text-nowrap">
               <a class="btn btn-primary me-2"
-                 href="${pageContext.request.contextPath}/admin/userManager/detail?id=${user.id}"
+                 href="${pageContext.request.contextPath}/admin/categoryManager/detail?id=${category.id}"
                  role="button">
                 Xem
               </a>
               <a class="btn btn-success me-2"
-                 href="${pageContext.request.contextPath}/admin/userManager/update?id=${user.id}"
+                 href="${pageContext.request.contextPath}/admin/categoryManager/update?id=${category.id}"
                  role="button">
                 Sửa
               </a>
               <a class="btn btn-danger"
-                 href="${pageContext.request.contextPath}/admin/userManager/delete?id=${user.id}"
+                 href="${pageContext.request.contextPath}/admin/categoryManager/delete?id=${category.id}"
                  role="button"
                  onclick="return confirm('Bạn có muốn xóa?')">
                 Xóa
@@ -91,7 +96,7 @@
         <ul class="pagination justify-content-center">
           <li class="page-item ${requestScope.page == 1 ? 'disabled' : ''}">
             <a class="page-link"
-               href="${pageContext.request.contextPath}/admin/userManager?page=${requestScope.page - 1}">
+               href="${pageContext.request.contextPath}/admin/categoryManager?page=${requestScope.page - 1}">
               Trang trước
             </a>
           </li>
@@ -106,7 +111,7 @@
               <c:otherwise>
                 <li class="page-item">
                   <a class="page-link"
-                     href="${pageContext.request.contextPath}/admin/userManager?page=${i}">
+                     href="${pageContext.request.contextPath}/admin/categoryManager?page=${i}">
                       ${i}
                   </a>
                 </li>
@@ -116,7 +121,7 @@
 
           <li class="page-item ${requestScope.page == requestScope.totalPages ? 'disabled' : ''}">
             <a class="page-link"
-               href="${pageContext.request.contextPath}/admin/userManager?page=${requestScope.page + 1}">
+               href="${pageContext.request.contextPath}/admin/categoryManager?page=${requestScope.page + 1}">
               Trang sau
             </a>
           </li>
