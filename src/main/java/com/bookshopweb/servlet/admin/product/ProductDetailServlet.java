@@ -5,6 +5,7 @@ import com.bookshopweb.beans.Product;
 import com.bookshopweb.service.CategoryService;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.Protector;
+import com.bookshopweb.utils.TextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,8 +27,7 @@ public class ProductDetailServlet extends HttpServlet {
 
         if (productFromServer.isPresent()) {
             Product product = productFromServer.get();
-            product.setDescription(Optional.ofNullable(product.getDescription()).orElse("")
-                    .replaceAll("(\r\n|\n)", "<br>"));
+            product.setDescription(TextUtils.toParagraph(Optional.ofNullable(product.getDescription()).orElse("")));
 
             Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getByProductId(id)).get(Optional::empty);
 

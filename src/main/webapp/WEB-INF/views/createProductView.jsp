@@ -249,7 +249,7 @@
           <textarea class="form-control ${not empty requestScope.violations.descriptionViolations
                       ? 'is-invalid' : (not empty requestScope.product.description ? 'is-valid' : '')}"
                     id="product-description"
-                    rows="5"
+                    rows="10"
                     name="description">${requestScope.product.description}</textarea>
           <c:if test="${not empty requestScope.violations.descriptionViolations}">
             <div class="invalid-feedback">

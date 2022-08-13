@@ -134,7 +134,7 @@
     <div class="row">
       <div class="col">
         <h3 class="pb-2">Mô tả sản phẩm</h3>
-        <p>${requestScope.product.description}</p>
+        <div>${requestScope.product.description}</div>
       </div>
     </div>
   </div> <!-- container.// -->
