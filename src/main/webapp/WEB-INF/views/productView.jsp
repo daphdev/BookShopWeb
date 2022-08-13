@@ -150,6 +150,9 @@
           <c:if test="${not empty sessionScope.successMessage}">
             <div class="alert alert-success" role="alert">${sessionScope.successMessage}</div>
           </c:if>
+          <c:if test="${not empty sessionScope.errorDeleteReviewMessage}">
+            <div class="alert alert-danger" role="alert">${sessionScope.errorDeleteReviewMessage}</div>
+          </c:if>
 
           <div class="rattings-wrapper mb-5">
             <c:forEach var="productReview" items="${requestScope.productReviews}">
@@ -232,8 +235,8 @@
 
         <h3 id="review-form" class="pb-2">Thêm đánh giá</h3>
 
-        <c:if test="${not empty sessionScope.errorMessage}">
-          <div class="alert alert-danger" role="alert">${sessionScope.errorMessage}</div>
+        <c:if test="${not empty sessionScope.errorAddReviewMessage}">
+          <div class="alert alert-danger" role="alert">${sessionScope.errorAddReviewMessage}</div>
         </c:if>
 
         <c:choose>
@@ -312,7 +315,8 @@
         <c:remove var="values" scope="session"/>
         <c:remove var="violations" scope="session"/>
         <c:remove var="successMessage" scope="session"/>
-        <c:remove var="errorMessage" scope="session"/>
+        <c:remove var="errorAddReviewMessage" scope="session"/>
+        <c:remove var="errorDeleteReviewMessage" scope="session"/>
       </div> <!-- col.// -->
     </div> <!-- row.// -->
   </div> <!-- container.//  -->

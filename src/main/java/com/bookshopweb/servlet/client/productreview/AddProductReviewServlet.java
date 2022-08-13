@@ -43,7 +43,7 @@ public class AddProductReviewServlet extends HttpServlet {
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
         String successMessage = "Đã đánh giá thành công!";
-        String errorMessage = "Đã có lỗi truy vấn!";
+        String errorAddReviewMessage = "Đã có lỗi truy vấn!";
         AtomicReference<String> anchor = new AtomicReference<>("");
 
         if (sumOfViolations == 0) {
@@ -64,7 +64,7 @@ public class AddProductReviewServlet extends HttpServlet {
                     })
                     .fail(e -> {
                         request.getSession().setAttribute("values", values);
-                        request.getSession().setAttribute("errorMessage", errorMessage);
+                        request.getSession().setAttribute("errorAddReviewMessage", errorAddReviewMessage);
                         anchor.set("#review-form");
                     });
         } else {
