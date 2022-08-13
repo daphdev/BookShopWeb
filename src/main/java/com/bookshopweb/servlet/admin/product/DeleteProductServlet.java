@@ -1,7 +1,9 @@
-package com.bookshopweb.servlet.admin.category;
+package com.bookshopweb.servlet.admin.product;
 
 import com.bookshopweb.beans.Category;
+import com.bookshopweb.beans.Product;
 import com.bookshopweb.service.CategoryService;
+import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.ImageUtils;
 import com.bookshopweb.utils.Protector;
 
@@ -13,28 +15,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "DeleteCategoryServlet", value = "/admin/categoryManager/delete")
-public class DeleteCategoryServlet extends HttpServlet {
+@WebServlet(name = "DeleteProductServlet", value = "/admin/productManager/delete")
+public class DeleteProductServlet extends HttpServlet {
+    private final ProductService productService = new ProductService();
     private final CategoryService categoryService = new CategoryService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         long id = Protector.of(() -> Long.parseLong(request.getParameter("id"))).get(0L);
-        Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getById(id)).get(Optional::empty);
+        Optional<Product> productFromServer = Protector.of(() -> productService.getById(id)).get(Optional::empty);
 
-        if (categoryFromServer.isPresent()) {
+        if (productFromServer.isPresent()) {
             String successMessage = "Xóa thành công!";
             String errorMessage = "Xóa thất bại!";
 
+            Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getByProductId(id)).get(Optional::empty);
+
             Protector.of(() -> {
-                        categoryService.delete(id);
-                        Optional.ofNullable(categoryFromServer.get().getImageName()).ifPresent(ImageUtils::delete);
+                        categoryFromServer.ifPresent(category -> productService.deleteProductCategory(id, category.getId()));
+                        productService.delete(id);
+                        Optional.ofNullable(productFromServer.get().getImageName()).ifPresent(ImageUtils::delete);
                     })
                     .done(r -> request.getSession().setAttribute("successMessage", successMessage))
                     .fail(e -> request.getSession().setAttribute("errorMessage", errorMessage));
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/categoryManager");
+        response.sendRedirect(request.getContextPath() + "/admin/productManager");
     }
 
     @Override

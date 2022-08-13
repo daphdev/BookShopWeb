@@ -38,6 +38,11 @@ public class ProductServlet extends HttpServlet {
             Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getByProductId(id)).get(Optional::empty);
             Category category = categoryFromServer.orElseGet(Category::new);
 
+            // Lấy product từ productFromServer
+            Product product = productFromServer.get();
+            product.setDescription(Optional.ofNullable(product.getDescription()).orElse("")
+                    .replaceAll("(\r\n|\n)", "<br>"));
+
             // Lấy tổng số đánh giá (productReview) của sản phẩm
             int totalProductReviews = Protector.of(() -> productReviewService.countByProductId(id)).get(0);
 
@@ -74,7 +79,7 @@ public class ProductServlet extends HttpServlet {
             )).get(ArrayList::new);
 
             request.setAttribute("category", category);
-            request.setAttribute("product", productFromServer.get());
+            request.setAttribute("product", product);
             request.setAttribute("totalProductReviews", totalProductReviews);
             request.setAttribute("productReviews", productReviews);
             request.setAttribute("totalPagesOfProductReviews", totalPagesOfProductReviews);

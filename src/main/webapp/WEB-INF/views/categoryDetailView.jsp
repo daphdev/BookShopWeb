@@ -26,7 +26,11 @@
           <dd class="col-md-9">${requestScope.category.id}</dd>
 
           <dt class="col-md-3">Tên thể loại</dt>
-          <dd class="col-md-9">${requestScope.category.name}</dd>
+          <dd class="col-md-9">
+            <a href="${pageContext.request.contextPath}/category?id=${requestScope.category.id}" target="_blank">
+              ${requestScope.category.name}
+            </a>
+          </dd>
 
           <dt class="col-md-3">Mô tả thể loại</dt>
           <dd class="col-md-9">${requestScope.category.description}</dd>

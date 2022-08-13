@@ -38,8 +38,22 @@
     <div class="row">
 
       <aside class="col-md-5 mb-md-0 mb-4 d-flex justify-content-center align-items-center">
-        <img class="img-fluid" src="${pageContext.request.contextPath}/image/${requestScope.product.imageName}"
-             width="280" height="280" alt="${requestScope.product.name}">
+        <c:choose>
+          <c:when test="${empty requestScope.product.imageName}">
+            <img width="280"
+                 height="280"
+                 class="img-fluid"
+                 src="${pageContext.request.contextPath}/img/280px.png"
+                 alt="280px.png">
+          </c:when>
+          <c:otherwise>
+            <img width="280"
+                 height="280"
+                 class="img-fluid"
+                 src="${pageContext.request.contextPath}/image/${requestScope.product.imageName}"
+                 alt="${requestScope.product.imageName}">
+          </c:otherwise>
+        </c:choose>
       </aside>
 
       <main class="col-md-7">
@@ -74,19 +88,22 @@
               <span class="ms-2 text-muted text-decoration-line-through">
                 <fmt:formatNumber pattern="#,##0" value="${requestScope.product.price}"/>₫
               </span>
+              <span class="ms-2 badge bg-info">
+                -<fmt:formatNumber pattern="#,##0" value="${requestScope.product.discount}"/>%
+              </span>
             </c:otherwise>
           </c:choose>
         </div>
 
         <dl class="row mb-4">
           <dt class="col-xl-4 col-sm-5 col-6">Tác giả</dt>
-          <dd class="col-xl-8 col-sm-7 col-6"><a href="#">${requestScope.product.author}</a></dd>
+          <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.author}</dd>
 
           <dt class="col-xl-4 col-sm-5 col-6">Số trang</dt>
           <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.pages}</dd>
 
           <dt class="col-xl-4 col-sm-5 col-6">Nhà xuất bản</dt>
-          <dd class="col-xl-8 col-sm-7 col-6"><a href="#">${requestScope.product.publisher}</a></dd>
+          <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.publisher}</dd>
 
           <dt class="col-xl-4 col-sm-5 col-6">Năm xuất bản</dt>
           <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.yearPublishing}</dd>
@@ -306,13 +323,26 @@
     <h3 class="pb-2">Sản phẩm liên quan</h3>
     <div class="row item-grid">
       <c:forEach var="relatedProduct" items="${requestScope.relatedProducts}">
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xl-3 col-lg-4 col-md-6">
           <div class="card p-3 mb-4">
             <a href="${pageContext.request.contextPath}/product?id=${relatedProduct.id}"
                class="img-wrap text-center">
-              <img class="img-fluid"
-                   src="${pageContext.request.contextPath}/image/${relatedProduct.imageName}"
-                   alt="${relatedProduct.name}" width="200" height="200">
+              <c:choose>
+                <c:when test="${empty relatedProduct.imageName}">
+                  <img width="200"
+                       height="200"
+                       class="img-fluid"
+                       src="${pageContext.request.contextPath}/img/280px.png"
+                       alt="280px.png">
+                </c:when>
+                <c:otherwise>
+                  <img width="200"
+                       height="200"
+                       class="img-fluid"
+                       src="${pageContext.request.contextPath}/image/${relatedProduct.imageName}"
+                       alt="${relatedProduct.imageName}">
+                </c:otherwise>
+              </c:choose>
             </a>
             <figcaption class="info-wrap mt-2">
               <a href="${pageContext.request.contextPath}/product?id=${relatedProduct.id}"
@@ -332,6 +362,9 @@
                     </span>
                     <span class="ms-2 text-muted text-decoration-line-through">
                       <fmt:formatNumber pattern="#,##0" value="${relatedProduct.price}"/>₫
+                    </span>
+                    <span class="ms-2 badge bg-info">
+                      -<fmt:formatNumber pattern="#,##0" value="${relatedProduct.discount}"/>%
                     </span>
                   </c:otherwise>
                 </c:choose>

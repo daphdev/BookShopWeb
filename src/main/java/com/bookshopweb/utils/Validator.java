@@ -94,4 +94,20 @@ public class Validator<T> {
         violation.ifPresent(violations::add);
         return this;
     }
+
+    public Validator<T> isSmallerThan(double number, String subjectName) {
+        Optional<String> violation = Optional.ofNullable(o)
+                .filter(obj -> !(Double.parseDouble(String.valueOf(o)) <= number))
+                .map(obj -> String.format("%s phải nhỏ hơn %s", subjectName, number));
+        violation.ifPresent(violations::add);
+        return this;
+    }
+
+    public Validator<T> isLargerThan(double number, String subjectName) {
+        Optional<String> violation = Optional.ofNullable(o)
+                .filter(obj -> !(Double.parseDouble(String.valueOf(o)) >= number))
+                .map(obj -> String.format("%s phải lớn hơn %s", subjectName, number));
+        violation.ifPresent(violations::add);
+        return this;
+    }
 }

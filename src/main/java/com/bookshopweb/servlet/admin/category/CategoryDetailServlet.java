@@ -25,7 +25,7 @@ public class CategoryDetailServlet extends HttpServlet {
             Category category = categoryFromServer.get();
             category.setDescription(Optional.ofNullable(category.getDescription()).orElse("")
                     .replaceAll("(\r\n|\n)", "<br>"));
-            request.setAttribute("category", categoryFromServer.get());
+            request.setAttribute("category", category);
             request.getRequestDispatcher("/WEB-INF/views/categoryDetailView.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/admin/categoryManager");
