@@ -21,6 +21,11 @@ public class OrderService extends Service<Order, OrderDAO> implements OrderDAO {
     }
 
     @Override
+    public void cancelOrder(long id) {
+        jdbi.useExtension(OrderDAO.class, dao -> dao.cancelOrder(id));
+    }
+
+    @Override
     public int count() {
         return jdbi.withExtension(OrderDAO.class, OrderDAO::count);
     }
