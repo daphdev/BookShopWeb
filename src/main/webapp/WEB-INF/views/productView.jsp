@@ -177,7 +177,16 @@
                   </div>
                 </div>
 
-                <p>${productReview.content}</p>
+                <div>
+                  <c:choose>
+                    <c:when test="${productReview.isShow == 1}">
+                      ${productReview.content}
+                    </c:when>
+                    <c:otherwise>
+                      <em>Nội dung đánh giá đã được ẩn bởi quản trị viên</em>
+                    </c:otherwise>
+                  </c:choose>
+                </div>
 
                 <c:if test="${productReview.userId == sessionScope.currentUser.id}">
                   <form action="${pageContext.request.contextPath}/deleteProductReview"

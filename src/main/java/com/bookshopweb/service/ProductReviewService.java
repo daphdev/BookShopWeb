@@ -24,4 +24,19 @@ public class ProductReviewService extends Service<ProductReview, ProductReviewDA
     public int sumRatingScoresByProductId(long productId) {
         return jdbi.withExtension(ProductReviewDAO.class, dao -> dao.sumRatingScoresByProductId(productId));
     }
+
+    @Override
+    public int count() {
+        return jdbi.withExtension(ProductReviewDAO.class, ProductReviewDAO::count);
+    }
+
+    @Override
+    public void hide(long id) {
+        jdbi.useExtension(ProductReviewDAO.class, dao -> dao.hide(id));
+    }
+
+    @Override
+    public void show(long id) {
+        jdbi.useExtension(ProductReviewDAO.class, dao -> dao.show(id));
+    }
 }

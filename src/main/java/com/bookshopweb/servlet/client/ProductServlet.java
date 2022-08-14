@@ -67,6 +67,9 @@ public class ProductServlet extends HttpServlet {
                     PRODUCT_REVIEWS_PER_PAGE, offset, "createdAt", "DESC", id
             )).get(ArrayList::new);
 
+            productReviews.forEach(productReview -> productReview.setContent(
+                    TextUtils.toParagraph(productReview.getContent())));
+
             // Lấy tổng cộng số sao đánh giá của sản phẩm
             int sumRatingScores = Protector.of(() -> productReviewService.sumRatingScoresByProductId(id)).get(0);
 

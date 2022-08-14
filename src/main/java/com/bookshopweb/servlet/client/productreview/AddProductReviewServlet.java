@@ -53,8 +53,8 @@ public class AddProductReviewServlet extends HttpServlet {
                     Protector.of(() -> Long.parseLong(values.get("productId"))).get(0L),
                     Protector.of(() -> Integer.parseInt(values.get("ratingScore"))).get(0),
                     values.get("content"),
+                    1,
                     LocalDateTime.now(),
-                    null,
                     null
             );
             Protector.of(() -> productReviewService.insert(productReview))
