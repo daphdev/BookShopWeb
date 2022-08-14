@@ -35,7 +35,7 @@
               <a class="list-group-item" href="${pageContext.request.contextPath}/order" role="button">Đơn hàng của tôi</a>
               <a class="list-group-item" href="#"> Sản phẩm yêu thích </a>
               <a class="list-group-item" href="${pageContext.request.contextPath}/changePassword" role="button"> Đổi mật khẩu </a>
-              <a class="list-group-item" href="#"> Thiết đặt </a>
+              <a class="list-group-item" href="${pageContext.request.contextPath}/setting" role="button"> Thiết đặt </a>
               <a class="list-group-item" href="${pageContext.request.contextPath}/signout" role="button">Đăng xuất</a>
             </nav>
           </aside> <!-- col.// -->
