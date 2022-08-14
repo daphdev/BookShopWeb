@@ -49,6 +49,7 @@
           <th scope="col">Email</th>
           <th scope="col">Số điện thoại</th>
           <th scope="col">Giới tính</th>
+          <th scope="col">Quyền</th>
           <th scope="col" style="width: 225px;">Thao tác</th>
         </tr>
         </thead>
@@ -62,6 +63,13 @@
             <td>${user.email}</td>
             <td>${user.phoneNumber}</td>
             <td>${user.gender == 0 ? 'Nam' : 'Nữ'}</td>
+            <td>
+              <c:choose>
+                <c:when test="${user.role == 'ADMIN'}">Quản trị viên</c:when>
+                <c:when test="${user.role == 'EMPLOYEE'}">Nhân viên</c:when>
+                <c:when test="${user.role == 'CUSTOMER'}">Khách hàng</c:when>
+              </c:choose>
+            </td>
             <td class="text-center text-nowrap">
               <a class="btn btn-primary me-2"
                  href="${pageContext.request.contextPath}/admin/userManager/detail?id=${user.id}"

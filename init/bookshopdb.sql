@@ -13,6 +13,7 @@ CREATE TABLE bookshopdb.user (
     phoneNumber VARCHAR(11) NOT NULL,
     gender BIT NOT NULL,
     address VARCHAR(200) NOT NULL,
+    role VARCHAR(10) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE INDEX uq_username (username),
     UNIQUE INDEX uq_email (email),
@@ -198,11 +199,11 @@ CREATE TABLE bookshopdb.wishlist_item (
 -- insert data
 
 -- user
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user1','202CB962AC59075B964B07152D234B70','Dunn Mcpherson','dunnmcpherson@recrisys.com','0989894900',0,'8 Virginia Place, Troy, Norway');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user2','202CB962AC59075B964B07152D234B70','Foreman Carter','foremancarter@recrisys.com','0993194154',0,'28 Richardson Street, Layhill, Netherlands');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user3','202CB962AC59075B964B07152D234B70','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user4','202CB962AC59075B964B07152D234B70','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user5','202CB962AC59075B964B07152D234B70','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user1','202CB962AC59075B964B07152D234B70','Dunn Mcpherson','dunnmcpherson@recrisys.com','0989894900',0,'8 Virginia Place, Troy, Norway','ADMIN');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user2','202CB962AC59075B964B07152D234B70','Foreman Carter','foremancarter@recrisys.com','0993194154',0,'28 Richardson Street, Layhill, Netherlands','EMPLOYEE');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user3','202CB962AC59075B964B07152D234B70','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.','EMPLOYEE');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user4','202CB962AC59075B964B07152D234B70','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus','CUSTOMER');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user5','202CB962AC59075B964B07152D234B70','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia','CUSTOMER');
 
 -- user_roles
 INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user1','admin');

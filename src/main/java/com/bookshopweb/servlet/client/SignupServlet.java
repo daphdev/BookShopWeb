@@ -94,7 +94,8 @@ public class SignupServlet extends HttpServlet {
                     values.get("email"),
                     values.get("phoneNumber"),
                     Protector.of(() -> Integer.parseInt(values.get("gender"))).get(0),
-                    values.get("address")
+                    values.get("address"),
+                    "CUSTOMER"
             );
             Protector.of(() -> userService.insert(user))
                     .done(r -> request.setAttribute("successMessage", successMessage))

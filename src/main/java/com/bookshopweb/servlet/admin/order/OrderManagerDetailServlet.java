@@ -20,8 +20,8 @@ import java.util.Optional;
 
 import static com.bookshopweb.servlet.admin.order.OrderManagerServlet.calculateTotalPrice;
 
-@WebServlet(name = "OrderDetailServlet", value = "/admin/orderManager/detail")
-public class OrderDetailServlet extends HttpServlet {
+@WebServlet(name = "OrderManagerDetailServlet", value = "/admin/orderManager/detail")
+public class OrderManagerDetailServlet extends HttpServlet {
     private final OrderService orderService = new OrderService();
     private final UserService userService = new UserService();
     private final OrderItemService orderItemService = new OrderItemService();

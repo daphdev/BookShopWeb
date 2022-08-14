@@ -47,6 +47,7 @@ public class UpdateUserServlet extends HttpServlet {
         user.setPhoneNumber(request.getParameter("phoneNumber"));
         user.setGender(Protector.of(() -> Integer.parseInt(request.getParameter("gender"))).get(0));
         user.setAddress(request.getParameter("address"));
+        user.setRole(request.getParameter("role"));
 
         Map<String, List<String>> violations = new HashMap<>();
         Optional<User> userByUsername = Protector.of(() -> userService.getByUsername(user.getUsername())).get(Optional::empty);
@@ -84,6 +85,9 @@ public class UpdateUserServlet extends HttpServlet {
         violations.put("addressViolations", Validator.of(user.getAddress())
                 .isNotNullAndEmpty()
                 .isNotBlankAtBothEnds()
+                .toList());
+        violations.put("roleViolations", Validator.of(user.getRole())
+                .isNotNull()
                 .toList());
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();

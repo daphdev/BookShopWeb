@@ -178,6 +178,36 @@
             </div>
           </c:if>
         </div>
+        <div class="mb-3">
+          <label for="user-role" class="form-label">Quyền <span class="text-danger">*</span></label>
+          <select class="form-select ${not empty requestScope.violations.roleViolations
+                    ? 'is-invalid' : (not empty requestScope.user.role ? 'is-valid' : '')}"
+                  id="user-role"
+                  name="role"
+                  required>
+            <option ${empty requestScope.user.role ? 'selected' : ''} disabled>
+              Chọn một quyền...
+            </option>
+            <option value="ADMIN" ${requestScope.user.role == 'ADMIN' ? 'selected' : ''}>
+              Quản trị viên
+            </option>
+            <option value="EMPLOYEE" ${requestScope.user.role == 'EMPLOYEE' ? 'selected' : ''}>
+              Nhân viên
+            </option>
+            <option value="CUSTOMER" ${requestScope.user.role == 'CUSTOMER' ? 'selected' : ''}>
+              Khách hàng
+            </option>
+          </select>
+          <c:if test="${not empty requestScope.violations.roleViolations}">
+            <div class="invalid-feedback">
+              <ul class="list-unstyled">
+                <c:forEach var="violation" items="${requestScope.violations.roleViolations}">
+                  <li>${violation}</li>
+                </c:forEach>
+              </ul>
+            </div>
+          </c:if>
+        </div>
         <button type="submit" class="btn btn-primary me-2 mb-3">
           Thêm
         </button>
