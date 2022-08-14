@@ -22,8 +22,8 @@ public class DeleteUserServlet extends HttpServlet {
         Optional<User> userFromServer = Protector.of(() -> userService.getById(id)).get(Optional::empty);
 
         if (userFromServer.isPresent()) {
-            String successMessage = "Xóa thành công!";
-            String errorMessage = "Xóa thất bại!";
+            String successMessage = String.format("Xóa người dùng #%s thành công!", id);
+            String errorMessage = String.format("Xóa người dùng #%s thất bại!", id);
 
             Protector.of(() -> userService.delete(id))
                     .done(r -> request.getSession().setAttribute("successMessage", successMessage))

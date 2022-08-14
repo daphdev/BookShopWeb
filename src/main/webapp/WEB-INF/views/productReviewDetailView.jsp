@@ -39,7 +39,7 @@
             ${requestScope.productReview.createdAt.format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))}
           </dd>
 
-          <dt class="col-md-3">Ngày sửa</dt>
+          <dt class="col-md-3">Ngày cập nhật</dt>
           <dd class="col-md-9">
             ${requestScope.productReview.updatedAt.format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy"))}
           </dd>

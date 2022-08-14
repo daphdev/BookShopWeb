@@ -70,7 +70,6 @@ public class CartServlet extends HttpServlet {
                     orderItemRequest.getDiscount(),
                     orderItemRequest.getQuantity(),
                     LocalDateTime.now(),
-                    null,
                     null
             )).collect(Collectors.toList());
 

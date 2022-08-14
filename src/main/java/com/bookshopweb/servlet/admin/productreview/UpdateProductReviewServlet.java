@@ -25,14 +25,14 @@ public class UpdateProductReviewServlet extends HttpServlet {
         String errorMessage = "Đã có lỗi truy vấn!";
 
         if ("HIDE".equals(action)) {
-            String successMessage = "Đã ẩn đánh giá thành công!";
+            String successMessage = String.format("Đã ẩn đánh giá #%s thành công!", id);
             Protector.of(() -> productReviewService.hide(id))
                     .done(r -> request.getSession().setAttribute("successMessage", successMessage))
                     .fail(e -> request.getSession().setAttribute("errorMessage", errorMessage));
         }
 
         if ("SHOW".equals(action)) {
-            String successMessage = "Đã hiện đánh giá thành công!";
+            String successMessage = String.format("Đã hiện đánh giá #%s thành công!", id);
             Protector.of(() -> productReviewService.show(id))
                     .done(r -> request.getSession().setAttribute("successMessage", successMessage))
                     .fail(e -> request.getSession().setAttribute("errorMessage", errorMessage));

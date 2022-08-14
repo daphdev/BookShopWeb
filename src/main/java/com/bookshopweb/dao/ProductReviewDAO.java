@@ -66,9 +66,9 @@ public interface ProductReviewDAO extends DAO<ProductReview> {
     @SqlQuery("SELECT COUNT(id) FROM product_review")
     int count();
 
-    @SqlUpdate("UPDATE product_review SET isShow = 0 WHERE id = :id")
+    @SqlUpdate("UPDATE product_review SET isShow = 0, updatedAt = NOW() WHERE id = :id")
     void hide(@Bind("id") long id);
 
-    @SqlUpdate("UPDATE product_review SET isShow = 1 WHERE id = :id")
+    @SqlUpdate("UPDATE product_review SET isShow = 1, updatedAt = NOW() WHERE id = :id")
     void show(@Bind("id") long id);
 }

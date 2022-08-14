@@ -41,7 +41,7 @@
           <th scope="col">ID</th>
           <th scope="col">Người dùng</th>
           <th scope="col">Ngày tạo</th>
-          <th scope="col">Ngày sửa</th>
+          <th scope="col">Ngày cập nhật</th>
           <th scope="col">Số sao</th>
           <th scope="col">Sản phẩm</th>
           <th scope="col" style="width: 200px;">Thao tác</th>

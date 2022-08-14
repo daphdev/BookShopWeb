@@ -26,8 +26,8 @@ public class DeleteProductServlet extends HttpServlet {
         Optional<Product> productFromServer = Protector.of(() -> productService.getById(id)).get(Optional::empty);
 
         if (productFromServer.isPresent()) {
-            String successMessage = "Xóa thành công!";
-            String errorMessage = "Xóa thất bại!";
+            String successMessage = String.format("Xóa sản phẩm #%s thành công!", id);
+            String errorMessage = String.format("Xóa sản phẩm #%s thất bại!", id);
 
             Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getByProductId(id)).get(Optional::empty);
 

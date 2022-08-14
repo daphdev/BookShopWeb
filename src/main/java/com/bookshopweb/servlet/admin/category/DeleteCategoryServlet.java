@@ -23,8 +23,8 @@ public class DeleteCategoryServlet extends HttpServlet {
         Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getById(id)).get(Optional::empty);
 
         if (categoryFromServer.isPresent()) {
-            String successMessage = "Xóa thành công!";
-            String errorMessage = "Xóa thất bại!";
+            String successMessage = String.format("Xóa thể loại #%s thành công!", id);
+            String errorMessage = String.format("Xóa thể loại #%s thất bại!", id);
 
             Protector.of(() -> {
                         categoryService.delete(id);
