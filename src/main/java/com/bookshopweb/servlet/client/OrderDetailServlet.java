@@ -1,15 +1,18 @@
 package com.bookshopweb.servlet.client;
 
-import com.bookshopweb.beans.*;
+import com.bookshopweb.beans.Order;
+import com.bookshopweb.beans.OrderItem;
+import com.bookshopweb.beans.Product;
 import com.bookshopweb.service.OrderItemService;
 import com.bookshopweb.service.OrderService;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.Protector;
 
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class OrderDetailServlet extends HttpServlet {
         long id = Protector.of(() -> Long.parseLong(request.getParameter("id"))).get(0L);
         Optional<Order> orderFromServer = Protector.of(() -> orderService.getById(id)).get(Optional::empty);
 
-        if (id > 0L && orderFromServer.isPresent()) {
+        if (orderFromServer.isPresent()) {
             Order order = orderFromServer.get();
             List<OrderItem> orderItems = Protector.of(() -> orderItemService.getByOrderId(id)).get(ArrayList::new);
 
@@ -49,7 +52,6 @@ public class OrderDetailServlet extends HttpServlet {
             request.setAttribute("orderItems", orderItems);
             request.getRequestDispatcher("/WEB-INF/views/orderDetailView.jsp").forward(request, response);
         } else {
-            // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng orders
             response.sendRedirect(request.getContextPath() + "/");
         }
     }

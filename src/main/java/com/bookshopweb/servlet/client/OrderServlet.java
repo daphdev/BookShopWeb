@@ -51,7 +51,9 @@ public class OrderServlet extends HttpServlet {
             int offset = (page - 1) * ORDERS_PER_PAGE;
 
             // Lấy danh sách order, lấy với số lượng là ORDERS_PER_PAGE và tính từ mốc offset
-            List<Order> orders = Protector.of(() -> orderService.getOrderedPartByUserId(user.getId(), ORDERS_PER_PAGE, offset)).get(ArrayList::new);
+            List<Order> orders = Protector.of(() -> orderService.getOrderedPartByUserId(
+                    user.getId(), ORDERS_PER_PAGE, offset
+            )).get(ArrayList::new);
 
             List<OrderResponse> orderResponses = new ArrayList<>();
 
@@ -68,7 +70,12 @@ public class OrderServlet extends HttpServlet {
                     }
                 }
 
-                OrderResponse orderResponse = new OrderResponse(order.getId(), order.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), check(orderItemService.getProductNamesByOrderId(order.getId())), order.getStatus(), total + order.getDeliveryPrice());
+                OrderResponse orderResponse = new OrderResponse(
+                        order.getId(),
+                        order.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        check(orderItemService.getProductNamesByOrderId(order.getId())),
+                        order.getStatus(),
+                        total + order.getDeliveryPrice());
 
                 orderResponses.add(orderResponse);
             }
@@ -83,8 +90,7 @@ public class OrderServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
 
     private String check(List<String> list) {
         if (list.size() == 1) {

@@ -7,7 +7,7 @@
 
 <head>
   <jsp:include page="_meta.jsp"/>
-  <title>Thông tin đơn hàng</title>
+  <title>Thông tin đơn hàng #${requestScope.order.id}</title>
 </head>
 
 <body>
@@ -22,30 +22,27 @@
 <section class="section-content padding-y">
   <div class="container">
     <div class="row">
-
       <c:choose>
         <c:when test="${not empty sessionScope.currentUser}">
           <jsp:include page="_navbar.jsp"/>
 
           <main class="col-md-9">
-
             <article class="card mb-4">
 
               <header class="card-header">
                 <strong class="d-inline-block me-4">Mã đơn hàng: ${requestScope.order.id}</strong>
                 <span>Ngày mua: ${requestScope.createdAt}</span>
                 <c:choose>
-                  <c:when test="${order.status == 1}">
+                  <c:when test="${requestScope.order.status == 1}">
                     <span class="badge bg-warning text-dark float-end">Đang giao hàng</span>
                   </c:when>
-                  <c:when test="${order.status == 2}">
+                  <c:when test="${requestScope.order.status == 2}">
                     <span class="badge bg-success float-end">Giao hàng thành công</span>
                   </c:when>
-                  <c:when test="${order.status == 3}">
+                  <c:when test="${requestScope.order.status == 3}">
                     <span class="badge bg-danger float-end">Hủy đơn hàng</span>
                   </c:when>
                 </c:choose>
-
               </header> <!-- card-header.// -->
 
               <div class="card-body pb-0">
@@ -68,8 +65,11 @@
                       Tạm tính: <fmt:formatNumber pattern="#,##0" value="${requestScope.tempPrice}"/>₫ <br>
                       Phí vận chuyển: <fmt:formatNumber pattern="#,##0" value="${requestScope.order.deliveryPrice}"/>₫
                       <br>
-                      <strong>Tổng cộng: <fmt:formatNumber pattern="#,##0"
-                                                           value="${requestScope.tempPrice + requestScope.order.deliveryPrice}"/>₫ </strong>
+                      <strong>
+                        Tổng cộng: <fmt:formatNumber
+                              pattern="#,##0"
+                              value="${requestScope.tempPrice + requestScope.order.deliveryPrice}"/>₫
+                      </strong>
                     </p>
                   </div>
                 </div> <!-- row.// -->
@@ -82,8 +82,8 @@
                   <thead class="text-muted">
                   <tr class="small text-uppercase">
                     <th scope="col" style="min-width: 280px;">Sản phẩm</th>
-                    <th scope="col" width="150" style="min-width: 150px;">Giá</th>
-                    <th scope="col" width="150" style="min-width: 150px;">Số lượng</th>
+                    <th scope="col" style="min-width: 150px;">Giá</th>
+                    <th scope="col" style="min-width: 150px;">Số lượng</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -92,29 +92,62 @@
                       <td>
                         <figure class="itemside">
                           <div class="float-start me-3">
-                            <img class="img-fluid"
-                                 src="${pageContext.request.contextPath}/image/${orderItem.product.imageName}"
-                                 width="80" height="80" alt="${orderItem.product.name}">
+                            <c:choose>
+                              <c:when test="${empty orderItem.product.imageName}">
+                                <img width="80"
+                                     height="80"
+                                     src="${pageContext.request.contextPath}/img/280px.png"
+                                     alt="280px.png">
+                              </c:when>
+                              <c:otherwise>
+                                <img width="80"
+                                     height="80"
+                                     src="${pageContext.request.contextPath}/image/${orderItem.product.imageName}"
+                                     alt="${orderItem.product.imageName}">
+                              </c:otherwise>
+                            </c:choose>
                           </div>
                           <figcaption class="info">
                             <a href="${pageContext.request.contextPath}/product?id=${orderItem.product.id}"
-                               class="title">${orderItem.product.name}</a>
+                               target="_blank">
+                                ${orderItem.product.name}
+                            </a>
                           </figcaption>
                         </figure>
                       </td>
                       <td>
                         <div class="price-wrap">
-                          <span class="price"><fmt:formatNumber pattern="#,##0" value="${orderItem.price}"/>₫ </span>
+                          <c:choose>
+                            <c:when test="${orderItem.discount == 0}">
+                            <span class="price">
+                              <fmt:formatNumber pattern="#,##0" value="${orderItem.price}"/>₫
+                            </span>
+                            </c:when>
+                            <c:otherwise>
+                              <div>
+                              <span class="price">
+                                <fmt:formatNumber
+                                        pattern="#,##0"
+                                        value="${orderItem.price * (100 - orderItem.discount) / 100}"/>₫
+                              </span>
+                                <span class="ms-2 badge bg-info">
+                                -<fmt:formatNumber pattern="#,##0" value="${orderItem.discount}"/>%
+                              </span>
+                              </div>
+                              <small class="text-muted text-decoration-line-through">
+                                <fmt:formatNumber pattern="#,##0" value="${orderItem.price}"/>₫
+                              </small>
+                            </c:otherwise>
+                          </c:choose>
                         </div>
                       </td>
-                      <td>
-                          ${orderItem.quantity}
-                      </td>
+                      <td>${orderItem.quantity}</td>
                     </tr>
                   </c:forEach>
                   </tbody>
                 </table>
               </div> <!-- table.responsive-md.// -->
+
               <form action="${pageContext.request.contextPath}/orderDetail" method="post">
                 <div class="card-footer py-3">
                   <a href="#" class="btn btn-primary me-2">Theo dõi đơn hàng</a>
@@ -128,10 +161,7 @@
               </form>
 
             </article>
-
-          </main>
-          <!-- col.// -->
-
+          </main> <!-- col.// -->
         </c:when>
         <c:otherwise>
           <p>
@@ -139,7 +169,6 @@
           </p>
         </c:otherwise>
       </c:choose>
-
     </div> <!-- row.// -->
   </div> <!-- container.// -->
 </section> <!-- section-content.// -->
