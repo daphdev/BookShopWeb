@@ -26,7 +26,16 @@
             <div class="card-body">
               <a href="${pageContext.request.contextPath}/category?id=${category.id}" class="stretched-link">
                 <div class="d-flex align-items-center">
-                  <img src="${pageContext.request.contextPath}/image/${category.imageName}" alt="${category.name}">
+                  <c:choose>
+                    <c:when test="${empty category.imageName}">
+                      <img width="50" height="50" src="${pageContext.request.contextPath}/img/50px.png"
+                           alt="50px.png">
+                    </c:when>
+                    <c:otherwise>
+                      <img width="50" height="50" src="${pageContext.request.contextPath}/image/${category.imageName}"
+                           alt="${category.imageName}">
+                    </c:otherwise>
+                  </c:choose>
                   <span class="category-title ms-3">${category.name}</span>
                 </div>
               </a>
@@ -46,11 +55,25 @@
     </header> <!-- section-heading.// -->
     <div class="row item-grid">
       <c:forEach var="product" items="${requestScope.products}">
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xl-3 col-lg-4 col-md-6">
           <div class="card p-3 mb-4">
             <a href="${pageContext.request.contextPath}/product?id=${product.id}" class="img-wrap text-center">
-              <img class="img-fluid" src="${pageContext.request.contextPath}/image/${product.imageName}"
-                   width="200" height="200" alt="${product.name}">
+              <c:choose>
+                <c:when test="${empty product.imageName}">
+                  <img width="200"
+                       height="200"
+                       class="img-fluid"
+                       src="${pageContext.request.contextPath}/img/280px.png"
+                       alt="280px.png">
+                </c:when>
+                <c:otherwise>
+                  <img width="200"
+                       height="200"
+                       class="img-fluid"
+                       src="${pageContext.request.contextPath}/image/${product.imageName}"
+                       alt="${product.imageName}">
+                </c:otherwise>
+              </c:choose>
             </a>
             <figcaption class="info-wrap mt-2">
               <a href="${pageContext.request.contextPath}/product?id=${product.id}" class="title">${product.name}</a>
@@ -69,6 +92,9 @@
                     </span>
                     <span class="ms-2 text-muted text-decoration-line-through">
                       <fmt:formatNumber pattern="#,##0" value="${product.price}"/>₫
+                    </span>
+                    <span class="ms-2 badge bg-info">
+                      -<fmt:formatNumber pattern="#,##0" value="${product.discount}"/>%
                     </span>
                   </c:otherwise>
                 </c:choose>

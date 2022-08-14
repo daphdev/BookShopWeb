@@ -7,3 +7,4 @@ public interface ConstantUtils {
     String DB_PASSWORD = "12345";
     String IMAGE_PATH = "C:\\var\\webapp\\images";
 }
+
