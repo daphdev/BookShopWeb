@@ -7,7 +7,7 @@
 
 <head>
   <jsp:include page="_meta.jsp"/>
-  <title>Tài khoản</title>
+  <title>Đổi mật khẩu</title>
 </head>
 
 <body>
@@ -25,8 +25,7 @@
       <c:choose>
         <c:when test="${empty sessionScope.currentUser}">
           <p>
-            Vui lòng <a href="${pageContext.request.contextPath}/changePassword">đăng nhập</a> để xem thông tin tài
-            khoản.
+            Vui lòng <a href="${pageContext.request.contextPath}/signin">đăng nhập</a> để đổi mật khẩu.
           </p>
         </c:when>
         <c:otherwise>
@@ -40,8 +39,7 @@
               <a class="list-group-item" href="#"> Thiết đặt </a>
               <a class="list-group-item" href="${pageContext.request.contextPath}/signout" role="button"> Đăng xuất </a>
             </nav>
-          </aside>
-          <!-- col.// -->
+          </aside> <!-- col.// -->
 
           <main class="col-md-9">
             <article class="card">
@@ -61,8 +59,7 @@
                       <input type="password"
                              class="form-control"
                              id="inputCurrentPassword"
-                             name="currentPassword"
-                      >
+                             name="currentPassword">
                     </div>
                     <div class="mb-3">
                       <label for="inputNewPassword" class="form-label">
@@ -71,8 +68,7 @@
                       <input type="password"
                              class="form-control"
                              id="inputNewPassword"
-                             name="newPassword"
-                      >
+                             name="newPassword">
                     </div>
                     <div class="mb-3">
                       <label for="inputNewPasswordAgain" class="form-label">
@@ -81,16 +77,14 @@
                       <input type="password"
                              class="form-control"
                              id="inputNewPasswordAgain"
-                             name="newPasswordAgain"
-                      >
+                             name="newPasswordAgain">
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đổi mật khẩu</button>
                   </form>
                 </div>
               </div> <!-- card-body.// -->
             </article>
-          </main>
-          <!-- col.// -->
+          </main> <!-- col.// -->
         </c:otherwise>
       </c:choose>
     </div> <!-- row.// -->

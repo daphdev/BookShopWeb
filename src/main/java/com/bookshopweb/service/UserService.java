@@ -15,10 +15,8 @@ public class UserService extends Service<User, UserDAO> implements UserDAO {
         return jdbi.withExtension(UserDAO.class, dao -> dao.getByUsername(username));
     }
 
-
     @Override
     public void changePassword(long userId, String newPassword) {
-         jdbi.useExtension(UserDAO.class, dao -> dao.changePassword(userId,newPassword));
+        jdbi.useExtension(UserDAO.class, dao -> dao.changePassword(userId, newPassword));
     }
-
 }

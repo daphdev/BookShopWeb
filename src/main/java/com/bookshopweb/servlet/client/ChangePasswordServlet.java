@@ -3,8 +3,6 @@ package com.bookshopweb.servlet.client;
 import com.bookshopweb.beans.User;
 import com.bookshopweb.service.UserService;
 import com.bookshopweb.utils.HashingUtils;
-import com.bookshopweb.utils.Protector;
-import com.bookshopweb.utils.Validator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @WebServlet(name = "ChangePassword", value = "/changePassword")
 public class ChangePasswordServlet extends HomeServlet {
@@ -41,13 +37,13 @@ public class ChangePasswordServlet extends HomeServlet {
         if (currentPasswordEqualsUserPassword && newPasswordEqualsNewPasswordAgain) {
             String newPassword = HashingUtils.hash(values.get("newPassword"));
             userService.changePassword(user.getId(), newPassword);
-            String successMessage = "Đổi mật khẩu thành công";
+            String successMessage = "Đổi mật khẩu thành công!";
             request.setAttribute("successMessage", successMessage);
-            request.getRequestDispatcher("/WEB-INF/views/changePasswordView.jsp").forward(request, response);
         } else {
-            String errorMessage = "Đổi mật khẩu thất bại";
+            String errorMessage = "Đổi mật khẩu thất bại!";
             request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("/WEB-INF/views/changePasswordView.jsp").forward(request, response);
         }
+
+        request.getRequestDispatcher("/WEB-INF/views/changePasswordView.jsp").forward(request, response);
     }
 }
