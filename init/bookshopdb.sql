@@ -4,118 +4,119 @@ CREATE DATABASE bookshopdb;
 
 USE bookshopdb;
 
-CREATE TABLE bookshopdb.user (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(25) NOT NULL,
-    password VARCHAR(32) NOT NULL,
-    fullname VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    phoneNumber VARCHAR(11) NOT NULL,
-    gender BIT NOT NULL,
-    address VARCHAR(200) NOT NULL,
-    role VARCHAR(10) NOT NULL,
+CREATE TABLE bookshopdb.user
+(
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    username    VARCHAR(25)  NOT NULL,
+    password    VARCHAR(32)  NOT NULL,
+    fullname    VARCHAR(50)  NOT NULL,
+    email       VARCHAR(50)  NOT NULL,
+    phoneNumber VARCHAR(11)  NOT NULL,
+    gender      BIT          NOT NULL,
+    address     VARCHAR(200) NOT NULL,
+    role        VARCHAR(10)  NOT NULL,
     PRIMARY KEY (id),
     UNIQUE INDEX uq_username (username),
     UNIQUE INDEX uq_email (email),
     UNIQUE INDEX uq_phoneNumber (phoneNumber)
 );
 
-CREATE TABLE bookshopdb.user_roles (
-    username VARCHAR(25) NOT NULL,
-    role VARCHAR(15) NOT NULL,
-    PRIMARY KEY (username, role)
-);
-
-CREATE TABLE bookshopdb.product (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    price FLOAT NOT NULL,
-    discount FLOAT NOT NULL,
-    quantity SMALLINT NOT NULL,
-    totalBuy SMALLINT NOT NULL,
-    author VARCHAR(50) NOT NULL,
-    pages SMALLINT NOT NULL,
-    publisher VARCHAR(100) NOT NULL,
-    yearPublishing YEAR NOT NULL,
-    description TEXT NULL,
-    imageName VARCHAR(35) NULL,
-    shop BIT NOT NULL,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NULL,
-    startsAt DATETIME NULL,
-    endsAt DATETIME NULL,
+CREATE TABLE bookshopdb.product
+(
+    id             BIGINT       NOT NULL AUTO_INCREMENT,
+    name           VARCHAR(100) NOT NULL,
+    price          FLOAT        NOT NULL,
+    discount       FLOAT        NOT NULL,
+    quantity       SMALLINT     NOT NULL,
+    totalBuy       SMALLINT     NOT NULL,
+    author         VARCHAR(50)  NOT NULL,
+    pages          SMALLINT     NOT NULL,
+    publisher      VARCHAR(100) NOT NULL,
+    yearPublishing YEAR         NOT NULL,
+    description    TEXT         NULL,
+    imageName      VARCHAR(35)  NULL,
+    shop           BIT          NOT NULL,
+    createdAt      DATETIME     NOT NULL,
+    updatedAt      DATETIME     NULL,
+    startsAt       DATETIME     NULL,
+    endsAt         DATETIME     NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE bookshopdb.product_review (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
-    ratingScore TINYINT NOT NULL,
-    content TEXT NOT NULL,
-    isShow BIT NOT NULL,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NULL,
+CREATE TABLE bookshopdb.product_review
+(
+    id          BIGINT   NOT NULL AUTO_INCREMENT,
+    userId      BIGINT   NOT NULL,
+    productId   BIGINT   NOT NULL,
+    ratingScore TINYINT  NOT NULL,
+    content     TEXT     NOT NULL,
+    isShow      BIT      NOT NULL,
+    createdAt   DATETIME NOT NULL,
+    updatedAt   DATETIME NULL,
     PRIMARY KEY (id),
     INDEX idx_product_review_user (userId),
     INDEX idx_product_review_product (productId),
     CONSTRAINT fk_product_review_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_product_review_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.category (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    description TEXT NULL,
-    imageName VARCHAR(35) NULL,
+CREATE TABLE bookshopdb.category
+(
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(100) NOT NULL,
+    description TEXT         NULL,
+    imageName   VARCHAR(35)  NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE bookshopdb.product_category (
-    productId BIGINT NOT NULL,
+CREATE TABLE bookshopdb.product_category
+(
+    productId  BIGINT NOT NULL,
     categoryId BIGINT NOT NULL,
     PRIMARY KEY (productId, categoryId),
     INDEX idx_product_category_product (productId),
     INDEX idx_product_category_category (categoryId),
     CONSTRAINT fk_product_category_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_product_category_category
         FOREIGN KEY (categoryId)
-        REFERENCES bookshopdb.category (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.category (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.cart (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
+CREATE TABLE bookshopdb.cart
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    userId    BIGINT   NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
     PRIMARY KEY (id),
     INDEX idx_cart_user (userId),
     CONSTRAINT fk_cart_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.cart_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    cartId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
-    quantity SMALLINT NOT NULL,
+CREATE TABLE bookshopdb.cart_item
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    cartId    BIGINT   NOT NULL,
+    productId BIGINT   NOT NULL,
+    quantity  SMALLINT NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
     PRIMARY KEY (id),
@@ -124,40 +125,42 @@ CREATE TABLE bookshopdb.cart_item (
     INDEX idx_cart_item_product (productId),
     CONSTRAINT fk_cart_item_cart
         FOREIGN KEY (cartId)
-        REFERENCES bookshopdb.cart (id)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.cart (id)
+            ON DELETE CASCADE
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_cart_item_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.orders (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
-    status TINYINT NOT NULL,
-    deliveryMethod TINYINT NOT NULL,
-    deliveryPrice FLOAT NOT NULL,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NULL,
+CREATE TABLE bookshopdb.orders
+(
+    id             BIGINT   NOT NULL AUTO_INCREMENT,
+    userId         BIGINT   NOT NULL,
+    status         TINYINT  NOT NULL,
+    deliveryMethod TINYINT  NOT NULL,
+    deliveryPrice  FLOAT    NOT NULL,
+    createdAt      DATETIME NOT NULL,
+    updatedAt      DATETIME NULL,
     PRIMARY KEY (id),
     INDEX idx_orders_user (userId),
     CONSTRAINT fk_orders_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.order_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    orderId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
-    price FLOAT NOT NULL,
-    discount FLOAT NOT NULL,
-    quantity SMALLINT NOT NULL,
+CREATE TABLE bookshopdb.order_item
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    orderId   BIGINT   NOT NULL,
+    productId BIGINT   NOT NULL,
+    price     FLOAT    NOT NULL,
+    discount  FLOAT    NOT NULL,
+    quantity  SMALLINT NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
     PRIMARY KEY (id),
@@ -165,20 +168,21 @@ CREATE TABLE bookshopdb.order_item (
     INDEX idx_order_item_product (productId),
     CONSTRAINT fk_order_item_orders
         FOREIGN KEY (orderId)
-        REFERENCES bookshopdb.orders (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.orders (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_order_item_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.wishlist_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
+CREATE TABLE bookshopdb.wishlist_item
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    userId    BIGINT   NOT NULL,
+    productId BIGINT   NOT NULL,
     createdAt DATETIME NOT NULL,
     PRIMARY KEY (id),
     UNIQUE uq_userId_productId (userId, productId),
@@ -186,14 +190,14 @@ CREATE TABLE bookshopdb.wishlist_item (
     INDEX idx_wishlist_item_product (productId),
     CONSTRAINT fk_wishlist_item_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_wishlist_item_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
 -- insert data
@@ -204,13 +208,6 @@ INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumbe
 INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user3','202CB962AC59075B964B07152D234B70','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.','EMPLOYEE');
 INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user4','202CB962AC59075B964B07152D234B70','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus','CUSTOMER');
 INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user5','202CB962AC59075B964B07152D234B70','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia','CUSTOMER');
-
--- user_roles
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user1','admin');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user2','staff');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user3','staff');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user4','customer');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user5','customer');
 
 -- product
 INSERT INTO bookshopdb.product(`name`,`price`,`discount`,`quantity`,`totalBuy`,`author`,`pages`,`publisher`,`yearPublishing`,`description`,`imageName`,`shop`,`createdAt`,`updatedAt`,`startsAt`,`endsAt`) VALUES ('Sách Toyletry',466183,0,86,86,'Stafford Hayden',250,'NXB Giáo dục',2013,'Consequat cupidatat magna nostrud ullamco non commodo esse. Veniam anim ipsum duis cillum cillum exercitation deserunt irure sint eiusmod. Duis consectetur adipisicing aliquip magna eiusmod ullamco ut ad ipsum nostrud dolore id. Ex ullamco nulla Lorem consequat sunt exercitation cillum adipisicing.\r\nProident labore ut qui esse cupidatat deserunt occaecat dolor in. Ad nulla reprehenderit pariatur esse enim ullamco do incididunt anim do excepteur est dolore excepteur. Laboris voluptate cupidatat anim dolore eiusmod in id fugiat est cupidatat pariatur mollit. Mollit irure proident enim consequat irure ipsum proident amet aliqua. Irure ad dolore laboris elit reprehenderit officia ex.\r\n','temp-10075522682831764585.jpg',0,'2021-03-23 08:22:50',NULL,NULL,NULL);
