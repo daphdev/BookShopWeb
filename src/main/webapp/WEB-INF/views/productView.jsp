@@ -38,8 +38,22 @@
     <div class="row">
 
       <aside class="col-md-5 mb-md-0 mb-4 d-flex justify-content-center align-items-center">
-        <img class="img-fluid" src="${pageContext.request.contextPath}/image/${requestScope.product.imageName}"
-             width="280" height="280" alt="${requestScope.product.name}">
+        <c:choose>
+          <c:when test="${empty requestScope.product.imageName}">
+            <img width="280"
+                 height="280"
+                 class="img-fluid"
+                 src="${pageContext.request.contextPath}/img/280px.png"
+                 alt="280px.png">
+          </c:when>
+          <c:otherwise>
+            <img width="280"
+                 height="280"
+                 class="img-fluid"
+                 src="${pageContext.request.contextPath}/image/${requestScope.product.imageName}"
+                 alt="${requestScope.product.imageName}">
+          </c:otherwise>
+        </c:choose>
       </aside>
 
       <main class="col-md-7">
@@ -74,19 +88,22 @@
               <span class="ms-2 text-muted text-decoration-line-through">
                 <fmt:formatNumber pattern="#,##0" value="${requestScope.product.price}"/>₫
               </span>
+              <span class="ms-2 badge bg-info">
+                -<fmt:formatNumber pattern="#,##0" value="${requestScope.product.discount}"/>%
+              </span>
             </c:otherwise>
           </c:choose>
         </div>
 
         <dl class="row mb-4">
           <dt class="col-xl-4 col-sm-5 col-6">Tác giả</dt>
-          <dd class="col-xl-8 col-sm-7 col-6"><a href="#">${requestScope.product.author}</a></dd>
+          <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.author}</dd>
 
           <dt class="col-xl-4 col-sm-5 col-6">Số trang</dt>
           <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.pages}</dd>
 
           <dt class="col-xl-4 col-sm-5 col-6">Nhà xuất bản</dt>
-          <dd class="col-xl-8 col-sm-7 col-6"><a href="#">${requestScope.product.publisher}</a></dd>
+          <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.publisher}</dd>
 
           <dt class="col-xl-4 col-sm-5 col-6">Năm xuất bản</dt>
           <dd class="col-xl-8 col-sm-7 col-6">${requestScope.product.yearPublishing}</dd>
@@ -117,7 +134,7 @@
     <div class="row">
       <div class="col">
         <h3 class="pb-2">Mô tả sản phẩm</h3>
-        <p>${requestScope.product.description}</p>
+        <div>${requestScope.product.description}</div>
       </div>
     </div>
   </div> <!-- container.// -->
@@ -132,6 +149,9 @@
 
           <c:if test="${not empty sessionScope.successMessage}">
             <div class="alert alert-success" role="alert">${sessionScope.successMessage}</div>
+          </c:if>
+          <c:if test="${not empty sessionScope.errorDeleteReviewMessage}">
+            <div class="alert alert-danger" role="alert">${sessionScope.errorDeleteReviewMessage}</div>
           </c:if>
 
           <div class="rattings-wrapper mb-5">
@@ -157,7 +177,16 @@
                   </div>
                 </div>
 
-                <p>${productReview.content}</p>
+                <div>
+                  <c:choose>
+                    <c:when test="${productReview.isShow == 1}">
+                      ${productReview.content}
+                    </c:when>
+                    <c:otherwise>
+                      <em>Nội dung đánh giá đã được ẩn bởi quản trị viên</em>
+                    </c:otherwise>
+                  </c:choose>
+                </div>
 
                 <c:if test="${productReview.userId == sessionScope.currentUser.id}">
                   <form action="${pageContext.request.contextPath}/deleteProductReview"
@@ -165,7 +194,11 @@
                     <input type="hidden" name="productReviewId" value="${productReview.id}">
                     <input type="hidden" name="productId" value="${requestScope.product.id}">
                     <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-primary btn-sm">Sửa</button>
+                      <a href="${pageContext.request.contextPath}/editProductReview?id=${productReview.id}"
+                         role="button"
+                         class="btn btn-primary btn-sm">
+                        Sửa
+                      </a>
                       <button type="submit" class="btn btn-danger btn-sm"
                               onclick="return confirm('Bạn có muốn xóa?')">Xóa
                       </button>
@@ -215,8 +248,8 @@
 
         <h3 id="review-form" class="pb-2">Thêm đánh giá</h3>
 
-        <c:if test="${not empty sessionScope.errorMessage}">
-          <div class="alert alert-danger" role="alert">${sessionScope.errorMessage}</div>
+        <c:if test="${not empty sessionScope.errorAddReviewMessage}">
+          <div class="alert alert-danger" role="alert">${sessionScope.errorAddReviewMessage}</div>
         </c:if>
 
         <c:choose>
@@ -232,21 +265,9 @@
                         <option disabled ${not empty sessionScope.values.ratingScore ? '' : 'selected'}>
                           Cho sao
                         </option>
-                        <option value="1" ${sessionScope.values.ratingScore == '1' ? 'selected' : ''}>
-                          1
-                        </option>
-                        <option value="2" ${sessionScope.values.ratingScore == '2' ? 'selected' : ''}>
-                          2
-                        </option>
-                        <option value="3" ${sessionScope.values.ratingScore == '3' ? 'selected' : ''}>
-                          3
-                        </option>
-                        <option value="4" ${sessionScope.values.ratingScore == '4' ? 'selected' : ''}>
-                          4
-                        </option>
-                        <option value="5" ${sessionScope.values.ratingScore == '5' ? 'selected' : ''}>
-                          5
-                        </option>
+                        <c:forEach var="i" begin="1" end="5">
+                          <option value="${i}" ${sessionScope.values.ratingScore == i ? 'selected' : ''}>${i}</option>
+                        </c:forEach>
                       </select>
                       <c:if test="${not empty sessionScope.violations.ratingScoreViolations}">
                         <div class="invalid-feedback">
@@ -295,7 +316,8 @@
         <c:remove var="values" scope="session"/>
         <c:remove var="violations" scope="session"/>
         <c:remove var="successMessage" scope="session"/>
-        <c:remove var="errorMessage" scope="session"/>
+        <c:remove var="errorAddReviewMessage" scope="session"/>
+        <c:remove var="errorDeleteReviewMessage" scope="session"/>
       </div> <!-- col.// -->
     </div> <!-- row.// -->
   </div> <!-- container.//  -->
@@ -306,13 +328,26 @@
     <h3 class="pb-2">Sản phẩm liên quan</h3>
     <div class="row item-grid">
       <c:forEach var="relatedProduct" items="${requestScope.relatedProducts}">
-        <div class="col-lg-3 col-md-6">
+        <div class="col-xl-3 col-lg-4 col-md-6">
           <div class="card p-3 mb-4">
             <a href="${pageContext.request.contextPath}/product?id=${relatedProduct.id}"
                class="img-wrap text-center">
-              <img class="img-fluid"
-                   src="${pageContext.request.contextPath}/image/${relatedProduct.imageName}"
-                   alt="${relatedProduct.name}" width="200" height="200">
+              <c:choose>
+                <c:when test="${empty relatedProduct.imageName}">
+                  <img width="200"
+                       height="200"
+                       class="img-fluid"
+                       src="${pageContext.request.contextPath}/img/280px.png"
+                       alt="280px.png">
+                </c:when>
+                <c:otherwise>
+                  <img width="200"
+                       height="200"
+                       class="img-fluid"
+                       src="${pageContext.request.contextPath}/image/${relatedProduct.imageName}"
+                       alt="${relatedProduct.imageName}">
+                </c:otherwise>
+              </c:choose>
             </a>
             <figcaption class="info-wrap mt-2">
               <a href="${pageContext.request.contextPath}/product?id=${relatedProduct.id}"
@@ -332,6 +367,9 @@
                     </span>
                     <span class="ms-2 text-muted text-decoration-line-through">
                       <fmt:formatNumber pattern="#,##0" value="${relatedProduct.price}"/>₫
+                    </span>
+                    <span class="ms-2 badge bg-info">
+                      -<fmt:formatNumber pattern="#,##0" value="${relatedProduct.discount}"/>%
                     </span>
                   </c:otherwise>
                 </c:choose>

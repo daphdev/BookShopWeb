@@ -23,9 +23,11 @@ public class DeleteProductReviewServlet extends HttpServlet {
         String productId = request.getParameter("productId");
 
         String successMessage = "Đã xóa đánh giá thành công!";
+        String errorDeleteReviewMessage = "Đã có lỗi truy vấn!";
 
         Protector.of(() -> productReviewService.delete(productReviewId))
-                .done(r -> request.getSession().setAttribute("successMessage", successMessage));
+                .done(r -> request.getSession().setAttribute("successMessage", successMessage))
+                .fail(e -> request.getSession().setAttribute("errorDeleteReviewMessage", errorDeleteReviewMessage));
 
         response.sendRedirect(request.getContextPath() + "/product?id=" + productId + "#review");
     }

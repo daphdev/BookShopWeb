@@ -24,13 +24,29 @@ Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from
 
 # Sơ đồ CSDL
 
-![bookshopdb](https://user-images.githubusercontent.com/60851390/173531610-e08f42e9-57e9-406b-bcbe-eb6eb7203f97.svg)
+![DatabaseDesignBSW](https://user-images.githubusercontent.com/60851390/184553293-10175099-9395-4bcc-88cc-8e8b55289b1b.svg)
+
+## Dữ liệu mẫu
+
+| Bảng | Số lượng record mẫu |
+| --- | --- |
+| user | 5 |
+| product | 100 |
+| product_review | 150 |
+| category | 15 |
+| product_category | 100 |
+| cart | 2 |
+| cart_item | 5 |
+| orders | 25 |
+| order_item | 60 |
+| wishlist_item | 30 |
 
 # Phần mềm
+
 * IDEA 2022.1.2
 * MySQL Workbench 8.0.25
 * Tomcat 9.0.48
 
 ## Cài đặt Tomcat 9.0.48
-* Tải ở: https://downloads.apache.org/tomcat/tomcat-9/v9.0.48/bin/apache-tomcat-9.0.48.zip
+* Tải ở: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.48/bin/ (apache-tomcat-9.0.48.zip cho Windows và apache-tomcat-9.0.48.tar.gz cho Mac)
 * Mở IDEA và thêm vào File | Settings | Build, Execution, Deployment | Application Servers > [+] Tomcat Server (Tomcat Home trỏ đến thư mục Tomcat, ví dụ: apache-tomcat-9.0.48)

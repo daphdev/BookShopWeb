@@ -4,116 +4,119 @@ CREATE DATABASE bookshopdb;
 
 USE bookshopdb;
 
-CREATE TABLE bookshopdb.user (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(25) NOT NULL,
-    password VARCHAR(32) NOT NULL,
-    fullname VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    phoneNumber VARCHAR(11) NOT NULL,
-    gender BIT NOT NULL,
-    address VARCHAR(200) NOT NULL,
+CREATE TABLE bookshopdb.user
+(
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    username    VARCHAR(25)  NOT NULL,
+    password    VARCHAR(32)  NOT NULL,
+    fullname    VARCHAR(50)  NOT NULL,
+    email       VARCHAR(50)  NOT NULL,
+    phoneNumber VARCHAR(11)  NOT NULL,
+    gender      BIT          NOT NULL,
+    address     VARCHAR(200) NOT NULL,
+    role        VARCHAR(10)  NOT NULL,
     PRIMARY KEY (id),
     UNIQUE INDEX uq_username (username),
     UNIQUE INDEX uq_email (email),
     UNIQUE INDEX uq_phoneNumber (phoneNumber)
 );
 
-CREATE TABLE bookshopdb.user_roles (
-    username VARCHAR(25) NOT NULL,
-    role VARCHAR(15) NOT NULL,
-    PRIMARY KEY (username, role)
-);
-
-CREATE TABLE bookshopdb.product (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    price FLOAT NOT NULL,
-    discount FLOAT NOT NULL,
-    quantity SMALLINT NOT NULL,
-    totalBuy SMALLINT NOT NULL,
-    author VARCHAR(50) NOT NULL,
-    pages SMALLINT NOT NULL,
-    publisher VARCHAR(100) NOT NULL,
-    yearPublishing YEAR NOT NULL,
-    description TEXT NULL,
-    imageName VARCHAR(30) NULL,
-    shop BIT NOT NULL,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NULL,
-    startsAt DATETIME NULL,
-    endsAt DATETIME NULL,
+CREATE TABLE bookshopdb.product
+(
+    id             BIGINT       NOT NULL AUTO_INCREMENT,
+    name           VARCHAR(100) NOT NULL,
+    price          FLOAT        NOT NULL,
+    discount       FLOAT        NOT NULL,
+    quantity       SMALLINT     NOT NULL,
+    totalBuy       SMALLINT     NOT NULL,
+    author         VARCHAR(50)  NOT NULL,
+    pages          SMALLINT     NOT NULL,
+    publisher      VARCHAR(100) NOT NULL,
+    yearPublishing YEAR         NOT NULL,
+    description    TEXT         NULL,
+    imageName      VARCHAR(35)  NULL,
+    shop           BIT          NOT NULL,
+    createdAt      DATETIME     NOT NULL,
+    updatedAt      DATETIME     NULL,
+    startsAt       DATETIME     NULL,
+    endsAt         DATETIME     NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE bookshopdb.product_review (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
-    ratingScore TINYINT NOT NULL,
-    content TEXT NOT NULL,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NULL,
+CREATE TABLE bookshopdb.product_review
+(
+    id          BIGINT   NOT NULL AUTO_INCREMENT,
+    userId      BIGINT   NOT NULL,
+    productId   BIGINT   NOT NULL,
+    ratingScore TINYINT  NOT NULL,
+    content     TEXT     NOT NULL,
+    isShow      BIT      NOT NULL,
+    createdAt   DATETIME NOT NULL,
+    updatedAt   DATETIME NULL,
     PRIMARY KEY (id),
     INDEX idx_product_review_user (userId),
     INDEX idx_product_review_product (productId),
     CONSTRAINT fk_product_review_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_product_review_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.category (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    description TEXT NULL,
-    imageName VARCHAR(25) NULL,
+CREATE TABLE bookshopdb.category
+(
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    name        VARCHAR(100) NOT NULL,
+    description TEXT         NULL,
+    imageName   VARCHAR(35)  NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE bookshopdb.product_category (
-    productId BIGINT NOT NULL,
+CREATE TABLE bookshopdb.product_category
+(
+    productId  BIGINT NOT NULL,
     categoryId BIGINT NOT NULL,
     PRIMARY KEY (productId, categoryId),
     INDEX idx_product_category_product (productId),
     INDEX idx_product_category_category (categoryId),
     CONSTRAINT fk_product_category_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_product_category_category
         FOREIGN KEY (categoryId)
-        REFERENCES bookshopdb.category (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.category (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.cart (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
+CREATE TABLE bookshopdb.cart
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    userId    BIGINT   NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
     PRIMARY KEY (id),
     INDEX idx_cart_user (userId),
     CONSTRAINT fk_cart_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.cart_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    cartId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
-    quantity SMALLINT NOT NULL,
+CREATE TABLE bookshopdb.cart_item
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    cartId    BIGINT   NOT NULL,
+    productId BIGINT   NOT NULL,
+    quantity  SMALLINT NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
     PRIMARY KEY (id),
@@ -122,40 +125,42 @@ CREATE TABLE bookshopdb.cart_item (
     INDEX idx_cart_item_product (productId),
     CONSTRAINT fk_cart_item_cart
         FOREIGN KEY (cartId)
-        REFERENCES bookshopdb.cart (id)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.cart (id)
+            ON DELETE CASCADE
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_cart_item_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.orders (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
-    status TINYINT NOT NULL,
-    deliveryMethod TINYINT NOT NULL,
-    deliveryPrice FLOAT NOT NULL,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NULL,
+CREATE TABLE bookshopdb.orders
+(
+    id             BIGINT   NOT NULL AUTO_INCREMENT,
+    userId         BIGINT   NOT NULL,
+    status         TINYINT  NOT NULL,
+    deliveryMethod TINYINT  NOT NULL,
+    deliveryPrice  FLOAT    NOT NULL,
+    createdAt      DATETIME NOT NULL,
+    updatedAt      DATETIME NULL,
     PRIMARY KEY (id),
     INDEX idx_orders_user (userId),
     CONSTRAINT fk_orders_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.order_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    orderId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
-    price FLOAT NOT NULL,
-    discount FLOAT NOT NULL,
-    quantity SMALLINT NOT NULL,
+CREATE TABLE bookshopdb.order_item
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    orderId   BIGINT   NOT NULL,
+    productId BIGINT   NOT NULL,
+    price     FLOAT    NOT NULL,
+    discount  FLOAT    NOT NULL,
+    quantity  SMALLINT NOT NULL,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NULL,
     PRIMARY KEY (id),
@@ -163,20 +168,21 @@ CREATE TABLE bookshopdb.order_item (
     INDEX idx_order_item_product (productId),
     CONSTRAINT fk_order_item_orders
         FOREIGN KEY (orderId)
-        REFERENCES bookshopdb.orders (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.orders (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_order_item_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
-CREATE TABLE bookshopdb.wishlist_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    userId BIGINT NOT NULL,
-    productId BIGINT NOT NULL,
+CREATE TABLE bookshopdb.wishlist_item
+(
+    id        BIGINT   NOT NULL AUTO_INCREMENT,
+    userId    BIGINT   NOT NULL,
+    productId BIGINT   NOT NULL,
     createdAt DATETIME NOT NULL,
     PRIMARY KEY (id),
     UNIQUE uq_userId_productId (userId, productId),
@@ -184,31 +190,24 @@ CREATE TABLE bookshopdb.wishlist_item (
     INDEX idx_wishlist_item_product (productId),
     CONSTRAINT fk_wishlist_item_user
         FOREIGN KEY (userId)
-        REFERENCES bookshopdb.user (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION,
+            REFERENCES bookshopdb.user (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION,
     CONSTRAINT fk_wishlist_item_product
         FOREIGN KEY (productId)
-        REFERENCES bookshopdb.product (id)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+            REFERENCES bookshopdb.product (id)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION
 );
 
 -- insert data
 
 -- user
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user1','202CB962AC59075B964B07152D234B70','Dunn Mcpherson','dunnmcpherson@recrisys.com','0989894900',0,'8 Virginia Place, Troy, Norway');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user2','202CB962AC59075B964B07152D234B70','Foreman Carter','foremancarter@recrisys.com','0993194154',0,'28 Richardson Street, Layhill, Netherlands');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user3','202CB962AC59075B964B07152D234B70','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user4','202CB962AC59075B964B07152D234B70','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus');
-INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`) VALUES ('user5','202CB962AC59075B964B07152D234B70','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia');
-
--- user_roles
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user1','admin');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user2','staff');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user3','staff');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user4','customer');
-INSERT INTO bookshopdb.user_roles(`username`,`role`) VALUES ('user5','customer');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user1','202CB962AC59075B964B07152D234B70','Dunn Mcpherson','dunnmcpherson@recrisys.com','0989894900',0,'8 Virginia Place, Troy, Norway','ADMIN');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user2','202CB962AC59075B964B07152D234B70','Foreman Carter','foremancarter@recrisys.com','0993194154',0,'28 Richardson Street, Layhill, Netherlands','EMPLOYEE');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user3','202CB962AC59075B964B07152D234B70','Felecia Cabrera','feleciacabrera@recrisys.com','0930174351',1,'41 Linden Street, Slovan, S. Georgia and S. Sandwich Isls.','EMPLOYEE');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user4','202CB962AC59075B964B07152D234B70','Juliette Mcdowell','juliettemcdowell@recrisys.com','0911925643',1,'5 Schenck Court, Dana, Cyprus','CUSTOMER');
+INSERT INTO bookshopdb.user(`username`,`password`,`fullname`,`email`,`phoneNumber`,`gender`,`address`,`role`) VALUES ('user5','202CB962AC59075B964B07152D234B70','Vilma Spencer','vilmaspencer@recrisys.com','0987509391',1,'5 Pooles Lane, Allentown, Zambia','CUSTOMER');
 
 -- product
 INSERT INTO bookshopdb.product(`name`,`price`,`discount`,`quantity`,`totalBuy`,`author`,`pages`,`publisher`,`yearPublishing`,`description`,`imageName`,`shop`,`createdAt`,`updatedAt`,`startsAt`,`endsAt`) VALUES ('Sách Toyletry',466183,0,86,86,'Stafford Hayden',250,'NXB Giáo dục',2013,'Consequat cupidatat magna nostrud ullamco non commodo esse. Veniam anim ipsum duis cillum cillum exercitation deserunt irure sint eiusmod. Duis consectetur adipisicing aliquip magna eiusmod ullamco ut ad ipsum nostrud dolore id. Ex ullamco nulla Lorem consequat sunt exercitation cillum adipisicing.\r\nProident labore ut qui esse cupidatat deserunt occaecat dolor in. Ad nulla reprehenderit pariatur esse enim ullamco do incididunt anim do excepteur est dolore excepteur. Laboris voluptate cupidatat anim dolore eiusmod in id fugiat est cupidatat pariatur mollit. Mollit irure proident enim consequat irure ipsum proident amet aliqua. Irure ad dolore laboris elit reprehenderit officia ex.\r\n','temp-10075522682831764585.jpg',0,'2021-03-23 08:22:50',NULL,NULL,NULL);
@@ -313,173 +312,173 @@ INSERT INTO bookshopdb.product(`name`,`price`,`discount`,`quantity`,`totalBuy`,`
 INSERT INTO bookshopdb.product(`name`,`price`,`discount`,`quantity`,`totalBuy`,`author`,`pages`,`publisher`,`yearPublishing`,`description`,`imageName`,`shop`,`createdAt`,`updatedAt`,`startsAt`,`endsAt`) VALUES ('Sách Spacewax',171403,20,34,198,'Sadie Logan',85,'NXB Đại học Huế',2014,'Esse non qui dolor consectetur magna consectetur excepteur exercitation nisi eiusmod laboris nulla laborum. Aliquip adipisicing do adipisicing esse. Nostrud nostrud amet culpa commodo officia.\r\nLaborum id ad veniam nulla incididunt amet mollit pariatur cupidatat amet. Laborum ut veniam ullamco sit velit do magna. Reprehenderit proident nisi incididunt anim. Nostrud magna ut quis exercitation ut ut culpa Lorem cillum deserunt pariatur. Amet commodo duis incididunt non do non. Qui Lorem elit nulla quis in exercitation tempor.\r\n','temp-12235989262213754276.jpg',1,'2021-08-14 19:14:31',NULL,NULL,NULL);
 
 -- product_review
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,23,4,'Deserunt enim ullamco occaecat pariatur magna fugiat. Dolore nostrud cupidatat quis culpa sint fugiat. Anim ipsum id enim quis esse.','2021-06-21 08:29:23',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,89,2,'Nostrud aliquip culpa commodo esse. Veniam aute quis fugiat anim veniam non esse reprehenderit reprehenderit do Lorem. Voluptate cupidatat nostrud laborum proident esse sunt consequat consectetur excepteur ipsum deserunt pariatur fugiat.','2021-03-06 04:03:45',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,48,5,'In duis fugiat labore cillum labore ad pariatur adipisicing ipsum culpa duis sunt nostrud adipisicing. Dolor commodo culpa non dolor. Quis ea quis irure ut eu excepteur velit qui magna laborum ad.','2021-02-22 02:36:33',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,79,3,'Labore magna pariatur consectetur dolore voluptate aliquip Lorem ut adipisicing nostrud consectetur. Ullamco ut irure aute velit in veniam. Dolor sit magna duis laboris nisi.','2021-05-18 19:49:12',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,95,1,'Consectetur laboris aliqua ipsum aute exercitation reprehenderit reprehenderit ullamco nisi anim incididunt esse. Laboris veniam mollit mollit eiusmod eiusmod eu pariatur sunt velit voluptate quis sit. Incididunt sit do Lorem eu eiusmod et cupidatat aliquip ipsum ipsum cillum exercitation qui culpa.','2021-10-18 02:21:32',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,75,5,'Ullamco consectetur irure minim voluptate enim nisi non eu deserunt ea cupidatat cillum. Consectetur ex amet enim veniam cupidatat Lorem nostrud irure anim consectetur. Commodo ad anim veniam commodo ad et est amet sint sit elit eiusmod.','2021-04-14 05:48:32',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,53,3,'Deserunt occaecat aliqua pariatur nostrud dolor ullamco reprehenderit deserunt tempor culpa ad aute. Ea sit incididunt mollit anim ullamco commodo sint irure ut exercitation in ullamco minim elit. Sunt cupidatat veniam do cupidatat do exercitation in consectetur minim incididunt.','2021-06-28 17:16:49',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,64,4,'Eiusmod aliqua exercitation nulla veniam ut veniam incididunt dolore occaecat occaecat eiusmod dolor non enim. Nisi veniam exercitation eu cupidatat ad excepteur sint proident dolor duis deserunt. Cillum deserunt pariatur duis enim enim sit proident pariatur sint aliqua magna.','2021-03-20 20:02:01',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,53,1,'Do sit commodo enim sunt ullamco et. Labore eiusmod aliqua nulla reprehenderit officia excepteur magna proident excepteur dolor elit ullamco. Aliqua adipisicing eu ullamco aliquip consectetur irure exercitation ea mollit enim eu minim esse esse.','2021-03-09 06:20:41',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,71,3,'Commodo aute qui minim eiusmod ipsum culpa sint veniam dolore mollit. Lorem consectetur esse ad do mollit enim mollit qui enim tempor ullamco elit ipsum. Consequat laborum et cupidatat labore excepteur cillum.','2021-06-04 13:49:47',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,92,2,'Voluptate ipsum elit cillum ad cillum consectetur amet anim sint exercitation. Aute ullamco reprehenderit adipisicing sit magna. Dolore exercitation exercitation fugiat ullamco.','2021-03-11 16:35:14',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,38,3,'Amet est enim labore occaecat commodo sit eiusmod duis laboris sint occaecat dolor. Consequat qui reprehenderit consequat nostrud nisi deserunt sit ex occaecat irure adipisicing sit laboris. Consequat irure nisi Lorem dolor aliqua.','2021-07-30 06:26:43',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,80,3,'Ipsum occaecat duis nostrud dolore do commodo ex. Minim irure cupidatat nulla anim mollit fugiat est ex reprehenderit enim velit. Aliqua voluptate ea pariatur minim tempor ullamco anim officia nulla sint laborum elit in.','2021-07-08 01:17:45',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,36,5,'Proident et sunt nulla consectetur eiusmod. Non culpa nisi in qui ullamco ullamco commodo. Magna culpa cillum sint mollit.','2021-02-17 12:39:28',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,42,1,'Eiusmod exercitation irure nisi aute consectetur ipsum ullamco excepteur do occaecat eu est. Veniam velit deserunt eu consequat laboris anim exercitation enim in sint incididunt esse. Veniam sit Lorem aliqua sunt veniam cillum et pariatur ea ex anim cillum.','2021-09-29 04:06:08',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,30,5,'Magna incididunt anim ut nostrud magna cupidatat sit. Reprehenderit quis consectetur in amet enim esse dolor non quis sit voluptate laborum. Fugiat veniam id mollit qui qui sunt voluptate commodo anim excepteur labore culpa ullamco.','2021-02-22 23:10:04',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,50,3,'Mollit magna cillum culpa nulla. Ad est culpa id culpa est commodo quis enim et magna. Non ullamco tempor id commodo ad laborum magna nisi ut pariatur incididunt proident occaecat amet.','2022-01-08 21:10:10',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,54,3,'Officia non est qui ad. Incididunt quis deserunt amet qui. Ea amet deserunt et ex.','2021-03-02 23:33:39',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,54,4,'Nostrud ad occaecat incididunt ex incididunt veniam duis esse ut tempor mollit commodo esse. Anim eu anim laboris eiusmod labore non quis mollit nisi enim. Occaecat veniam et do mollit eu culpa excepteur ad laborum est.','2021-03-24 02:11:05',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,88,5,'Lorem id id nostrud quis. Nulla aute ad aute pariatur in. Pariatur consequat culpa proident excepteur reprehenderit esse qui cillum ex labore excepteur ad amet et.','2021-11-24 10:02:51',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,93,2,'Duis consequat cupidatat enim elit in sint culpa reprehenderit labore excepteur mollit. Pariatur elit dolor et reprehenderit pariatur. Culpa laboris excepteur veniam eiusmod id ut aute pariatur.','2021-11-14 01:04:47',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,19,2,'Anim qui est et laborum irure pariatur deserunt in nulla sint qui. Aliquip eiusmod consectetur culpa labore veniam nulla aliquip officia non eu minim Lorem. Adipisicing esse ea aliquip elit nisi ea pariatur officia sit labore minim eu laborum occaecat.','2022-01-23 12:52:13',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,54,2,'Duis est officia non non aute eiusmod cupidatat ad consectetur amet esse est. Qui cillum aliquip voluptate magna anim anim consectetur cillum duis mollit. Id eiusmod sit nisi ea enim tempor.','2021-07-20 14:52:16',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,97,3,'Pariatur laboris officia voluptate tempor consequat adipisicing. Velit culpa officia id quis consectetur duis veniam. Sunt esse amet irure cupidatat.','2021-04-27 19:05:33',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,8,5,'Voluptate amet deserunt amet laboris eu nisi labore deserunt excepteur laboris aute dolore minim exercitation. Ea duis et minim sint anim ullamco in do labore. Enim nostrud laboris non elit commodo pariatur est minim exercitation nulla mollit commodo deserunt fugiat.','2021-09-21 20:55:21',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,51,5,'Et deserunt exercitation cillum cupidatat Lorem excepteur sit pariatur est id minim minim. In culpa culpa amet anim est fugiat consequat do. Dolore excepteur incididunt est dolore tempor dolor cupidatat amet tempor Lorem dolor.','2021-06-14 17:26:50',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,11,5,'Nisi voluptate ex officia sit ea ea labore. Mollit esse sunt ad commodo nulla. Ullamco dolor laboris aliquip ipsum sint commodo ad nisi aute esse non anim nostrud.','2021-08-16 03:13:02',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,20,5,'Esse quis incididunt fugiat ut elit voluptate tempor ullamco elit sunt ex aliquip laborum. Id ipsum ex consequat dolore nostrud nostrud dolor commodo dolore. Dolor eiusmod consectetur veniam minim et consequat eu ullamco proident est incididunt ut pariatur.','2021-09-20 21:45:32',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,49,4,'Minim duis labore velit laborum. Et nisi commodo anim consectetur. Occaecat cupidatat elit officia est id nulla excepteur cillum eu sunt amet irure magna.','2021-10-11 15:45:33',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,100,5,'Officia cupidatat et aliqua laboris excepteur nostrud occaecat tempor voluptate laboris culpa eiusmod. Officia adipisicing enim laboris consequat dolore sunt labore proident ullamco adipisicing cupidatat aliquip. Ullamco labore nulla consectetur aliquip mollit esse ad ipsum do fugiat nulla do.','2021-07-31 07:49:01',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,74,2,'Esse est pariatur excepteur commodo cillum deserunt laborum culpa. Deserunt qui fugiat amet deserunt eu minim. In ea tempor ipsum ad reprehenderit commodo consectetur tempor elit amet amet ipsum.','2021-06-30 07:09:58',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,46,3,'Minim commodo sint ex elit in. Laborum velit magna eu aliqua deserunt velit aliquip eu in amet quis. Aute aliqua ad Lorem anim voluptate occaecat ad amet dolor.','2021-07-13 23:00:20',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,38,5,'Anim ullamco incididunt duis occaecat commodo excepteur Lorem ipsum nostrud sunt. Deserunt nulla veniam duis dolor consectetur occaecat excepteur esse ipsum et ad tempor esse. Dolor irure velit in et ea.','2021-11-25 15:12:50',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,57,2,'Sunt dolor aliquip labore in dolore. Id aliquip consectetur quis ex ullamco et aliquip nostrud. In enim fugiat dolore ipsum velit ex.','2021-03-18 23:49:52',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,92,2,'Laborum ipsum sint culpa in. Laboris incididunt et irure Lorem id cillum fugiat et nulla voluptate sunt. Eiusmod incididunt enim qui eu elit.','2021-10-10 22:41:18',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,47,3,'Nisi esse aute minim fugiat cupidatat mollit. Dolore deserunt ex sunt enim veniam mollit est nulla adipisicing dolore enim in. Mollit esse enim esse pariatur duis ad ipsum eu laboris cupidatat in est commodo.','2021-04-28 15:29:44',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,98,1,'Ipsum consectetur dolor labore consequat magna cillum nostrud esse irure nisi Lorem. Consequat cillum magna do exercitation do eiusmod deserunt sint proident mollit proident culpa Lorem ipsum. Reprehenderit sunt Lorem velit nulla fugiat id duis et veniam laborum esse ut.','2021-03-10 09:40:00',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,24,2,'Sunt duis excepteur Lorem aute enim deserunt laboris occaecat et labore aliquip sunt dolore laboris. Fugiat ad consequat magna sint enim mollit cupidatat incididunt tempor ad ad consectetur culpa. Duis exercitation culpa pariatur consequat tempor et velit veniam.','2021-08-06 20:17:49',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,12,1,'Nulla proident magna mollit labore. Proident et ea ex occaecat ad adipisicing aliquip labore anim Lorem enim. Pariatur id tempor cupidatat laborum culpa elit consequat sint officia sint et veniam.','2021-05-02 01:40:44',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,52,2,'Exercitation dolor ex officia aliqua esse minim culpa enim occaecat officia reprehenderit. In veniam amet laborum nostrud consectetur non. Ipsum pariatur amet dolor nisi ipsum Lorem labore excepteur commodo minim mollit officia.','2021-09-20 21:34:52',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,34,4,'Esse nisi dolor irure eu nulla. Cillum elit sunt et pariatur. Veniam et ea adipisicing est ipsum sunt exercitation aute et.','2021-05-21 13:32:40',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,49,5,'Est sunt et cupidatat non nisi aliqua. Irure incididunt enim incididunt Lorem aliqua deserunt. Veniam laborum velit reprehenderit ullamco duis commodo excepteur eu esse consequat.','2021-04-24 09:39:36',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,25,3,'Quis reprehenderit anim ullamco eu officia occaecat sint dolor excepteur eiusmod. Ipsum excepteur esse excepteur aliquip voluptate reprehenderit. Exercitation voluptate proident dolore cupidatat incididunt eu exercitation voluptate commodo consectetur excepteur laboris.','2021-11-08 09:19:05',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,95,2,'Minim voluptate aute ea veniam ipsum ad nostrud deserunt magna quis ea ullamco nostrud sit. Nisi aliquip cupidatat minim nostrud adipisicing pariatur reprehenderit ex labore duis. Velit laborum adipisicing veniam excepteur laborum occaecat anim excepteur quis enim sit.','2021-08-18 13:25:56',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,94,2,'Duis ea sunt proident adipisicing tempor irure. Aliquip non id eiusmod minim sint anim Lorem in est velit elit. Nostrud consequat nulla nulla id ex in irure duis nisi irure fugiat sit mollit.','2021-04-27 08:10:30',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,48,3,'Consequat laboris irure id laboris ea cupidatat occaecat. Ex nostrud ipsum et excepteur ullamco nisi officia eiusmod duis nostrud nulla sint ipsum. Eiusmod excepteur anim eu exercitation id est ad ea quis enim.','2021-05-25 03:52:56',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,1,3,'Non in dolor non aliquip elit Lorem ipsum tempor mollit commodo aliquip veniam. Esse velit exercitation nostrud aliquip ullamco elit enim laborum sit tempor amet aliqua eiusmod pariatur. Eu laboris Lorem minim ullamco consequat pariatur cillum excepteur est irure veniam.','2021-11-16 11:56:13',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,13,1,'In sint et laborum culpa nostrud ea eu eu esse aliquip culpa nisi dolor. Aute culpa esse cillum ad do voluptate do laborum sit proident dolor sint duis elit. Cupidatat eiusmod incididunt sunt ea qui laborum fugiat occaecat.','2021-12-15 06:31:00',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,80,2,'Fugiat commodo dolore elit incididunt nisi aliqua ea aliqua. Aliquip consectetur do esse non veniam minim cupidatat id exercitation quis cillum. Ea incididunt nulla ea laboris esse ex culpa ullamco duis velit commodo adipisicing occaecat.','2021-03-16 17:13:55',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,63,4,'Deserunt est incididunt nostrud Lorem aliquip. Fugiat qui incididunt proident mollit nisi non cillum voluptate sunt ullamco Lorem aute ad occaecat. Sint esse sit consequat esse nostrud labore id excepteur excepteur elit fugiat exercitation dolore magna.','2021-05-01 16:32:04',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,39,1,'Ex fugiat eiusmod amet labore ad commodo enim. Laborum nostrud ad ullamco ex in. Nulla do commodo excepteur incididunt in ullamco in aliquip magna.','2022-01-18 07:58:58',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,18,5,'In sit occaecat esse magna mollit cupidatat ex eu non eiusmod et sit deserunt. Velit do commodo voluptate id exercitation laborum irure ad aute. Pariatur reprehenderit dolor id aliqua est minim adipisicing aute ex aliqua.','2021-12-31 06:39:01',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,69,1,'Commodo sint ipsum labore qui voluptate dolor id laborum adipisicing cillum. Excepteur est sit non officia aliquip labore. Cupidatat esse nostrud culpa et.','2021-07-20 13:53:30',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,100,5,'Pariatur consequat consectetur magna nostrud aliqua irure dolor. Aute esse exercitation officia et cillum incididunt est nisi et ut in Lorem. Qui commodo et irure sint aute.','2022-01-17 07:42:11',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,52,3,'Amet eu non dolor ex officia laboris quis eu qui excepteur sit do. Eu commodo amet non velit ipsum commodo excepteur duis. Incididunt quis magna velit labore ullamco non fugiat laboris tempor in.','2021-08-22 15:50:47',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,58,3,'Fugiat enim consequat eu duis proident cillum nostrud cillum minim adipisicing eiusmod. Non dolor qui ad dolore eiusmod labore excepteur labore anim deserunt. Deserunt laborum occaecat ad sunt officia reprehenderit sit pariatur dolore amet Lorem.','2021-10-27 19:23:11',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,44,5,'Eu reprehenderit proident officia dolor sunt qui eiusmod ad eiusmod exercitation occaecat adipisicing. Cillum culpa sint tempor labore adipisicing et aute irure incididunt consectetur occaecat. Non minim Lorem id anim mollit incididunt culpa anim.','2021-06-08 03:26:15',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,36,2,'Dolor esse Lorem id veniam elit. Dolore nulla ullamco aliqua dolor dolor eiusmod veniam eu qui qui ex est qui. Amet qui voluptate ullamco magna officia amet veniam veniam.','2021-11-15 20:15:04',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,51,1,'In qui nostrud et exercitation. Ut et consectetur laboris dolor anim exercitation ipsum nisi aliquip ipsum ex cillum. Duis anim sit pariatur commodo dolor enim aute.','2021-04-11 07:42:46',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,3,5,'Labore anim non consequat velit id ea pariatur deserunt adipisicing. Nulla labore pariatur ut qui occaecat. Anim occaecat pariatur nisi veniam irure irure veniam nisi ut.','2021-07-14 08:56:52',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,61,1,'Tempor amet ipsum Lorem est mollit magna quis aliqua excepteur adipisicing consectetur id. Aute in aliquip nulla duis irure consequat elit commodo ut. Elit nulla esse elit excepteur nostrud incididunt ut veniam eiusmod in anim eiusmod ad.','2021-07-29 09:22:28',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,83,3,'Commodo tempor incididunt nisi exercitation elit ex mollit. Laboris anim cillum do labore occaecat ullamco eu amet non id ea incididunt deserunt. Excepteur irure deserunt in do labore.','2021-03-15 15:48:58',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,41,1,'Pariatur et non nostrud minim est aliqua. Consectetur sunt tempor ea nulla duis Lorem est culpa ullamco. Tempor ipsum nostrud proident ullamco irure tempor quis officia veniam aliqua officia duis proident.','2021-12-22 18:46:26',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,38,4,'Est tempor nulla pariatur cillum occaecat quis. Irure ipsum amet mollit qui qui consectetur ea cupidatat sit velit nulla Lorem. Nostrud eu officia in duis occaecat minim proident enim sint irure dolor.','2021-11-04 14:06:53',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,61,1,'Laboris quis sunt ad sint velit ut Lorem non. Culpa labore fugiat incididunt labore laborum reprehenderit velit Lorem sint aliquip proident. Nostrud duis do aliquip consectetur ea consequat cillum aliquip magna laborum.','2021-10-09 10:45:50',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,45,1,'Labore magna pariatur ex mollit labore excepteur ex. In laboris et proident voluptate proident culpa est adipisicing amet amet cupidatat eu esse. Officia enim aliqua qui amet.','2021-08-16 07:06:22',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,31,2,'Ad elit nulla mollit do nulla non non nisi ipsum laboris anim occaecat dolor Lorem. Amet veniam dolor cupidatat id velit do magna tempor sit. Aliquip id velit aute do et tempor qui occaecat non irure labore aliquip incididunt fugiat.','2021-05-29 22:13:23',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,3,5,'Occaecat do ipsum nisi culpa ipsum culpa dolore duis reprehenderit exercitation consequat anim. Deserunt veniam dolore tempor enim minim elit ad consequat cupidatat cupidatat dolor eu Lorem. Sit minim quis id aliqua.','2021-02-13 09:48:17',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,7,2,'Pariatur eiusmod aliqua qui excepteur excepteur velit ut ipsum pariatur commodo fugiat. Mollit incididunt ullamco consectetur voluptate cillum pariatur cillum id amet laboris occaecat. Velit Lorem occaecat quis est Lorem.','2021-03-16 08:29:14',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,95,5,'Labore qui proident ut amet occaecat eiusmod et. Nisi dolore eu nostrud cupidatat ad non consequat quis aliqua excepteur velit commodo. Id ut elit ullamco ea est cillum.','2021-08-18 04:22:17',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,32,4,'Lorem excepteur cillum et esse velit enim culpa elit dolore ut nisi ad. Exercitation irure labore ex non duis sint. Adipisicing qui non veniam ut.','2021-05-29 18:18:29',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,7,3,'Anim ullamco consectetur anim ullamco esse incididunt aute velit velit cillum minim velit ullamco. Ad non cillum sit commodo nostrud reprehenderit in reprehenderit. Magna et tempor elit sit excepteur sunt.','2021-04-18 02:03:58',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,28,3,'Dolore fugiat amet dolore fugiat eu enim quis magna. Amet ad mollit proident consequat veniam aliquip. Mollit ut nisi duis excepteur est irure nostrud proident.','2021-06-13 18:37:11',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,30,2,'Consectetur labore laborum elit proident dolor. Lorem sint esse ullamco in proident irure consectetur aliquip cupidatat sunt occaecat ipsum qui. Exercitation nisi dolor anim commodo culpa qui culpa.','2021-11-08 10:50:08',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,77,4,'Commodo incididunt elit in ipsum eiusmod laborum velit deserunt pariatur pariatur. Voluptate eiusmod excepteur minim elit. Occaecat quis id in sit.','2021-06-14 18:40:34',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,93,4,'Mollit esse laboris aliqua consequat culpa velit. Et fugiat aliqua id nostrud proident. Exercitation incididunt proident cillum minim anim incididunt.','2021-09-09 05:08:15',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,27,4,'Minim duis nulla do culpa eu fugiat nisi Lorem duis nisi magna eiusmod. Occaecat minim consequat laboris nulla exercitation duis ut ipsum non aliqua anim do ex. Nostrud amet aliquip velit irure exercitation quis minim officia sit nulla.','2021-10-12 02:01:52',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,4,2,'Laborum amet voluptate pariatur aliqua. Nostrud magna et mollit magna sit Lorem dolore ex quis Lorem consequat culpa. Nulla et velit dolore elit velit sint Lorem elit occaecat adipisicing dolor ut.','2021-08-26 12:28:57',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,54,1,'Nulla laboris elit commodo consequat commodo incididunt in exercitation. Sunt dolore minim consequat laboris ea ad deserunt incididunt aliquip dolor do. Culpa culpa proident ex ea culpa ex labore esse adipisicing voluptate culpa consequat aliqua.','2021-06-25 03:21:42',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,26,1,'Culpa ipsum proident sint eu labore aliquip sit. Anim culpa in minim id labore anim duis pariatur eu consectetur ullamco eiusmod occaecat occaecat. Esse officia proident eiusmod consequat do magna nisi exercitation nulla ex amet velit elit.','2021-11-19 12:31:15',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,72,1,'Id reprehenderit officia ea aliquip. Sit amet sint laborum labore. Occaecat ullamco in sunt nulla laboris ut.','2021-06-05 19:17:14',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,85,1,'Occaecat ea labore cillum ullamco. Commodo aliquip id culpa nulla ex consequat Lorem reprehenderit nostrud sit sunt duis ex. Eiusmod aliqua irure nostrud nostrud.','2021-12-13 01:42:22',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,86,4,'Qui exercitation cillum dolore labore nostrud mollit aliqua pariatur ad nulla cupidatat non. Amet consequat aute nostrud ea excepteur voluptate amet laborum anim dolor Lorem aliquip Lorem consectetur. Lorem ea enim qui eiusmod Lorem minim do.','2021-03-22 20:45:11',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,32,5,'Irure exercitation sunt ex id officia dolore exercitation aliquip sunt incididunt. Veniam Lorem quis ut dolor commodo dolor exercitation amet. Reprehenderit sunt sunt laborum qui exercitation id reprehenderit tempor tempor.','2022-01-17 16:26:09',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,9,1,'Anim laborum ea pariatur id et fugiat nisi exercitation eu aliquip. Quis incididunt cillum ipsum magna elit et sit ipsum cillum eiusmod labore nulla irure aliquip. Tempor et voluptate reprehenderit qui adipisicing est adipisicing incididunt ad est.','2021-08-12 10:30:41',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,10,1,'Veniam consequat dolore labore duis ullamco nostrud est. Excepteur qui amet adipisicing tempor eiusmod. Proident eiusmod deserunt occaecat laborum commodo sit quis adipisicing enim non culpa.','2021-12-04 21:16:47',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,44,2,'Enim ex laborum ullamco eu proident occaecat. Cupidatat non dolore adipisicing labore nulla labore cupidatat. Cupidatat ex aute amet adipisicing commodo.','2021-05-19 06:21:03',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,38,4,'Dolore nostrud amet nulla mollit amet est et et. Nulla laborum voluptate reprehenderit consectetur. Laborum laboris eu eiusmod anim.','2021-06-28 04:10:34',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,98,3,'Ad excepteur nulla et sint adipisicing sit culpa et non consequat. Eiusmod mollit enim excepteur veniam quis. Elit ad ex excepteur proident dolor deserunt qui labore fugiat labore ullamco.','2021-06-27 16:33:32',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,89,5,'Officia in Lorem voluptate eiusmod velit cillum eu minim ullamco voluptate quis pariatur. Deserunt enim consectetur tempor quis est magna velit reprehenderit minim voluptate et laborum do. Dolore id anim nulla elit eiusmod ipsum deserunt elit anim culpa reprehenderit id elit.','2021-02-13 21:42:58',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,91,5,'Eu dolore qui minim Lorem mollit anim Lorem irure aliquip velit commodo. Do deserunt aute consequat non aute sit minim sint reprehenderit velit pariatur ipsum sunt cillum. Commodo mollit culpa incididunt pariatur fugiat enim nostrud Lorem deserunt ut quis nostrud.','2021-08-19 16:12:43',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,3,4,'Dolor aute aliqua labore qui aliquip nulla excepteur minim duis. Consequat esse occaecat laboris culpa cillum irure qui adipisicing et. Fugiat nisi veniam id anim aliquip.','2022-01-28 13:15:21',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,13,4,'Nulla sint culpa ex exercitation cupidatat commodo enim ullamco pariatur sint. Id ad deserunt sint laborum cupidatat magna. Reprehenderit officia ut eiusmod ad eu et consectetur pariatur esse aliquip officia.','2021-03-07 10:01:45',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,49,5,'Laboris et laboris aliqua minim elit magna nostrud dolor nisi irure ea ea et pariatur. Quis occaecat ipsum culpa qui incididunt tempor sint non. Consectetur incididunt cupidatat id veniam.','2021-06-16 22:06:26',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,14,3,'Voluptate cillum aliqua in in cupidatat qui. Deserunt incididunt irure sit est et nisi excepteur eiusmod reprehenderit. Reprehenderit aliqua labore voluptate tempor ad voluptate reprehenderit.','2021-02-14 19:24:01',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,10,5,'Eu nostrud commodo mollit laborum. Anim aute in quis nulla tempor deserunt nulla. Reprehenderit Lorem labore consequat eu pariatur tempor tempor exercitation ipsum mollit.','2021-07-16 10:49:39',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,83,1,'Officia occaecat sunt et mollit id esse duis nostrud sint veniam nisi cupidatat nulla quis. Reprehenderit consectetur tempor eu labore velit anim do incididunt. Consectetur exercitation consequat est ipsum sint ex consequat magna cillum est voluptate ea.','2021-05-24 21:41:47',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,11,2,'Sit mollit nisi pariatur aliqua proident amet non incididunt. Et non sint officia ullamco ut est. Do cillum aliquip laboris aute aute voluptate nisi voluptate magna sint ut dolor culpa nulla.','2021-03-22 02:30:42',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,97,1,'Magna ipsum velit sit sunt duis velit. Consequat exercitation nostrud officia esse deserunt consequat aliquip ad Lorem anim labore. Reprehenderit et sit aliqua dolore.','2021-03-18 19:39:24',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,33,5,'Reprehenderit duis aliquip deserunt voluptate labore. Ea laboris commodo exercitation ullamco eu elit proident. Adipisicing amet deserunt irure duis exercitation occaecat quis.','2021-07-17 03:23:09',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,77,4,'Enim fugiat cillum in dolor deserunt voluptate fugiat non in proident reprehenderit incididunt. Ea anim enim excepteur duis nisi eiusmod sit voluptate incididunt eu ullamco minim. Magna pariatur aute non enim laboris est aliquip deserunt veniam adipisicing.','2021-03-06 03:45:16',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,9,1,'Consequat sit fugiat irure elit Lorem et. Ipsum non culpa mollit enim ut sint minim duis velit. Aliquip ipsum quis ullamco et cupidatat magna excepteur magna.','2021-11-06 22:22:17',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,95,5,'Nisi mollit elit excepteur ipsum deserunt exercitation eiusmod deserunt dolore. Minim ad irure elit laboris consectetur in. Consectetur eu velit tempor veniam proident amet commodo ut cupidatat.','2021-03-02 15:14:30',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,21,4,'Fugiat aliqua ipsum minim sunt incididunt aliquip amet et nisi amet veniam voluptate elit anim. Veniam ipsum commodo non occaecat magna magna commodo do consequat sit. Exercitation ut qui dolore id cupidatat velit aliquip duis et.','2022-01-05 15:15:16',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,40,4,'Anim veniam nostrud laboris tempor ullamco ea elit aute amet aute elit quis est. Ullamco id eiusmod minim irure. Magna deserunt elit deserunt consequat aliqua et labore.','2021-03-06 09:13:52',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,12,2,'Elit incididunt fugiat laborum adipisicing. Ipsum ut ut commodo occaecat ut ut dolore aute eiusmod ad deserunt commodo eu non. Duis sunt fugiat reprehenderit do dolor dolor sint consectetur magna exercitation sunt.','2021-08-27 05:50:18',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,75,2,'Elit nostrud duis proident nostrud occaecat do nisi culpa deserunt. Reprehenderit elit elit mollit exercitation eiusmod cillum amet et incididunt enim nulla. Proident commodo fugiat elit proident est aliquip ad laborum laborum.','2021-09-21 12:07:35',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,76,5,'Cillum nostrud irure magna veniam Lorem amet sint. Aliquip non dolor anim ea non non ad ipsum dolor aute adipisicing. Pariatur eiusmod ad esse anim consectetur ea tempor dolor ex deserunt esse nostrud velit.','2021-04-28 15:25:37',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,17,1,'Id magna irure anim ut non aute ut nulla nostrud. Voluptate sunt aliquip cupidatat sit pariatur irure sunt excepteur anim duis excepteur irure sint. Adipisicing cupidatat occaecat veniam veniam cupidatat ea consectetur ipsum dolore laborum.','2021-11-21 14:37:04',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,79,3,'Deserunt amet exercitation culpa labore duis exercitation adipisicing. Fugiat esse ad cillum est officia sit ut adipisicing elit. Incididunt enim commodo eiusmod consectetur cupidatat eiusmod consequat consequat voluptate.','2022-01-03 16:07:37',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,43,2,'Non aliquip veniam consectetur ut magna aute velit sint veniam ut. Aliquip commodo ullamco ea sunt aute nostrud ut veniam enim. Ex consectetur irure magna consequat.','2021-08-15 20:54:48',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,43,5,'Excepteur sint nisi cupidatat aute mollit tempor adipisicing incididunt. Enim veniam quis voluptate est. Amet do excepteur nostrud nostrud.','2021-08-18 05:52:08',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,97,5,'Quis dolore duis exercitation aute ullamco exercitation reprehenderit officia sunt reprehenderit reprehenderit. Duis tempor occaecat in minim magna consectetur voluptate Lorem. Deserunt proident exercitation est sunt.','2021-05-05 15:17:07',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,11,5,'Fugiat labore eiusmod nostrud ea pariatur. Cupidatat officia labore eiusmod commodo ea deserunt fugiat voluptate aliquip id. Sunt nostrud minim ex id minim consequat.','2021-05-06 09:00:55',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,88,5,'Laborum officia ipsum ullamco anim ex elit cillum. Tempor nisi sunt esse ad aliqua culpa ea magna ea Lorem cillum. Nulla tempor occaecat est cillum ad tempor nisi ea ullamco pariatur magna.','2021-11-02 04:39:03',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,7,5,'Est reprehenderit dolor do occaecat non ut non consequat consequat. Aute pariatur laboris amet elit minim velit mollit ullamco exercitation do in do do. Culpa voluptate eu proident aute incididunt eiusmod nisi ut reprehenderit culpa ad mollit ut.','2021-06-07 00:24:18',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,26,3,'Nostrud consectetur voluptate adipisicing veniam nostrud excepteur exercitation. Mollit laboris tempor qui mollit. Adipisicing commodo mollit nulla pariatur consectetur voluptate culpa sunt minim velit.','2021-06-18 06:26:37',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,53,1,'Tempor voluptate qui quis irure. Tempor Lorem in do cillum cupidatat officia culpa. Elit id proident nisi minim magna ipsum.','2021-10-05 19:44:06',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,47,5,'Consequat ut duis laboris mollit amet voluptate mollit cillum velit do Lorem. Nulla tempor et enim nisi adipisicing occaecat tempor eiusmod dolor exercitation excepteur amet laboris ullamco. Laboris veniam in excepteur ipsum aute officia culpa ex anim eiusmod velit cillum incididunt.','2021-06-03 22:41:00',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,28,5,'Elit id qui ad incididunt cupidatat cillum dolore. Velit esse dolor id est aliqua reprehenderit consectetur tempor ex sint ea enim. Aute cillum ea quis ea aute excepteur.','2021-04-08 16:49:03',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,24,2,'Culpa duis minim excepteur aliqua ea. Occaecat occaecat excepteur consectetur magna ut veniam id commodo dolor. Culpa exercitation incididunt incididunt sit excepteur voluptate magna reprehenderit.','2021-08-09 05:58:38',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,83,1,'Labore quis anim eiusmod dolore veniam sunt eiusmod consequat commodo tempor nostrud consectetur. Veniam elit ad eiusmod tempor laborum occaecat dolore velit duis aliqua ut. Do excepteur laboris excepteur dolore esse est elit mollit ipsum Lorem consequat nostrud.','2021-12-22 09:13:42',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,21,2,'Ipsum commodo eu commodo et esse sint est consequat in ea excepteur id dolore. Mollit sunt laboris excepteur tempor ipsum do nulla ipsum cupidatat cillum laborum. Officia tempor velit incididunt tempor non aliqua.','2021-06-02 01:16:25',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,12,3,'Veniam eiusmod magna amet ipsum. Tempor cillum aliquip sit cillum cupidatat. Ut sit Lorem reprehenderit adipisicing sint voluptate eu ipsum exercitation labore sunt dolore labore culpa.','2021-07-09 15:59:11',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,37,3,'Sunt fugiat excepteur deserunt irure irure. Magna exercitation veniam eu consectetur enim ipsum ullamco in cillum elit dolore. Occaecat cillum elit sit incididunt minim.','2021-10-13 08:31:39',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,86,5,'Pariatur officia occaecat occaecat aliquip enim non eiusmod aliquip sint tempor nisi tempor. Qui in aute aliqua reprehenderit minim irure cillum. Irure reprehenderit cupidatat consectetur velit reprehenderit sit veniam excepteur Lorem cillum consequat nulla qui adipisicing.','2021-09-08 05:56:29',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,99,4,'Eu nulla nostrud in qui nisi ut laborum labore cupidatat officia aliqua nostrud dolore. Velit cupidatat laborum Lorem est est ea pariatur ullamco occaecat non reprehenderit ea incididunt. Est ad amet sit dolor commodo.','2021-06-12 03:09:05',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,95,1,'Laboris ullamco et qui ad enim dolore magna. Irure commodo ea laborum reprehenderit anim laborum nostrud dolore adipisicing proident eiusmod adipisicing nulla. Nulla cillum voluptate exercitation voluptate anim magna quis non nostrud dolore esse.','2021-09-23 05:38:59',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,35,3,'Eiusmod velit laboris duis nostrud mollit voluptate mollit deserunt esse anim irure culpa sunt sit. Magna fugiat do eiusmod non amet proident ullamco. Deserunt ipsum aute ipsum laboris consequat aute duis ullamco.','2021-11-28 18:36:38',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,32,2,'Nostrud magna consectetur adipisicing duis incididunt amet id ea labore do aliquip minim et. Deserunt exercitation ullamco enim cillum elit nulla aliquip laboris non mollit id deserunt ut. Proident non aliqua velit id irure esse et laboris cupidatat consectetur.','2021-04-14 18:43:43',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,39,3,'Sunt dolor cillum elit aute eiusmod eu aliquip labore adipisicing magna. Ullamco sit excepteur aliqua ut. Reprehenderit anim nostrud labore nulla velit mollit eu sunt Lorem ad.','2021-05-13 07:39:32',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,90,4,'In incididunt pariatur anim est minim esse incididunt magna sit velit. Ad irure pariatur ullamco magna duis ipsum non consectetur eu magna minim reprehenderit aute nisi. Duis cupidatat laboris exercitation aliqua.','2021-12-23 13:41:51',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,39,3,'Lorem elit enim ea labore eu duis do consectetur reprehenderit eu dolore consequat nulla. Est fugiat Lorem labore laboris do ex mollit ut qui aute id et. Excepteur excepteur eu elit mollit dolore aliquip sint in ea nostrud irure fugiat ut consequat.','2021-09-02 01:42:05',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,57,1,'Cupidatat mollit quis et tempor culpa labore ex eu sint. Sit id velit incididunt enim qui. Enim reprehenderit ut do elit culpa.','2022-01-20 07:49:47',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,51,4,'Nulla fugiat et irure excepteur esse Lorem amet voluptate velit ipsum sunt esse. Excepteur sit amet adipisicing do reprehenderit proident. Tempor voluptate nulla occaecat incididunt ipsum anim pariatur duis.','2021-07-01 19:49:46',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,17,4,'Anim anim eu aliquip irure culpa consequat fugiat. Pariatur et reprehenderit amet ea esse. Excepteur consequat labore quis eiusmod in pariatur.','2021-07-16 19:01:27',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,61,1,'Exercitation laboris minim mollit in deserunt sint in in magna. Anim deserunt pariatur eu elit officia aliquip excepteur proident ullamco eiusmod deserunt duis. Mollit nostrud laboris irure quis magna sunt consequat proident excepteur aliqua cillum.','2021-11-18 04:49:00',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,68,3,'Id non eiusmod sint aute sint reprehenderit eiusmod incididunt eu officia. Irure pariatur velit aute culpa irure. Est occaecat tempor exercitation aute aliqua quis sint est id ea.','2021-03-11 22:25:56',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,42,4,'Magna officia incididunt ut exercitation quis anim duis quis. Eu ipsum irure velit reprehenderit tempor aliqua irure excepteur Lorem voluptate ex. Sint et fugiat sit voluptate tempor ut labore reprehenderit proident.','2021-07-21 18:22:13',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,65,5,'Occaecat nisi pariatur exercitation commodo cillum elit dolor dolor fugiat reprehenderit aliqua aute. Dolore esse ut ad eiusmod pariatur dolor non qui commodo eu amet incididunt ipsum veniam. Sunt amet incididunt elit enim excepteur sit ut mollit quis deserunt aliquip id officia.','2021-10-27 13:31:07',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,59,2,'Laboris ea reprehenderit ad reprehenderit culpa tempor nostrud tempor aute dolore mollit. Aliquip minim pariatur ipsum culpa adipisicing irure fugiat laborum laborum occaecat. In esse dolor laborum irure.','2021-12-13 06:04:33',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (1,45,2,'Ex tempor cillum eu ex id ullamco pariatur elit dolor ea cillum pariatur. Cillum ad aliqua mollit Lorem incididunt. Fugiat est in consectetur nisi officia dolore ut nulla et ad qui eiusmod laborum.','2021-06-23 03:57:14',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,28,5,'Irure ipsum elit Lorem officia tempor duis qui et adipisicing qui. Dolor in elit qui id ullamco adipisicing ipsum irure exercitation non veniam. Voluptate ipsum anim et sint culpa dolore.','2021-02-27 15:12:06',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,21,1,'Ut irure magna voluptate fugiat nulla esse sit enim consectetur. Esse velit culpa laboris exercitation aliquip eiusmod proident ipsum voluptate ex dolor mollit laborum magna. Esse in dolore elit est consectetur ipsum dolor ut est ex nulla labore irure.','2021-11-26 07:35:46',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,97,3,'Nostrud occaecat in veniam enim cillum ipsum. Commodo enim ex in consectetur consequat aute pariatur culpa. Velit nostrud culpa nostrud esse et elit.','2021-12-31 04:06:04',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (5,66,4,'Sit commodo culpa sunt ea est sunt do enim magna consectetur do. Cillum ea voluptate anim tempor minim adipisicing dolor ipsum irure exercitation dolor ad. Velit deserunt occaecat qui consequat officia labore irure excepteur eu esse ipsum velit.','2021-02-17 07:03:55',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (4,51,3,'Et ipsum excepteur consequat excepteur laborum mollit ullamco irure incididunt enim tempor pariatur. Do in fugiat sit tempor ipsum quis id commodo. Mollit pariatur ad anim cupidatat esse.','2021-02-28 20:43:43',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,12,4,'Minim incididunt nostrud excepteur ipsum exercitation eiusmod commodo amet. Cupidatat velit qui incididunt reprehenderit cupidatat sunt voluptate dolore adipisicing laboris. Occaecat eu labore et laborum ut ad Lorem magna mollit.','2021-05-26 22:19:40',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (2,81,3,'Cupidatat qui magna nisi Lorem sit dolor aliqua. Cupidatat nostrud pariatur quis Lorem consequat laboris anim nostrud anim proident in. Velit qui sint laborum minim exercitation id fugiat cupidatat.','2022-01-26 17:46:55',NULL);
-INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`createdAt`,`updatedAt`) VALUES (3,42,2,'Velit aliqua ullamco exercitation est minim nulla occaecat et officia veniam minim voluptate. Commodo sit et proident ex cupidatat. Nulla ad exercitation eiusmod veniam aliqua adipisicing incididunt tempor dolore aute.','2021-02-24 12:50:14',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,23,4,'Deserunt enim ullamco occaecat pariatur magna fugiat. Dolore nostrud cupidatat quis culpa sint fugiat. Anim ipsum id enim quis esse.',1,'2021-06-21 08:29:23',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,89,2,'Nostrud aliquip culpa commodo esse. Veniam aute quis fugiat anim veniam non esse reprehenderit reprehenderit do Lorem. Voluptate cupidatat nostrud laborum proident esse sunt consequat consectetur excepteur ipsum deserunt pariatur fugiat.',1,'2021-03-06 04:03:45',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,48,5,'In duis fugiat labore cillum labore ad pariatur adipisicing ipsum culpa duis sunt nostrud adipisicing. Dolor commodo culpa non dolor. Quis ea quis irure ut eu excepteur velit qui magna laborum ad.',1,'2021-02-22 02:36:33',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,79,3,'Labore magna pariatur consectetur dolore voluptate aliquip Lorem ut adipisicing nostrud consectetur. Ullamco ut irure aute velit in veniam. Dolor sit magna duis laboris nisi.',1,'2021-05-18 19:49:12',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,95,1,'Consectetur laboris aliqua ipsum aute exercitation reprehenderit reprehenderit ullamco nisi anim incididunt esse. Laboris veniam mollit mollit eiusmod eiusmod eu pariatur sunt velit voluptate quis sit. Incididunt sit do Lorem eu eiusmod et cupidatat aliquip ipsum ipsum cillum exercitation qui culpa.',1,'2021-10-18 02:21:32',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,75,5,'Ullamco consectetur irure minim voluptate enim nisi non eu deserunt ea cupidatat cillum. Consectetur ex amet enim veniam cupidatat Lorem nostrud irure anim consectetur. Commodo ad anim veniam commodo ad et est amet sint sit elit eiusmod.',1,'2021-04-14 05:48:32',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,53,3,'Deserunt occaecat aliqua pariatur nostrud dolor ullamco reprehenderit deserunt tempor culpa ad aute. Ea sit incididunt mollit anim ullamco commodo sint irure ut exercitation in ullamco minim elit. Sunt cupidatat veniam do cupidatat do exercitation in consectetur minim incididunt.',1,'2021-06-28 17:16:49',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,64,4,'Eiusmod aliqua exercitation nulla veniam ut veniam incididunt dolore occaecat occaecat eiusmod dolor non enim. Nisi veniam exercitation eu cupidatat ad excepteur sint proident dolor duis deserunt. Cillum deserunt pariatur duis enim enim sit proident pariatur sint aliqua magna.',1,'2021-03-20 20:02:01',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,53,1,'Do sit commodo enim sunt ullamco et. Labore eiusmod aliqua nulla reprehenderit officia excepteur magna proident excepteur dolor elit ullamco. Aliqua adipisicing eu ullamco aliquip consectetur irure exercitation ea mollit enim eu minim esse esse.',1,'2021-03-09 06:20:41',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,71,3,'Commodo aute qui minim eiusmod ipsum culpa sint veniam dolore mollit. Lorem consectetur esse ad do mollit enim mollit qui enim tempor ullamco elit ipsum. Consequat laborum et cupidatat labore excepteur cillum.',1,'2021-06-04 13:49:47',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,92,2,'Voluptate ipsum elit cillum ad cillum consectetur amet anim sint exercitation. Aute ullamco reprehenderit adipisicing sit magna. Dolore exercitation exercitation fugiat ullamco.',1,'2021-03-11 16:35:14',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,38,3,'Amet est enim labore occaecat commodo sit eiusmod duis laboris sint occaecat dolor. Consequat qui reprehenderit consequat nostrud nisi deserunt sit ex occaecat irure adipisicing sit laboris. Consequat irure nisi Lorem dolor aliqua.',1,'2021-07-30 06:26:43',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,80,3,'Ipsum occaecat duis nostrud dolore do commodo ex. Minim irure cupidatat nulla anim mollit fugiat est ex reprehenderit enim velit. Aliqua voluptate ea pariatur minim tempor ullamco anim officia nulla sint laborum elit in.',1,'2021-07-08 01:17:45',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,36,5,'Proident et sunt nulla consectetur eiusmod. Non culpa nisi in qui ullamco ullamco commodo. Magna culpa cillum sint mollit.',1,'2021-02-17 12:39:28',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,42,1,'Eiusmod exercitation irure nisi aute consectetur ipsum ullamco excepteur do occaecat eu est. Veniam velit deserunt eu consequat laboris anim exercitation enim in sint incididunt esse. Veniam sit Lorem aliqua sunt veniam cillum et pariatur ea ex anim cillum.',1,'2021-09-29 04:06:08',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,30,5,'Magna incididunt anim ut nostrud magna cupidatat sit. Reprehenderit quis consectetur in amet enim esse dolor non quis sit voluptate laborum. Fugiat veniam id mollit qui qui sunt voluptate commodo anim excepteur labore culpa ullamco.',1,'2021-02-22 23:10:04',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,50,3,'Mollit magna cillum culpa nulla. Ad est culpa id culpa est commodo quis enim et magna. Non ullamco tempor id commodo ad laborum magna nisi ut pariatur incididunt proident occaecat amet.',1,'2022-01-08 21:10:10',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,54,3,'Officia non est qui ad. Incididunt quis deserunt amet qui. Ea amet deserunt et ex.',1,'2021-03-02 23:33:39',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,54,4,'Nostrud ad occaecat incididunt ex incididunt veniam duis esse ut tempor mollit commodo esse. Anim eu anim laboris eiusmod labore non quis mollit nisi enim. Occaecat veniam et do mollit eu culpa excepteur ad laborum est.',1,'2021-03-24 02:11:05',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,88,5,'Lorem id id nostrud quis. Nulla aute ad aute pariatur in. Pariatur consequat culpa proident excepteur reprehenderit esse qui cillum ex labore excepteur ad amet et.',1,'2021-11-24 10:02:51',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,93,2,'Duis consequat cupidatat enim elit in sint culpa reprehenderit labore excepteur mollit. Pariatur elit dolor et reprehenderit pariatur. Culpa laboris excepteur veniam eiusmod id ut aute pariatur.',1,'2021-11-14 01:04:47',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,19,2,'Anim qui est et laborum irure pariatur deserunt in nulla sint qui. Aliquip eiusmod consectetur culpa labore veniam nulla aliquip officia non eu minim Lorem. Adipisicing esse ea aliquip elit nisi ea pariatur officia sit labore minim eu laborum occaecat.',1,'2022-01-23 12:52:13',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,54,2,'Duis est officia non non aute eiusmod cupidatat ad consectetur amet esse est. Qui cillum aliquip voluptate magna anim anim consectetur cillum duis mollit. Id eiusmod sit nisi ea enim tempor.',1,'2021-07-20 14:52:16',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,97,3,'Pariatur laboris officia voluptate tempor consequat adipisicing. Velit culpa officia id quis consectetur duis veniam. Sunt esse amet irure cupidatat.',1,'2021-04-27 19:05:33',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,8,5,'Voluptate amet deserunt amet laboris eu nisi labore deserunt excepteur laboris aute dolore minim exercitation. Ea duis et minim sint anim ullamco in do labore. Enim nostrud laboris non elit commodo pariatur est minim exercitation nulla mollit commodo deserunt fugiat.',1,'2021-09-21 20:55:21',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,51,5,'Et deserunt exercitation cillum cupidatat Lorem excepteur sit pariatur est id minim minim. In culpa culpa amet anim est fugiat consequat do. Dolore excepteur incididunt est dolore tempor dolor cupidatat amet tempor Lorem dolor.',1,'2021-06-14 17:26:50',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,11,5,'Nisi voluptate ex officia sit ea ea labore. Mollit esse sunt ad commodo nulla. Ullamco dolor laboris aliquip ipsum sint commodo ad nisi aute esse non anim nostrud.',1,'2021-08-16 03:13:02',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,20,5,'Esse quis incididunt fugiat ut elit voluptate tempor ullamco elit sunt ex aliquip laborum. Id ipsum ex consequat dolore nostrud nostrud dolor commodo dolore. Dolor eiusmod consectetur veniam minim et consequat eu ullamco proident est incididunt ut pariatur.',1,'2021-09-20 21:45:32',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,49,4,'Minim duis labore velit laborum. Et nisi commodo anim consectetur. Occaecat cupidatat elit officia est id nulla excepteur cillum eu sunt amet irure magna.',1,'2021-10-11 15:45:33',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,100,5,'Officia cupidatat et aliqua laboris excepteur nostrud occaecat tempor voluptate laboris culpa eiusmod. Officia adipisicing enim laboris consequat dolore sunt labore proident ullamco adipisicing cupidatat aliquip. Ullamco labore nulla consectetur aliquip mollit esse ad ipsum do fugiat nulla do.',1,'2021-07-31 07:49:01',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,74,2,'Esse est pariatur excepteur commodo cillum deserunt laborum culpa. Deserunt qui fugiat amet deserunt eu minim. In ea tempor ipsum ad reprehenderit commodo consectetur tempor elit amet amet ipsum.',1,'2021-06-30 07:09:58',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,46,3,'Minim commodo sint ex elit in. Laborum velit magna eu aliqua deserunt velit aliquip eu in amet quis. Aute aliqua ad Lorem anim voluptate occaecat ad amet dolor.',1,'2021-07-13 23:00:20',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,38,5,'Anim ullamco incididunt duis occaecat commodo excepteur Lorem ipsum nostrud sunt. Deserunt nulla veniam duis dolor consectetur occaecat excepteur esse ipsum et ad tempor esse. Dolor irure velit in et ea.',1,'2021-11-25 15:12:50',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,57,2,'Sunt dolor aliquip labore in dolore. Id aliquip consectetur quis ex ullamco et aliquip nostrud. In enim fugiat dolore ipsum velit ex.',1,'2021-03-18 23:49:52',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,92,2,'Laborum ipsum sint culpa in. Laboris incididunt et irure Lorem id cillum fugiat et nulla voluptate sunt. Eiusmod incididunt enim qui eu elit.',1,'2021-10-10 22:41:18',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,47,3,'Nisi esse aute minim fugiat cupidatat mollit. Dolore deserunt ex sunt enim veniam mollit est nulla adipisicing dolore enim in. Mollit esse enim esse pariatur duis ad ipsum eu laboris cupidatat in est commodo.',1,'2021-04-28 15:29:44',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,98,1,'Ipsum consectetur dolor labore consequat magna cillum nostrud esse irure nisi Lorem. Consequat cillum magna do exercitation do eiusmod deserunt sint proident mollit proident culpa Lorem ipsum. Reprehenderit sunt Lorem velit nulla fugiat id duis et veniam laborum esse ut.',1,'2021-03-10 09:40:00',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,24,2,'Sunt duis excepteur Lorem aute enim deserunt laboris occaecat et labore aliquip sunt dolore laboris. Fugiat ad consequat magna sint enim mollit cupidatat incididunt tempor ad ad consectetur culpa. Duis exercitation culpa pariatur consequat tempor et velit veniam.',1,'2021-08-06 20:17:49',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,12,1,'Nulla proident magna mollit labore. Proident et ea ex occaecat ad adipisicing aliquip labore anim Lorem enim. Pariatur id tempor cupidatat laborum culpa elit consequat sint officia sint et veniam.',1,'2021-05-02 01:40:44',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,52,2,'Exercitation dolor ex officia aliqua esse minim culpa enim occaecat officia reprehenderit. In veniam amet laborum nostrud consectetur non. Ipsum pariatur amet dolor nisi ipsum Lorem labore excepteur commodo minim mollit officia.',1,'2021-09-20 21:34:52',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,34,4,'Esse nisi dolor irure eu nulla. Cillum elit sunt et pariatur. Veniam et ea adipisicing est ipsum sunt exercitation aute et.',1,'2021-05-21 13:32:40',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,49,5,'Est sunt et cupidatat non nisi aliqua. Irure incididunt enim incididunt Lorem aliqua deserunt. Veniam laborum velit reprehenderit ullamco duis commodo excepteur eu esse consequat.',1,'2021-04-24 09:39:36',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,25,3,'Quis reprehenderit anim ullamco eu officia occaecat sint dolor excepteur eiusmod. Ipsum excepteur esse excepteur aliquip voluptate reprehenderit. Exercitation voluptate proident dolore cupidatat incididunt eu exercitation voluptate commodo consectetur excepteur laboris.',1,'2021-11-08 09:19:05',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,95,2,'Minim voluptate aute ea veniam ipsum ad nostrud deserunt magna quis ea ullamco nostrud sit. Nisi aliquip cupidatat minim nostrud adipisicing pariatur reprehenderit ex labore duis. Velit laborum adipisicing veniam excepteur laborum occaecat anim excepteur quis enim sit.',1,'2021-08-18 13:25:56',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,94,2,'Duis ea sunt proident adipisicing tempor irure. Aliquip non id eiusmod minim sint anim Lorem in est velit elit. Nostrud consequat nulla nulla id ex in irure duis nisi irure fugiat sit mollit.',1,'2021-04-27 08:10:30',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,48,3,'Consequat laboris irure id laboris ea cupidatat occaecat. Ex nostrud ipsum et excepteur ullamco nisi officia eiusmod duis nostrud nulla sint ipsum. Eiusmod excepteur anim eu exercitation id est ad ea quis enim.',1,'2021-05-25 03:52:56',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,1,3,'Non in dolor non aliquip elit Lorem ipsum tempor mollit commodo aliquip veniam. Esse velit exercitation nostrud aliquip ullamco elit enim laborum sit tempor amet aliqua eiusmod pariatur. Eu laboris Lorem minim ullamco consequat pariatur cillum excepteur est irure veniam.',1,'2021-11-16 11:56:13',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,13,1,'In sint et laborum culpa nostrud ea eu eu esse aliquip culpa nisi dolor. Aute culpa esse cillum ad do voluptate do laborum sit proident dolor sint duis elit. Cupidatat eiusmod incididunt sunt ea qui laborum fugiat occaecat.',1,'2021-12-15 06:31:00',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,80,2,'Fugiat commodo dolore elit incididunt nisi aliqua ea aliqua. Aliquip consectetur do esse non veniam minim cupidatat id exercitation quis cillum. Ea incididunt nulla ea laboris esse ex culpa ullamco duis velit commodo adipisicing occaecat.',1,'2021-03-16 17:13:55',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,63,4,'Deserunt est incididunt nostrud Lorem aliquip. Fugiat qui incididunt proident mollit nisi non cillum voluptate sunt ullamco Lorem aute ad occaecat. Sint esse sit consequat esse nostrud labore id excepteur excepteur elit fugiat exercitation dolore magna.',1,'2021-05-01 16:32:04',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,39,1,'Ex fugiat eiusmod amet labore ad commodo enim. Laborum nostrud ad ullamco ex in. Nulla do commodo excepteur incididunt in ullamco in aliquip magna.',1,'2022-01-18 07:58:58',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,18,5,'In sit occaecat esse magna mollit cupidatat ex eu non eiusmod et sit deserunt. Velit do commodo voluptate id exercitation laborum irure ad aute. Pariatur reprehenderit dolor id aliqua est minim adipisicing aute ex aliqua.',1,'2021-12-31 06:39:01',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,69,1,'Commodo sint ipsum labore qui voluptate dolor id laborum adipisicing cillum. Excepteur est sit non officia aliquip labore. Cupidatat esse nostrud culpa et.',1,'2021-07-20 13:53:30',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,100,5,'Pariatur consequat consectetur magna nostrud aliqua irure dolor. Aute esse exercitation officia et cillum incididunt est nisi et ut in Lorem. Qui commodo et irure sint aute.',1,'2022-01-17 07:42:11',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,52,3,'Amet eu non dolor ex officia laboris quis eu qui excepteur sit do. Eu commodo amet non velit ipsum commodo excepteur duis. Incididunt quis magna velit labore ullamco non fugiat laboris tempor in.',1,'2021-08-22 15:50:47',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,58,3,'Fugiat enim consequat eu duis proident cillum nostrud cillum minim adipisicing eiusmod. Non dolor qui ad dolore eiusmod labore excepteur labore anim deserunt. Deserunt laborum occaecat ad sunt officia reprehenderit sit pariatur dolore amet Lorem.',1,'2021-10-27 19:23:11',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,44,5,'Eu reprehenderit proident officia dolor sunt qui eiusmod ad eiusmod exercitation occaecat adipisicing. Cillum culpa sint tempor labore adipisicing et aute irure incididunt consectetur occaecat. Non minim Lorem id anim mollit incididunt culpa anim.',1,'2021-06-08 03:26:15',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,36,2,'Dolor esse Lorem id veniam elit. Dolore nulla ullamco aliqua dolor dolor eiusmod veniam eu qui qui ex est qui. Amet qui voluptate ullamco magna officia amet veniam veniam.',1,'2021-11-15 20:15:04',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,51,1,'In qui nostrud et exercitation. Ut et consectetur laboris dolor anim exercitation ipsum nisi aliquip ipsum ex cillum. Duis anim sit pariatur commodo dolor enim aute.',1,'2021-04-11 07:42:46',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,3,5,'Labore anim non consequat velit id ea pariatur deserunt adipisicing. Nulla labore pariatur ut qui occaecat. Anim occaecat pariatur nisi veniam irure irure veniam nisi ut.',1,'2021-07-14 08:56:52',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,61,1,'Tempor amet ipsum Lorem est mollit magna quis aliqua excepteur adipisicing consectetur id. Aute in aliquip nulla duis irure consequat elit commodo ut. Elit nulla esse elit excepteur nostrud incididunt ut veniam eiusmod in anim eiusmod ad.',1,'2021-07-29 09:22:28',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,83,3,'Commodo tempor incididunt nisi exercitation elit ex mollit. Laboris anim cillum do labore occaecat ullamco eu amet non id ea incididunt deserunt. Excepteur irure deserunt in do labore.',1,'2021-03-15 15:48:58',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,41,1,'Pariatur et non nostrud minim est aliqua. Consectetur sunt tempor ea nulla duis Lorem est culpa ullamco. Tempor ipsum nostrud proident ullamco irure tempor quis officia veniam aliqua officia duis proident.',1,'2021-12-22 18:46:26',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,38,4,'Est tempor nulla pariatur cillum occaecat quis. Irure ipsum amet mollit qui qui consectetur ea cupidatat sit velit nulla Lorem. Nostrud eu officia in duis occaecat minim proident enim sint irure dolor.',1,'2021-11-04 14:06:53',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,61,1,'Laboris quis sunt ad sint velit ut Lorem non. Culpa labore fugiat incididunt labore laborum reprehenderit velit Lorem sint aliquip proident. Nostrud duis do aliquip consectetur ea consequat cillum aliquip magna laborum.',1,'2021-10-09 10:45:50',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,45,1,'Labore magna pariatur ex mollit labore excepteur ex. In laboris et proident voluptate proident culpa est adipisicing amet amet cupidatat eu esse. Officia enim aliqua qui amet.',1,'2021-08-16 07:06:22',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,31,2,'Ad elit nulla mollit do nulla non non nisi ipsum laboris anim occaecat dolor Lorem. Amet veniam dolor cupidatat id velit do magna tempor sit. Aliquip id velit aute do et tempor qui occaecat non irure labore aliquip incididunt fugiat.',1,'2021-05-29 22:13:23',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,3,5,'Occaecat do ipsum nisi culpa ipsum culpa dolore duis reprehenderit exercitation consequat anim. Deserunt veniam dolore tempor enim minim elit ad consequat cupidatat cupidatat dolor eu Lorem. Sit minim quis id aliqua.',1,'2021-02-13 09:48:17',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,7,2,'Pariatur eiusmod aliqua qui excepteur excepteur velit ut ipsum pariatur commodo fugiat. Mollit incididunt ullamco consectetur voluptate cillum pariatur cillum id amet laboris occaecat. Velit Lorem occaecat quis est Lorem.',1,'2021-03-16 08:29:14',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,95,5,'Labore qui proident ut amet occaecat eiusmod et. Nisi dolore eu nostrud cupidatat ad non consequat quis aliqua excepteur velit commodo. Id ut elit ullamco ea est cillum.',1,'2021-08-18 04:22:17',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,32,4,'Lorem excepteur cillum et esse velit enim culpa elit dolore ut nisi ad. Exercitation irure labore ex non duis sint. Adipisicing qui non veniam ut.',1,'2021-05-29 18:18:29',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,7,3,'Anim ullamco consectetur anim ullamco esse incididunt aute velit velit cillum minim velit ullamco. Ad non cillum sit commodo nostrud reprehenderit in reprehenderit. Magna et tempor elit sit excepteur sunt.',1,'2021-04-18 02:03:58',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,28,3,'Dolore fugiat amet dolore fugiat eu enim quis magna. Amet ad mollit proident consequat veniam aliquip. Mollit ut nisi duis excepteur est irure nostrud proident.',1,'2021-06-13 18:37:11',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,30,2,'Consectetur labore laborum elit proident dolor. Lorem sint esse ullamco in proident irure consectetur aliquip cupidatat sunt occaecat ipsum qui. Exercitation nisi dolor anim commodo culpa qui culpa.',1,'2021-11-08 10:50:08',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,77,4,'Commodo incididunt elit in ipsum eiusmod laborum velit deserunt pariatur pariatur. Voluptate eiusmod excepteur minim elit. Occaecat quis id in sit.',1,'2021-06-14 18:40:34',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,93,4,'Mollit esse laboris aliqua consequat culpa velit. Et fugiat aliqua id nostrud proident. Exercitation incididunt proident cillum minim anim incididunt.',1,'2021-09-09 05:08:15',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,27,4,'Minim duis nulla do culpa eu fugiat nisi Lorem duis nisi magna eiusmod. Occaecat minim consequat laboris nulla exercitation duis ut ipsum non aliqua anim do ex. Nostrud amet aliquip velit irure exercitation quis minim officia sit nulla.',1,'2021-10-12 02:01:52',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,4,2,'Laborum amet voluptate pariatur aliqua. Nostrud magna et mollit magna sit Lorem dolore ex quis Lorem consequat culpa. Nulla et velit dolore elit velit sint Lorem elit occaecat adipisicing dolor ut.',1,'2021-08-26 12:28:57',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,54,1,'Nulla laboris elit commodo consequat commodo incididunt in exercitation. Sunt dolore minim consequat laboris ea ad deserunt incididunt aliquip dolor do. Culpa culpa proident ex ea culpa ex labore esse adipisicing voluptate culpa consequat aliqua.',1,'2021-06-25 03:21:42',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,26,1,'Culpa ipsum proident sint eu labore aliquip sit. Anim culpa in minim id labore anim duis pariatur eu consectetur ullamco eiusmod occaecat occaecat. Esse officia proident eiusmod consequat do magna nisi exercitation nulla ex amet velit elit.',1,'2021-11-19 12:31:15',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,72,1,'Id reprehenderit officia ea aliquip. Sit amet sint laborum labore. Occaecat ullamco in sunt nulla laboris ut.',1,'2021-06-05 19:17:14',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,85,1,'Occaecat ea labore cillum ullamco. Commodo aliquip id culpa nulla ex consequat Lorem reprehenderit nostrud sit sunt duis ex. Eiusmod aliqua irure nostrud nostrud.',1,'2021-12-13 01:42:22',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,86,4,'Qui exercitation cillum dolore labore nostrud mollit aliqua pariatur ad nulla cupidatat non. Amet consequat aute nostrud ea excepteur voluptate amet laborum anim dolor Lorem aliquip Lorem consectetur. Lorem ea enim qui eiusmod Lorem minim do.',1,'2021-03-22 20:45:11',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,32,5,'Irure exercitation sunt ex id officia dolore exercitation aliquip sunt incididunt. Veniam Lorem quis ut dolor commodo dolor exercitation amet. Reprehenderit sunt sunt laborum qui exercitation id reprehenderit tempor tempor.',1,'2022-01-17 16:26:09',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,9,1,'Anim laborum ea pariatur id et fugiat nisi exercitation eu aliquip. Quis incididunt cillum ipsum magna elit et sit ipsum cillum eiusmod labore nulla irure aliquip. Tempor et voluptate reprehenderit qui adipisicing est adipisicing incididunt ad est.',1,'2021-08-12 10:30:41',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,10,1,'Veniam consequat dolore labore duis ullamco nostrud est. Excepteur qui amet adipisicing tempor eiusmod. Proident eiusmod deserunt occaecat laborum commodo sit quis adipisicing enim non culpa.',1,'2021-12-04 21:16:47',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,44,2,'Enim ex laborum ullamco eu proident occaecat. Cupidatat non dolore adipisicing labore nulla labore cupidatat. Cupidatat ex aute amet adipisicing commodo.',1,'2021-05-19 06:21:03',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,38,4,'Dolore nostrud amet nulla mollit amet est et et. Nulla laborum voluptate reprehenderit consectetur. Laborum laboris eu eiusmod anim.',1,'2021-06-28 04:10:34',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,98,3,'Ad excepteur nulla et sint adipisicing sit culpa et non consequat. Eiusmod mollit enim excepteur veniam quis. Elit ad ex excepteur proident dolor deserunt qui labore fugiat labore ullamco.',1,'2021-06-27 16:33:32',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,89,5,'Officia in Lorem voluptate eiusmod velit cillum eu minim ullamco voluptate quis pariatur. Deserunt enim consectetur tempor quis est magna velit reprehenderit minim voluptate et laborum do. Dolore id anim nulla elit eiusmod ipsum deserunt elit anim culpa reprehenderit id elit.',1,'2021-02-13 21:42:58',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,91,5,'Eu dolore qui minim Lorem mollit anim Lorem irure aliquip velit commodo. Do deserunt aute consequat non aute sit minim sint reprehenderit velit pariatur ipsum sunt cillum. Commodo mollit culpa incididunt pariatur fugiat enim nostrud Lorem deserunt ut quis nostrud.',1,'2021-08-19 16:12:43',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,3,4,'Dolor aute aliqua labore qui aliquip nulla excepteur minim duis. Consequat esse occaecat laboris culpa cillum irure qui adipisicing et. Fugiat nisi veniam id anim aliquip.',1,'2022-01-28 13:15:21',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,13,4,'Nulla sint culpa ex exercitation cupidatat commodo enim ullamco pariatur sint. Id ad deserunt sint laborum cupidatat magna. Reprehenderit officia ut eiusmod ad eu et consectetur pariatur esse aliquip officia.',1,'2021-03-07 10:01:45',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,49,5,'Laboris et laboris aliqua minim elit magna nostrud dolor nisi irure ea ea et pariatur. Quis occaecat ipsum culpa qui incididunt tempor sint non. Consectetur incididunt cupidatat id veniam.',1,'2021-06-16 22:06:26',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,14,3,'Voluptate cillum aliqua in in cupidatat qui. Deserunt incididunt irure sit est et nisi excepteur eiusmod reprehenderit. Reprehenderit aliqua labore voluptate tempor ad voluptate reprehenderit.',1,'2021-02-14 19:24:01',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,10,5,'Eu nostrud commodo mollit laborum. Anim aute in quis nulla tempor deserunt nulla. Reprehenderit Lorem labore consequat eu pariatur tempor tempor exercitation ipsum mollit.',1,'2021-07-16 10:49:39',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,83,1,'Officia occaecat sunt et mollit id esse duis nostrud sint veniam nisi cupidatat nulla quis. Reprehenderit consectetur tempor eu labore velit anim do incididunt. Consectetur exercitation consequat est ipsum sint ex consequat magna cillum est voluptate ea.',1,'2021-05-24 21:41:47',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,11,2,'Sit mollit nisi pariatur aliqua proident amet non incididunt. Et non sint officia ullamco ut est. Do cillum aliquip laboris aute aute voluptate nisi voluptate magna sint ut dolor culpa nulla.',1,'2021-03-22 02:30:42',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,97,1,'Magna ipsum velit sit sunt duis velit. Consequat exercitation nostrud officia esse deserunt consequat aliquip ad Lorem anim labore. Reprehenderit et sit aliqua dolore.',1,'2021-03-18 19:39:24',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,33,5,'Reprehenderit duis aliquip deserunt voluptate labore. Ea laboris commodo exercitation ullamco eu elit proident. Adipisicing amet deserunt irure duis exercitation occaecat quis.',1,'2021-07-17 03:23:09',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,77,4,'Enim fugiat cillum in dolor deserunt voluptate fugiat non in proident reprehenderit incididunt. Ea anim enim excepteur duis nisi eiusmod sit voluptate incididunt eu ullamco minim. Magna pariatur aute non enim laboris est aliquip deserunt veniam adipisicing.',1,'2021-03-06 03:45:16',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,9,1,'Consequat sit fugiat irure elit Lorem et. Ipsum non culpa mollit enim ut sint minim duis velit. Aliquip ipsum quis ullamco et cupidatat magna excepteur magna.',1,'2021-11-06 22:22:17',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,95,5,'Nisi mollit elit excepteur ipsum deserunt exercitation eiusmod deserunt dolore. Minim ad irure elit laboris consectetur in. Consectetur eu velit tempor veniam proident amet commodo ut cupidatat.',1,'2021-03-02 15:14:30',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,21,4,'Fugiat aliqua ipsum minim sunt incididunt aliquip amet et nisi amet veniam voluptate elit anim. Veniam ipsum commodo non occaecat magna magna commodo do consequat sit. Exercitation ut qui dolore id cupidatat velit aliquip duis et.',1,'2022-01-05 15:15:16',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,40,4,'Anim veniam nostrud laboris tempor ullamco ea elit aute amet aute elit quis est. Ullamco id eiusmod minim irure. Magna deserunt elit deserunt consequat aliqua et labore.',1,'2021-03-06 09:13:52',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,12,2,'Elit incididunt fugiat laborum adipisicing. Ipsum ut ut commodo occaecat ut ut dolore aute eiusmod ad deserunt commodo eu non. Duis sunt fugiat reprehenderit do dolor dolor sint consectetur magna exercitation sunt.',1,'2021-08-27 05:50:18',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,75,2,'Elit nostrud duis proident nostrud occaecat do nisi culpa deserunt. Reprehenderit elit elit mollit exercitation eiusmod cillum amet et incididunt enim nulla. Proident commodo fugiat elit proident est aliquip ad laborum laborum.',1,'2021-09-21 12:07:35',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,76,5,'Cillum nostrud irure magna veniam Lorem amet sint. Aliquip non dolor anim ea non non ad ipsum dolor aute adipisicing. Pariatur eiusmod ad esse anim consectetur ea tempor dolor ex deserunt esse nostrud velit.',1,'2021-04-28 15:25:37',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,17,1,'Id magna irure anim ut non aute ut nulla nostrud. Voluptate sunt aliquip cupidatat sit pariatur irure sunt excepteur anim duis excepteur irure sint. Adipisicing cupidatat occaecat veniam veniam cupidatat ea consectetur ipsum dolore laborum.',1,'2021-11-21 14:37:04',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,79,3,'Deserunt amet exercitation culpa labore duis exercitation adipisicing. Fugiat esse ad cillum est officia sit ut adipisicing elit. Incididunt enim commodo eiusmod consectetur cupidatat eiusmod consequat consequat voluptate.',1,'2022-01-03 16:07:37',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,43,2,'Non aliquip veniam consectetur ut magna aute velit sint veniam ut. Aliquip commodo ullamco ea sunt aute nostrud ut veniam enim. Ex consectetur irure magna consequat.',1,'2021-08-15 20:54:48',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,43,5,'Excepteur sint nisi cupidatat aute mollit tempor adipisicing incididunt. Enim veniam quis voluptate est. Amet do excepteur nostrud nostrud.',1,'2021-08-18 05:52:08',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,97,5,'Quis dolore duis exercitation aute ullamco exercitation reprehenderit officia sunt reprehenderit reprehenderit. Duis tempor occaecat in minim magna consectetur voluptate Lorem. Deserunt proident exercitation est sunt.',1,'2021-05-05 15:17:07',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,11,5,'Fugiat labore eiusmod nostrud ea pariatur. Cupidatat officia labore eiusmod commodo ea deserunt fugiat voluptate aliquip id. Sunt nostrud minim ex id minim consequat.',1,'2021-05-06 09:00:55',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,88,5,'Laborum officia ipsum ullamco anim ex elit cillum. Tempor nisi sunt esse ad aliqua culpa ea magna ea Lorem cillum. Nulla tempor occaecat est cillum ad tempor nisi ea ullamco pariatur magna.',1,'2021-11-02 04:39:03',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,7,5,'Est reprehenderit dolor do occaecat non ut non consequat consequat. Aute pariatur laboris amet elit minim velit mollit ullamco exercitation do in do do. Culpa voluptate eu proident aute incididunt eiusmod nisi ut reprehenderit culpa ad mollit ut.',1,'2021-06-07 00:24:18',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,26,3,'Nostrud consectetur voluptate adipisicing veniam nostrud excepteur exercitation. Mollit laboris tempor qui mollit. Adipisicing commodo mollit nulla pariatur consectetur voluptate culpa sunt minim velit.',1,'2021-06-18 06:26:37',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,53,1,'Tempor voluptate qui quis irure. Tempor Lorem in do cillum cupidatat officia culpa. Elit id proident nisi minim magna ipsum.',1,'2021-10-05 19:44:06',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,47,5,'Consequat ut duis laboris mollit amet voluptate mollit cillum velit do Lorem. Nulla tempor et enim nisi adipisicing occaecat tempor eiusmod dolor exercitation excepteur amet laboris ullamco. Laboris veniam in excepteur ipsum aute officia culpa ex anim eiusmod velit cillum incididunt.',1,'2021-06-03 22:41:00',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,28,5,'Elit id qui ad incididunt cupidatat cillum dolore. Velit esse dolor id est aliqua reprehenderit consectetur tempor ex sint ea enim. Aute cillum ea quis ea aute excepteur.',1,'2021-04-08 16:49:03',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,24,2,'Culpa duis minim excepteur aliqua ea. Occaecat occaecat excepteur consectetur magna ut veniam id commodo dolor. Culpa exercitation incididunt incididunt sit excepteur voluptate magna reprehenderit.',1,'2021-08-09 05:58:38',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,83,1,'Labore quis anim eiusmod dolore veniam sunt eiusmod consequat commodo tempor nostrud consectetur. Veniam elit ad eiusmod tempor laborum occaecat dolore velit duis aliqua ut. Do excepteur laboris excepteur dolore esse est elit mollit ipsum Lorem consequat nostrud.',1,'2021-12-22 09:13:42',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,21,2,'Ipsum commodo eu commodo et esse sint est consequat in ea excepteur id dolore. Mollit sunt laboris excepteur tempor ipsum do nulla ipsum cupidatat cillum laborum. Officia tempor velit incididunt tempor non aliqua.',1,'2021-06-02 01:16:25',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,12,3,'Veniam eiusmod magna amet ipsum. Tempor cillum aliquip sit cillum cupidatat. Ut sit Lorem reprehenderit adipisicing sint voluptate eu ipsum exercitation labore sunt dolore labore culpa.',1,'2021-07-09 15:59:11',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,37,3,'Sunt fugiat excepteur deserunt irure irure. Magna exercitation veniam eu consectetur enim ipsum ullamco in cillum elit dolore. Occaecat cillum elit sit incididunt minim.',1,'2021-10-13 08:31:39',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,86,5,'Pariatur officia occaecat occaecat aliquip enim non eiusmod aliquip sint tempor nisi tempor. Qui in aute aliqua reprehenderit minim irure cillum. Irure reprehenderit cupidatat consectetur velit reprehenderit sit veniam excepteur Lorem cillum consequat nulla qui adipisicing.',1,'2021-09-08 05:56:29',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,99,4,'Eu nulla nostrud in qui nisi ut laborum labore cupidatat officia aliqua nostrud dolore. Velit cupidatat laborum Lorem est est ea pariatur ullamco occaecat non reprehenderit ea incididunt. Est ad amet sit dolor commodo.',1,'2021-06-12 03:09:05',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,95,1,'Laboris ullamco et qui ad enim dolore magna. Irure commodo ea laborum reprehenderit anim laborum nostrud dolore adipisicing proident eiusmod adipisicing nulla. Nulla cillum voluptate exercitation voluptate anim magna quis non nostrud dolore esse.',1,'2021-09-23 05:38:59',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,35,3,'Eiusmod velit laboris duis nostrud mollit voluptate mollit deserunt esse anim irure culpa sunt sit. Magna fugiat do eiusmod non amet proident ullamco. Deserunt ipsum aute ipsum laboris consequat aute duis ullamco.',1,'2021-11-28 18:36:38',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,32,2,'Nostrud magna consectetur adipisicing duis incididunt amet id ea labore do aliquip minim et. Deserunt exercitation ullamco enim cillum elit nulla aliquip laboris non mollit id deserunt ut. Proident non aliqua velit id irure esse et laboris cupidatat consectetur.',1,'2021-04-14 18:43:43',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,39,3,'Sunt dolor cillum elit aute eiusmod eu aliquip labore adipisicing magna. Ullamco sit excepteur aliqua ut. Reprehenderit anim nostrud labore nulla velit mollit eu sunt Lorem ad.',1,'2021-05-13 07:39:32',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,90,4,'In incididunt pariatur anim est minim esse incididunt magna sit velit. Ad irure pariatur ullamco magna duis ipsum non consectetur eu magna minim reprehenderit aute nisi. Duis cupidatat laboris exercitation aliqua.',1,'2021-12-23 13:41:51',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,39,3,'Lorem elit enim ea labore eu duis do consectetur reprehenderit eu dolore consequat nulla. Est fugiat Lorem labore laboris do ex mollit ut qui aute id et. Excepteur excepteur eu elit mollit dolore aliquip sint in ea nostrud irure fugiat ut consequat.',1,'2021-09-02 01:42:05',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,57,1,'Cupidatat mollit quis et tempor culpa labore ex eu sint. Sit id velit incididunt enim qui. Enim reprehenderit ut do elit culpa.',1,'2022-01-20 07:49:47',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,51,4,'Nulla fugiat et irure excepteur esse Lorem amet voluptate velit ipsum sunt esse. Excepteur sit amet adipisicing do reprehenderit proident. Tempor voluptate nulla occaecat incididunt ipsum anim pariatur duis.',1,'2021-07-01 19:49:46',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,17,4,'Anim anim eu aliquip irure culpa consequat fugiat. Pariatur et reprehenderit amet ea esse. Excepteur consequat labore quis eiusmod in pariatur.',1,'2021-07-16 19:01:27',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,61,1,'Exercitation laboris minim mollit in deserunt sint in in magna. Anim deserunt pariatur eu elit officia aliquip excepteur proident ullamco eiusmod deserunt duis. Mollit nostrud laboris irure quis magna sunt consequat proident excepteur aliqua cillum.',1,'2021-11-18 04:49:00',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,68,3,'Id non eiusmod sint aute sint reprehenderit eiusmod incididunt eu officia. Irure pariatur velit aute culpa irure. Est occaecat tempor exercitation aute aliqua quis sint est id ea.',1,'2021-03-11 22:25:56',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,42,4,'Magna officia incididunt ut exercitation quis anim duis quis. Eu ipsum irure velit reprehenderit tempor aliqua irure excepteur Lorem voluptate ex. Sint et fugiat sit voluptate tempor ut labore reprehenderit proident.',1,'2021-07-21 18:22:13',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,65,5,'Occaecat nisi pariatur exercitation commodo cillum elit dolor dolor fugiat reprehenderit aliqua aute. Dolore esse ut ad eiusmod pariatur dolor non qui commodo eu amet incididunt ipsum veniam. Sunt amet incididunt elit enim excepteur sit ut mollit quis deserunt aliquip id officia.',1,'2021-10-27 13:31:07',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,59,2,'Laboris ea reprehenderit ad reprehenderit culpa tempor nostrud tempor aute dolore mollit. Aliquip minim pariatur ipsum culpa adipisicing irure fugiat laborum laborum occaecat. In esse dolor laborum irure.',1,'2021-12-13 06:04:33',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (1,45,2,'Ex tempor cillum eu ex id ullamco pariatur elit dolor ea cillum pariatur. Cillum ad aliqua mollit Lorem incididunt. Fugiat est in consectetur nisi officia dolore ut nulla et ad qui eiusmod laborum.',1,'2021-06-23 03:57:14',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,28,5,'Irure ipsum elit Lorem officia tempor duis qui et adipisicing qui. Dolor in elit qui id ullamco adipisicing ipsum irure exercitation non veniam. Voluptate ipsum anim et sint culpa dolore.',1,'2021-02-27 15:12:06',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,21,1,'Ut irure magna voluptate fugiat nulla esse sit enim consectetur. Esse velit culpa laboris exercitation aliquip eiusmod proident ipsum voluptate ex dolor mollit laborum magna. Esse in dolore elit est consectetur ipsum dolor ut est ex nulla labore irure.',1,'2021-11-26 07:35:46',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,97,3,'Nostrud occaecat in veniam enim cillum ipsum. Commodo enim ex in consectetur consequat aute pariatur culpa. Velit nostrud culpa nostrud esse et elit.',1,'2021-12-31 04:06:04',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (5,66,4,'Sit commodo culpa sunt ea est sunt do enim magna consectetur do. Cillum ea voluptate anim tempor minim adipisicing dolor ipsum irure exercitation dolor ad. Velit deserunt occaecat qui consequat officia labore irure excepteur eu esse ipsum velit.',1,'2021-02-17 07:03:55',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (4,51,3,'Et ipsum excepteur consequat excepteur laborum mollit ullamco irure incididunt enim tempor pariatur. Do in fugiat sit tempor ipsum quis id commodo. Mollit pariatur ad anim cupidatat esse.',1,'2021-02-28 20:43:43',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,12,4,'Minim incididunt nostrud excepteur ipsum exercitation eiusmod commodo amet. Cupidatat velit qui incididunt reprehenderit cupidatat sunt voluptate dolore adipisicing laboris. Occaecat eu labore et laborum ut ad Lorem magna mollit.',1,'2021-05-26 22:19:40',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (2,81,3,'Cupidatat qui magna nisi Lorem sit dolor aliqua. Cupidatat nostrud pariatur quis Lorem consequat laboris anim nostrud anim proident in. Velit qui sint laborum minim exercitation id fugiat cupidatat.',1,'2022-01-26 17:46:55',NULL);
+INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,42,2,'Velit aliqua ullamco exercitation est minim nulla occaecat et officia veniam minim voluptate. Commodo sit et proident ex cupidatat. Nulla ad exercitation eiusmod veniam aliqua adipisicing incididunt tempor dolore aute.',1,'2021-02-24 12:50:14',NULL);
 
 -- category
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo khoa','Cillum nulla non Lorem ut irure fugiat veniam deserunt do.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách khoa học','Aliqua exercitation ea sint do.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện tranh','Cillum laboris et nulla nostrud duis consectetur labore cupidatat minim proident.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tiểu thuyết','Enim dolore cupidatat tempor sunt amet veniam aute officia est officia.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện ngắn','Dolor in pariatur aliqua dolore ea cillum ut consectetur tempor do eu incididunt est.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện dài','Eiusmod adipisicing consectetur occaecat culpa in ullamco labore velit magna.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo trình','In officia ex magna commodo ullamco in magna incididunt esse mollit enim consectetur laboris.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Báo in','Laborum in elit ullamco pariatur laborum magna veniam nostrud eu anim irure deserunt ad sunt.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tạp chí','Excepteur qui commodo sint sint irure sunt sunt in nostrud.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tập san','Elit amet proident et cupidatat in eu quis velit tempor sunt labore aute et.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nấu ăn','Consequat anim officia aute eiusmod dolor.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ thuật','Veniam pariatur deserunt ea non voluptate sunt do culpa elit esse.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nông nghiệp','Minim deserunt aute ipsum duis ea eiusmod aute sint sint ut.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách thiếu nhi','Ex eu ad adipisicing magna tempor occaecat id cupidatat dolor dolor aliquip dolore.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ năng sống','Ad exercitation anim in magna qui ipsum ipsum proident magna.','50px.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo khoa','Cillum nulla non Lorem ut irure fugiat veniam deserunt do.','sach-giao-khoa.jpg');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách khoa học','Aliqua exercitation ea sint do.','sach-khoa-hoc.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện tranh','Cillum laboris et nulla nostrud duis consectetur labore cupidatat minim proident.','truyen-tranh.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tiểu thuyết','Enim dolore cupidatat tempor sunt amet veniam aute officia est officia.','tieu-thuyet.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện ngắn','Dolor in pariatur aliqua dolore ea cillum ut consectetur tempor do eu incididunt est.','truyen-ngan.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện dài','Eiusmod adipisicing consectetur occaecat culpa in ullamco labore velit magna.','truyen-dai.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo trình','In officia ex magna commodo ullamco in magna incididunt esse mollit enim consectetur laboris.','sach-giao-trinh.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Báo in','Laborum in elit ullamco pariatur laborum magna veniam nostrud eu anim irure deserunt ad sunt.','bao-in.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tạp chí','Excepteur qui commodo sint sint irure sunt sunt in nostrud.','tap-chi.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tập san','Elit amet proident et cupidatat in eu quis velit tempor sunt labore aute et.','tap-san.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nấu ăn','Consequat anim officia aute eiusmod dolor.','nau-an.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ thuật','Veniam pariatur deserunt ea non voluptate sunt do culpa elit esse.','sach-ky-thuat.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nông nghiệp','Minim deserunt aute ipsum duis ea eiusmod aute sint sint ut.','sach-nong-nghiep.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách thiếu nhi','Ex eu ad adipisicing magna tempor occaecat id cupidatat dolor dolor aliquip dolore.','sach-thieu-nhi.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ năng sống','Ad exercitation anim in magna qui ipsum ipsum proident magna.','sach-ky-nang-song.png');
 
 -- product_category
 INSERT INTO bookshopdb.product_category(`productId`,`categoryId`) VALUES (1,2);

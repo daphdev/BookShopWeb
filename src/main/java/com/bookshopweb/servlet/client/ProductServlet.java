@@ -7,6 +7,7 @@ import com.bookshopweb.service.CategoryService;
 import com.bookshopweb.service.ProductReviewService;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.utils.Protector;
+import com.bookshopweb.utils.TextUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,6 +39,10 @@ public class ProductServlet extends HttpServlet {
             Optional<Category> categoryFromServer = Protector.of(() -> categoryService.getByProductId(id)).get(Optional::empty);
             Category category = categoryFromServer.orElseGet(Category::new);
 
+            // Lấy product từ productFromServer
+            Product product = productFromServer.get();
+            product.setDescription(TextUtils.toParagraph(Optional.ofNullable(product.getDescription()).orElse("")));
+
             // Lấy tổng số đánh giá (productReview) của sản phẩm
             int totalProductReviews = Protector.of(() -> productReviewService.countByProductId(id)).get(0);
 
@@ -62,6 +67,9 @@ public class ProductServlet extends HttpServlet {
                     PRODUCT_REVIEWS_PER_PAGE, offset, "createdAt", "DESC", id
             )).get(ArrayList::new);
 
+            productReviews.forEach(productReview -> productReview.setContent(
+                    TextUtils.toParagraph(productReview.getContent())));
+
             // Lấy tổng cộng số sao đánh giá của sản phẩm
             int sumRatingScores = Protector.of(() -> productReviewService.sumRatingScoresByProductId(id)).get(0);
 
@@ -74,14 +82,14 @@ public class ProductServlet extends HttpServlet {
             )).get(ArrayList::new);
 
             request.setAttribute("category", category);
-            request.setAttribute("product", productFromServer.get());
+            request.setAttribute("product", product);
             request.setAttribute("totalProductReviews", totalProductReviews);
             request.setAttribute("productReviews", productReviews);
             request.setAttribute("totalPagesOfProductReviews", totalPagesOfProductReviews);
             request.setAttribute("pageReview", pageReview);
             request.setAttribute("averageRatingScore", averageRatingScore);
             request.setAttribute("relatedProducts", relatedProducts);
-            request.getRequestDispatcher("WEB-INF/views/productView.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/productView.jsp").forward(request, response);
         } else {
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng product
             response.sendRedirect(request.getContextPath() + "/");
