@@ -32,5 +32,5 @@ Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from
 * Tomcat 9.0.48
 
 ## Cài đặt Tomcat 9.0.48
-* Tải ở: https://downloads.apache.org/tomcat/tomcat-9/v9.0.48/bin/apache-tomcat-9.0.48.zip
+* Tải ở: https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.48/bin/ (apache-tomcat-9.0.48.zip cho Windows và apache-tomcat-9.0.48.tar.gz cho Mac)
 * Mở IDEA và thêm vào File | Settings | Build, Execution, Deployment | Application Servers > [+] Tomcat Server (Tomcat Home trỏ đến thư mục Tomcat, ví dụ: apache-tomcat-9.0.48)
