@@ -105,7 +105,7 @@ public class CategoryServlet extends HttpServlet {
             request.setAttribute("order", orderParam.orElse("totalBuy-DESC"));
             request.setAttribute("filterQueryString",
                     request.getQueryString().replaceAll("^id=\\d{1,5}(&page=\\d{1,5}|)", ""));
-            request.getRequestDispatcher("WEB-INF/views/categoryView.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/categoryView.jsp").forward(request, response);
         } else {
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng category
             response.sendRedirect(request.getContextPath() + "/");

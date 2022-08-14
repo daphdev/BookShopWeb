@@ -86,7 +86,7 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("screen", "order");
         }
 
-        request.getRequestDispatcher("WEB-INF/views/orderView.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/orderView.jsp").forward(request, response);
     }
 
     @Override

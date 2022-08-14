@@ -16,13 +16,13 @@ import java.util.Optional;
 public interface UserDAO extends DAO<User> {
     @Override
     @SqlUpdate("INSERT INTO user VALUES (default, :username, :password, :fullname, " +
-               ":email, :phoneNumber, :gender, :address)")
+               ":email, :phoneNumber, :gender, :address, :role)")
     @GetGeneratedKeys("id")
     long insert(@BindBean User user);
 
     @Override
     @SqlUpdate("UPDATE user SET username = :username, password = :password, fullname = :fullname, " +
-               "email = :email, phoneNumber = :phoneNumber, gender = :gender, address = :address " +
+               "email = :email, phoneNumber = :phoneNumber, gender = :gender, address = :address, role = :role " +
                "WHERE id = :id")
     void update(@BindBean User user);
 
@@ -49,4 +49,13 @@ public interface UserDAO extends DAO<User> {
 
     @SqlQuery("SELECT * FROM user WHERE username = :username")
     Optional<User> getByUsername(@Bind("username") String username);
+
+    @SqlQuery("SELECT * FROM user WHERE email = :email")
+    Optional<User> getByEmail(@Bind("email") String email);
+
+    @SqlQuery("SELECT * FROM user WHERE phoneNumber = :phoneNumber")
+    Optional<User> getByPhoneNumber(@Bind("phoneNumber") String phoneNumber);
+
+    @SqlQuery("SELECT COUNT(id) FROM user")
+    int count();
 }

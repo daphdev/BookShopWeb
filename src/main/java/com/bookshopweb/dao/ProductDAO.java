@@ -25,8 +25,7 @@ public interface ProductDAO extends DAO<Product> {
     @SqlUpdate("UPDATE product SET name = :name, price = :price, discount = :discount, quantity = :quantity, " +
                "totalBuy = :totalBuy, author = :author, pages = :pages, publisher = :publisher, " +
                "yearPublishing = :yearPublishing, description = :description, imageName = :imageName, " +
-               "shop = :shop, createdAt = :createdAt, updatedAt = :updatedAt, startsAt = :startsAt, " +
-               "endsAt = :endsAt WHERE id = :id")
+               "shop = :shop, updatedAt = :updatedAt, startsAt = :startsAt, endsAt = :endsAt WHERE id = :id")
     void update(@BindBean Product product);
 
     @Override
@@ -95,4 +94,22 @@ public interface ProductDAO extends DAO<Product> {
     List<Product> getOrderedPartByCategoryIdAndFilters(@Bind("limit") int limit, @Bind("offset") int offset,
                                                        @Define("orderBy") String orderBy, @Define("orderDir") String orderDir,
                                                        @Bind("categoryId") long categoryId, @Define("filters") String filters);
+
+    @SqlQuery("SELECT COUNT(id) FROM product")
+    int count();
+
+    @SqlUpdate("INSERT product_category VALUES (:productId, :categoryId)")
+    void insertProductCategory(@Bind("productId") long productId, @Bind("categoryId") long categoryId);
+
+    @SqlUpdate("UPDATE product_category SET categoryId = :categoryId WHERE productId = :productId")
+    void updateProductCategory(@Bind("productId") long productId, @Bind("categoryId") long categoryId);
+
+    @SqlUpdate("DELETE FROM product_category WHERE productId = :productId AND categoryId = :categoryId")
+    void deleteProductCategory(@Bind("productId") long productId, @Bind("categoryId") long categoryId);
+
+    @SqlQuery("SELECT * FROM product WHERE name LIKE CONCAT('%', :query, '%') LIMIT :limit OFFSET :offset")
+    List<Product> getByQuery(@Bind("query") String query, @Bind("limit") int limit, @Bind("offset") int offset);
+
+    @SqlQuery("SELECT COUNT(id) FROM product WHERE name LIKE CONCAT('%', :query, '%')")
+    int countByQuery(@Bind("query") String query);
 }

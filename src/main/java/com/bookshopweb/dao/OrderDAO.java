@@ -50,4 +50,16 @@ public interface OrderDAO extends DAO<Order> {
 
     @SqlQuery("SELECT COUNT(orders.id) FROM orders WHERE userId = :userId")
     int countByUserId(@Bind("userId") long userId);
+
+    @SqlQuery("SELECT COUNT(id) FROM orders")
+    int count();
+
+    @SqlUpdate("UPDATE orders SET status = 2, updatedAt = NOW() WHERE id = :id")
+    void confirm(@Bind("id") long id);
+
+    @SqlUpdate("UPDATE orders SET status = 3, updatedAt = NOW() WHERE id = :id")
+    void cancel(@Bind("id") long id);
+
+    @SqlUpdate("UPDATE orders SET status = 1, updatedAt = NOW() WHERE id = :id")
+    void reset(@Bind("id") long id);
 }

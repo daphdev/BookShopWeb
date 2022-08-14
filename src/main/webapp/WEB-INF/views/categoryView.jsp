@@ -44,16 +44,23 @@
               <div class="filter-content collapse show" id="collapse_1">
                 <div class="card-body pt-0">
                   <input type="hidden" name="id" value="${requestScope.category.id}">
-                  <c:forEach var="publisher" items="${requestScope.publishers}" varStatus="status">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="${publisher}"
-                             id="checkbox_publisher_${status.index}" name="checkedPublishers"
-                        ${requestScope.checkedPublishers.contains(publisher) ? 'checked' : ''}>
-                      <label class="form-check-label" for="checkbox_publisher_${status.index}">
-                          ${publisher}
-                      </label>
-                    </div>
-                  </c:forEach>
+                  <c:choose>
+                    <c:when test="${not empty requestScope.publishers}">
+                      <c:forEach var="publisher" items="${requestScope.publishers}" varStatus="status">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="${publisher}"
+                                 id="checkbox_publisher_${status.index}" name="checkedPublishers"
+                            ${requestScope.checkedPublishers.contains(publisher) ? 'checked' : ''}>
+                          <label class="form-check-label" for="checkbox_publisher_${status.index}">
+                              ${publisher}
+                          </label>
+                        </div>
+                      </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                      Không có
+                    </c:otherwise>
+                  </c:choose>
                 </div> <!-- card-body.// -->
               </div>
             </article>
@@ -145,13 +152,26 @@
 
         <div class="row item-grid">
           <c:forEach var="product" items="${requestScope.products}">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-xl-4 col-lg-6">
               <div class="card p-3 mb-4">
                 <a href="${pageContext.request.contextPath}/product?id=${product.id}"
                    class="img-wrap text-center">
-                  <img class="img-fluid"
-                       src="${pageContext.request.contextPath}/image/${product.imageName}"
-                       alt="${product.name}" width="200" height="200">
+                  <c:choose>
+                    <c:when test="${empty product.imageName}">
+                      <img width="200"
+                           height="200"
+                           class="img-fluid"
+                           src="${pageContext.request.contextPath}/img/280px.png"
+                           alt="280px.png">
+                    </c:when>
+                    <c:otherwise>
+                      <img width="200"
+                           height="200"
+                           class="img-fluid"
+                           src="${pageContext.request.contextPath}/image/${product.imageName}"
+                           alt="${product.imageName}">
+                    </c:otherwise>
+                  </c:choose>
                 </a>
                 <figcaption class="info-wrap mt-2">
                   <a href="${pageContext.request.contextPath}/product?id=${product.id}"
@@ -171,6 +191,9 @@
                         </span>
                         <span class="ms-2 text-muted text-decoration-line-through">
                           <fmt:formatNumber pattern="#,##0" value="${product.price}"/>₫
+                        </span>
+                        <span class="ms-2 badge bg-info">
+                          -<fmt:formatNumber pattern="#,##0" value="${product.discount}"/>%
                         </span>
                       </c:otherwise>
                     </c:choose>

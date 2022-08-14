@@ -23,7 +23,7 @@ public class SigninServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/views/signinView.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SigninServlet extends HttpServlet {
         } else {
             request.setAttribute("values", values);
             request.setAttribute("violations", violations);
-            request.getRequestDispatcher("WEB-INF/views/signinView.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/signinView.jsp").forward(request, response);
         }
     }
 }
