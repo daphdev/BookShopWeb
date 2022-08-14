@@ -2,11 +2,13 @@ package com.bookshopweb.servlet.client;
 
 import com.bookshopweb.beans.User;
 import com.bookshopweb.service.UserService;
-import com.bookshopweb.utils.Protector;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +36,7 @@ public class SettingServlet extends HttpServlet {
         values.put("fullname", request.getParameter("fullname"));
         values.put("email", request.getParameter("email"));
         values.put("phoneNumber", request.getParameter("phoneNumber"));
-        values.put("radioGender", request.getParameter("radioGender"));
+        values.put("gender", request.getParameter("gender"));
         values.put("address", request.getParameter("address"));
 
         User newUser = new User(
@@ -44,12 +46,12 @@ public class SettingServlet extends HttpServlet {
                 values.get("fullname"),
                 values.get("email"),
                 values.get("phoneNumber"),
-                Integer.parseInt(values.get("radioGender")),
+                Integer.parseInt(values.get("gender")),
                 values.get("address")
         );
 
-        String successMessage = "Cập nhật thành công";
-        String errorMessage = "Cập nhật không thành công";
+        String successMessage = "Cập nhật thành công!";
+        String errorMessage = "Cập nhật không thành công!";
 
         Optional<User> userWithNewUsername = userService.getByUsername(values.get("username"));
 

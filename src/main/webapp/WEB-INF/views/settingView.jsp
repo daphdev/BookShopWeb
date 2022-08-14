@@ -39,8 +39,7 @@
               <a class="list-group-item active" href="${pageContext.request.contextPath}/setting"> Thiết đặt </a>
               <a class="list-group-item" href="${pageContext.request.contextPath}/signout" role="button"> Đăng xuất </a>
             </nav>
-          </aside>
-          <!-- col.// -->
+          </aside> <!-- col.// -->
 
           <main class="col-md-9">
             <article class="card">
@@ -62,7 +61,7 @@
                              value="${requestScope.user.username}">
                     </div>
                     <div class="mb-3">
-                      <label for="inputFullname" class="form-label">Họ tên</label>
+                      <label for="inputFullname" class="form-label">Họ và tên</label>
                       <input type="text"
                              class="form-control"
                              id="inputFullname"
@@ -79,7 +78,7 @@
                     </div>
                     <div class="mb-3">
                       <label for="inputPhoneNumber" class="form-label">Số điện thoại</label>
-                      <input type="number"
+                      <input type="text"
                              class="form-control"
                              id="inputPhoneNumber"
                              name="phoneNumber"
@@ -89,7 +88,7 @@
                       <div class="form-check d-inline-block me-4">
                         <input class="form-check-input"
                                type="radio"
-                               name="radioGender"
+                               name="gender"
                                id="radioGender1"
                                value="0"
                           ${requestScope.user.gender == 0 ? 'checked' : ''}>
@@ -98,7 +97,7 @@
                       <div class="form-check d-inline-block">
                         <input class="form-check-input"
                                type="radio"
-                               name="radioGender"
+                               name="gender"
                                id="radioGender2"
                                value="1"
                           ${requestScope.user.gender == 1 ? 'checked' : ''}>
@@ -118,8 +117,7 @@
                 </div>
               </div> <!-- card-body.// -->
             </article>
-          </main>
-          <!-- col.// -->
+          </main> <!-- col.// -->
         </c:otherwise>
       </c:choose>
     </div> <!-- row.// -->
