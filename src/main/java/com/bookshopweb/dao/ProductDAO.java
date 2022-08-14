@@ -106,4 +106,10 @@ public interface ProductDAO extends DAO<Product> {
 
     @SqlUpdate("DELETE FROM product_category WHERE productId = :productId AND categoryId = :categoryId")
     void deleteProductCategory(@Bind("productId") long productId, @Bind("categoryId") long categoryId);
+
+    @SqlQuery("SELECT * FROM product WHERE name LIKE CONCAT('%', :query, '%') LIMIT :limit OFFSET :offset")
+    List<Product> getByQuery(@Bind("query") String query, @Bind("limit") int limit, @Bind("offset") int offset);
+
+    @SqlQuery("SELECT COUNT(id) FROM product WHERE name LIKE CONCAT('%', :query, '%')")
+    int countByQuery(@Bind("query") String query);
 }

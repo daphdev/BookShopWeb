@@ -62,6 +62,16 @@ public class ProductService extends Service<Product, ProductDAO> implements Prod
         jdbi.useExtension(ProductDAO.class, dao -> dao.deleteProductCategory(productId, categoryId));
     }
 
+    @Override
+    public List<Product> getByQuery(String query, int limit, int offset) {
+        return jdbi.withExtension(ProductDAO.class, dao -> dao.getByQuery(query, limit, offset));
+    }
+
+    @Override
+    public int countByQuery(String query) {
+        return jdbi.withExtension(ProductDAO.class, dao -> dao.countByQuery(query));
+    }
+
     public String getFirst(String twopartString) {
         return twopartString.contains("-") ? twopartString.split("-")[0] : "";
     }
