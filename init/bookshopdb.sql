@@ -464,21 +464,21 @@ INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`conten
 INSERT INTO bookshopdb.product_review(`userId`,`productId`,`ratingScore`,`content`,`isShow`,`createdAt`,`updatedAt`) VALUES (3,42,2,'Velit aliqua ullamco exercitation est minim nulla occaecat et officia veniam minim voluptate. Commodo sit et proident ex cupidatat. Nulla ad exercitation eiusmod veniam aliqua adipisicing incididunt tempor dolore aute.',1,'2021-02-24 12:50:14',NULL);
 
 -- category
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo khoa','Cillum nulla non Lorem ut irure fugiat veniam deserunt do.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách khoa học','Aliqua exercitation ea sint do.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện tranh','Cillum laboris et nulla nostrud duis consectetur labore cupidatat minim proident.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tiểu thuyết','Enim dolore cupidatat tempor sunt amet veniam aute officia est officia.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện ngắn','Dolor in pariatur aliqua dolore ea cillum ut consectetur tempor do eu incididunt est.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện dài','Eiusmod adipisicing consectetur occaecat culpa in ullamco labore velit magna.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo trình','In officia ex magna commodo ullamco in magna incididunt esse mollit enim consectetur laboris.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Báo in','Laborum in elit ullamco pariatur laborum magna veniam nostrud eu anim irure deserunt ad sunt.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tạp chí','Excepteur qui commodo sint sint irure sunt sunt in nostrud.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tập san','Elit amet proident et cupidatat in eu quis velit tempor sunt labore aute et.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nấu ăn','Consequat anim officia aute eiusmod dolor.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ thuật','Veniam pariatur deserunt ea non voluptate sunt do culpa elit esse.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nông nghiệp','Minim deserunt aute ipsum duis ea eiusmod aute sint sint ut.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách thiếu nhi','Ex eu ad adipisicing magna tempor occaecat id cupidatat dolor dolor aliquip dolore.','50px.png');
-INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ năng sống','Ad exercitation anim in magna qui ipsum ipsum proident magna.','50px.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo khoa','Cillum nulla non Lorem ut irure fugiat veniam deserunt do.','sach-giao-khoa.jpg');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách khoa học','Aliqua exercitation ea sint do.','sach-khoa-hoc.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện tranh','Cillum laboris et nulla nostrud duis consectetur labore cupidatat minim proident.','truyen-tranh.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tiểu thuyết','Enim dolore cupidatat tempor sunt amet veniam aute officia est officia.','tieu-thuyet.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện ngắn','Dolor in pariatur aliqua dolore ea cillum ut consectetur tempor do eu incididunt est.','truyen-ngan.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Truyện dài','Eiusmod adipisicing consectetur occaecat culpa in ullamco labore velit magna.','truyen-dai.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách giáo trình','In officia ex magna commodo ullamco in magna incididunt esse mollit enim consectetur laboris.','sach-giao-trinh.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Báo in','Laborum in elit ullamco pariatur laborum magna veniam nostrud eu anim irure deserunt ad sunt.','bao-in.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tạp chí','Excepteur qui commodo sint sint irure sunt sunt in nostrud.','tap-chi.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Tập san','Elit amet proident et cupidatat in eu quis velit tempor sunt labore aute et.','tap-san.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nấu ăn','Consequat anim officia aute eiusmod dolor.','nau-an.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ thuật','Veniam pariatur deserunt ea non voluptate sunt do culpa elit esse.','sach-ky-thuat.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách nông nghiệp','Minim deserunt aute ipsum duis ea eiusmod aute sint sint ut.','sach-nong-nghiep.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách thiếu nhi','Ex eu ad adipisicing magna tempor occaecat id cupidatat dolor dolor aliquip dolore.','sach-thieu-nhi.png');
+INSERT INTO bookshopdb.category(`name`,`description`,`imageName`) VALUES ('Sách kỹ năng sống','Ad exercitation anim in magna qui ipsum ipsum proident magna.','sach-ky-nang-song.png');
 
 -- product_category
 INSERT INTO bookshopdb.product_category(`productId`,`categoryId`) VALUES (1,2);
