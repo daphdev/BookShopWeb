@@ -26,6 +26,21 @@ Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from
 
 ![DatabaseDesignBSW](https://user-images.githubusercontent.com/60851390/184553293-10175099-9395-4bcc-88cc-8e8b55289b1b.svg)
 
+## Dữ liệu mẫu
+
+| Bảng | Số lượng record mẫu |
+| --- | --- |
+| user | 5 |
+| product | 100 |
+| product_review | 150 |
+| category | 15 |
+| product_category | 100 |
+| cart | 2 |
+| cart_item | 5 |
+| orders | 25 |
+| order_item | 60 |
+| wishlist_item | 30 |
+
 # Phần mềm
 
 * IDEA 2022.1.2
