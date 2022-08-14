@@ -1,5 +1,7 @@
 package com.bookshopweb.beans;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
@@ -14,12 +16,17 @@ public class Product {
     private int pages;
     private String publisher;
     private int yearPublishing;
+    @Nullable
     private String description;
+    @Nullable
     private String imageName;
     private int shop;
     private LocalDateTime createdAt;
+    @Nullable
     private LocalDateTime updatedAt;
+    @Nullable
     private LocalDateTime startsAt;
+    @Nullable
     private LocalDateTime endsAt;
 
     public Product() {}
@@ -34,13 +41,13 @@ public class Product {
                    int pages,
                    String publisher,
                    int yearPublishing,
-                   String description,
-                   String imageName,
+                   @Nullable String description,
+                   @Nullable String imageName,
                    int shop,
                    LocalDateTime createdAt,
-                   LocalDateTime updatedAt,
-                   LocalDateTime startsAt,
-                   LocalDateTime endsAt) {
+                   @Nullable LocalDateTime updatedAt,
+                   @Nullable LocalDateTime startsAt,
+                   @Nullable LocalDateTime endsAt) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -140,19 +147,21 @@ public class Product {
         this.yearPublishing = yearPublishing;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 
+    @Nullable
     public String getImageName() {
         return imageName;
     }
 
-    public void setImageName(String imageName) {
+    public void setImageName(@Nullable String imageName) {
         this.imageName = imageName;
     }
 
@@ -172,27 +181,30 @@ public class Product {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(@Nullable LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    @Nullable
     public LocalDateTime getStartsAt() {
         return startsAt;
     }
 
-    public void setStartsAt(LocalDateTime startsAt) {
+    public void setStartsAt(@Nullable LocalDateTime startsAt) {
         this.startsAt = startsAt;
     }
 
+    @Nullable
     public LocalDateTime getEndsAt() {
         return endsAt;
     }
 
-    public void setEndsAt(LocalDateTime endsAt) {
+    public void setEndsAt(@Nullable LocalDateTime endsAt) {
         this.endsAt = endsAt;
     }
 

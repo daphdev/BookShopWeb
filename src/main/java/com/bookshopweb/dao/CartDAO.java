@@ -50,8 +50,8 @@ public interface CartDAO extends DAO<Cart> {
     @SqlQuery("SELECT SUM(ci.quantity) FROM cart c JOIN cart_item ci ON c.id = ci.cartId WHERE c.userId = :userId")
     int countCartItemQuantityByUserId(@Bind("userId") long userId);
 
-    @SqlQuery("SELECT SUM(oi.quantity) FROM orders o JOIN order_item oi ON o.id = oi.orderId WHERE o.userId = :userId")
-    int countOrderItemQuantityByUserId(@Bind("userId") long userId);
+    @SqlQuery("SELECT COUNT(orders.id) FROM orders WHERE userId = :userId")
+    int countOrderByUserId(@Bind("userId") long userId);
 
     @SqlQuery("SELECT COUNT(orders.id) FROM orders WHERE userId = :userId AND status = 1")
     int countOrderDeliverByUserId(@Bind("userId") long userId);

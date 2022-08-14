@@ -11,6 +11,7 @@ public class User {
     private String phoneNumber;
     private int gender;
     private String address;
+    private String role;
 
     public User() {}
 
@@ -21,7 +22,8 @@ public class User {
                 String email,
                 String phoneNumber,
                 int gender,
-                String address) {
+                String address,
+                String role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -30,6 +32,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.address = address;
+        this.role = role;
     }
 
     public long getId() {
@@ -96,6 +99,14 @@ public class User {
         this.address = address;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
@@ -107,6 +118,7 @@ public class User {
                 .add("phoneNumber='" + phoneNumber + "'")
                 .add("gender=" + gender)
                 .add("address='" + address + "'")
+                .add("role='" + role + "'")
                 .toString();
     }
 }

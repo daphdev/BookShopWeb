@@ -15,14 +15,13 @@ import java.util.Optional;
 @RegisterBeanMapper(ProductReview.class)
 public interface ProductReviewDAO extends DAO<ProductReview> {
     @Override
-    @SqlUpdate("INSERT INTO product_review VALUES (default, :userId, :productId, :ratingScore, :content, :createdAt, :updatedAt)")
+    @SqlUpdate("INSERT INTO product_review VALUES (default, :userId, :productId, :ratingScore, :content, :isShow, " +
+               ":createdAt, :updatedAt)")
     @GetGeneratedKeys("id")
     long insert(@BindBean ProductReview productReview);
 
     @Override
-    @SqlUpdate("UPDATE product_review SET userId = :userId, productId = :productId, ratingScore = :ratingScore, " +
-               "content = :content, createdAt = :createdAt, updatedAt = :updatedAt " +
-               "WHERE id = :id")
+    @SqlUpdate("UPDATE product_review SET ratingScore = :ratingScore, content = :content, updatedAt = NOW() WHERE id = :id")
     void update(@BindBean ProductReview productReview);
 
     @Override
@@ -61,4 +60,13 @@ public interface ProductReviewDAO extends DAO<ProductReview> {
 
     @SqlQuery("SELECT SUM(ratingScore) FROM product_review WHERE productId = :productId")
     int sumRatingScoresByProductId(@Bind("productId") long productId);
+
+    @SqlQuery("SELECT COUNT(id) FROM product_review")
+    int count();
+
+    @SqlUpdate("UPDATE product_review SET isShow = 0, updatedAt = NOW() WHERE id = :id")
+    void hide(@Bind("id") long id);
+
+    @SqlUpdate("UPDATE product_review SET isShow = 1, updatedAt = NOW() WHERE id = :id")
+    void show(@Bind("id") long id);
 }

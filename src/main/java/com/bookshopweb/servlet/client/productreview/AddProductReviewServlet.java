@@ -43,7 +43,7 @@ public class AddProductReviewServlet extends HttpServlet {
 
         int sumOfViolations = violations.values().stream().mapToInt(List::size).sum();
         String successMessage = "Đã đánh giá thành công!";
-        String errorMessage = "Đã có lỗi truy vấn!";
+        String errorAddReviewMessage = "Đã có lỗi truy vấn!";
         AtomicReference<String> anchor = new AtomicReference<>("");
 
         if (sumOfViolations == 0) {
@@ -53,8 +53,8 @@ public class AddProductReviewServlet extends HttpServlet {
                     Protector.of(() -> Long.parseLong(values.get("productId"))).get(0L),
                     Protector.of(() -> Integer.parseInt(values.get("ratingScore"))).get(0),
                     values.get("content"),
+                    1,
                     LocalDateTime.now(),
-                    null,
                     null
             );
             Protector.of(() -> productReviewService.insert(productReview))
@@ -64,7 +64,7 @@ public class AddProductReviewServlet extends HttpServlet {
                     })
                     .fail(e -> {
                         request.getSession().setAttribute("values", values);
-                        request.getSession().setAttribute("errorMessage", errorMessage);
+                        request.getSession().setAttribute("errorAddReviewMessage", errorAddReviewMessage);
                         anchor.set("#review-form");
                     });
         } else {

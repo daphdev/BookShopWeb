@@ -25,8 +25,8 @@ public class UserServlet extends HttpServlet {
             int countCartItemQuantityByUserId = cartService.countCartItemQuantityByUserId(user.getId());
             request.setAttribute("countCartItemQuantity", countCartItemQuantityByUserId);
 
-            int countOrderItemQuantityByUserId = cartService.countOrderItemQuantityByUserId(user.getId());
-            request.setAttribute("countOrderItemQuantity", countOrderItemQuantityByUserId);
+            int countOrderByUserId = cartService.countOrderByUserId(user.getId());
+            request.setAttribute("countOrder", countOrderByUserId);
 
             int countOrderDeliverByUserId = cartService.countOrderDeliverByUserId(user.getId());
             request.setAttribute("countOrderDeliver", countOrderDeliverByUserId);
@@ -35,7 +35,7 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("countOrderReceived", countOrderReceivedByUserId);
         }
 
-        request.getRequestDispatcher("WEB-INF/views/userView.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/userView.jsp").forward(request, response);
     }
 
     @Override

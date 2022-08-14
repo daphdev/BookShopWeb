@@ -10,10 +10,14 @@
           </a>
         </div> <!-- col.// -->
         <div class="col-lg-4 col-xl-5 ${empty sessionScope.currentUser ? 'mb-3 mb-lg-0' : ''}">
-          <form action="#" class="search">
+          <form action="${pageContext.request.contextPath}/search" method="post" class="search">
             <div class="input-group w-100">
-              <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm ...">
-              <button class="btn btn-primary" type="button">
+              <input type="text"
+                     class="form-control"
+                     placeholder="Nhập từ khóa cần tìm ..."
+                     name="q"
+                     value="${requestScope.query}">
+              <button class="btn btn-primary" type="submit">
                 <i class="bi bi-search"></i>
               </button>
             </div>
