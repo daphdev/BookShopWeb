@@ -44,7 +44,7 @@ public class OrderManagerDetailServlet extends HttpServlet {
             order.setTotalPrice(calculateTotalPrice(orderItems, order.getDeliveryPrice()));
 
             request.setAttribute("order", order);
-            request.getRequestDispatcher("/WEB-INF/views/orderDetailView.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/orderManagerDetailView.jsp").forward(request, response);
         } else {
             response.sendRedirect(request.getContextPath() + "/admin/orderManager");
         }
