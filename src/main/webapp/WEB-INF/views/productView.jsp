@@ -194,7 +194,11 @@
                     <input type="hidden" name="productReviewId" value="${productReview.id}">
                     <input type="hidden" name="productId" value="${requestScope.product.id}">
                     <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-primary btn-sm">Sửa</button>
+                      <a href="${pageContext.request.contextPath}/editProductReview?id=${productReview.id}"
+                         role="button"
+                         class="btn btn-primary btn-sm">
+                        Sửa
+                      </a>
                       <button type="submit" class="btn btn-danger btn-sm"
                               onclick="return confirm('Bạn có muốn xóa?')">Xóa
                       </button>
@@ -261,21 +265,9 @@
                         <option disabled ${not empty sessionScope.values.ratingScore ? '' : 'selected'}>
                           Cho sao
                         </option>
-                        <option value="1" ${sessionScope.values.ratingScore == '1' ? 'selected' : ''}>
-                          1
-                        </option>
-                        <option value="2" ${sessionScope.values.ratingScore == '2' ? 'selected' : ''}>
-                          2
-                        </option>
-                        <option value="3" ${sessionScope.values.ratingScore == '3' ? 'selected' : ''}>
-                          3
-                        </option>
-                        <option value="4" ${sessionScope.values.ratingScore == '4' ? 'selected' : ''}>
-                          4
-                        </option>
-                        <option value="5" ${sessionScope.values.ratingScore == '5' ? 'selected' : ''}>
-                          5
-                        </option>
+                        <c:forEach var="i" begin="1" end="5">
+                          <option value="${i}" ${sessionScope.values.ratingScore == i ? 'selected' : ''}>${i}</option>
+                        </c:forEach>
                       </select>
                       <c:if test="${not empty sessionScope.violations.ratingScoreViolations}">
                         <div class="invalid-feedback">

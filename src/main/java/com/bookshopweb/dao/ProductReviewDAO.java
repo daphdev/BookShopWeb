@@ -21,9 +21,7 @@ public interface ProductReviewDAO extends DAO<ProductReview> {
     long insert(@BindBean ProductReview productReview);
 
     @Override
-    @SqlUpdate("UPDATE product_review SET userId = :userId, productId = :productId, ratingScore = :ratingScore, " +
-               "content = :content, isShow = :isShow, createdAt = :createdAt, updatedAt = :updatedAt " +
-               "WHERE id = :id")
+    @SqlUpdate("UPDATE product_review SET ratingScore = :ratingScore, content = :content, updatedAt = NOW() WHERE id = :id")
     void update(@BindBean ProductReview productReview);
 
     @Override
