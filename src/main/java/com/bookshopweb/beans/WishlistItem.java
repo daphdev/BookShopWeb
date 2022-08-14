@@ -10,10 +10,13 @@ public class WishlistItem {
     private LocalDateTime createdAt;
     private Product product;
 
-    public WishlistItem() {
-    }
+    public WishlistItem() {}
 
-    public WishlistItem(long id, long userId, long productId, LocalDateTime createdAt, Product product) {
+    public WishlistItem(long id,
+                        long userId,
+                        long productId,
+                        LocalDateTime createdAt,
+                        Product product) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;

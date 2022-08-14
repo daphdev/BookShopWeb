@@ -1,6 +1,5 @@
 package com.bookshopweb.dao;
 
-import com.bookshopweb.beans.Category;
 import com.bookshopweb.beans.WishlistItem;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
