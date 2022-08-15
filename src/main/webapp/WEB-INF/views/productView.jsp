@@ -116,7 +116,8 @@
         </dl>
 
         <div>
-          <button type="button" class="btn btn-danger" id="add-wishlist-item" title="Thêm vào danh sách yêu thích">
+          <button type="button" class="btn btn-danger" id="add-wishlist-item"
+                  title="Thêm vào danh sách yêu thích" ${requestScope.isWishlistItem == 1 ? 'disabled' : ''}>
             <i class="bi bi-heart"></i>
           </button>
           <button type="button" class="btn btn-primary ms-2" id="buy-now">Mua ngay</button>

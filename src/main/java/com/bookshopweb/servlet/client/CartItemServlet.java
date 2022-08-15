@@ -126,7 +126,6 @@ public class CartItemServlet extends HttpServlet {
                         cartItemRequest.getProductId(),
                         cartItemRequest.getQuantity(),
                         LocalDateTime.now(),
-                        null,
                         null
                 );
                 Protector.of(() -> cartItemService.insert(cartItem))

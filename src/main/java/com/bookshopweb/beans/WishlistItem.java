@@ -1,5 +1,7 @@
 package com.bookshopweb.beans;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
@@ -8,6 +10,7 @@ public class WishlistItem {
     private long userId;
     private long productId;
     private LocalDateTime createdAt;
+    @Nullable
     private Product product;
 
     public WishlistItem() {}
@@ -15,13 +18,11 @@ public class WishlistItem {
     public WishlistItem(long id,
                         long userId,
                         long productId,
-                        LocalDateTime createdAt,
-                        Product product) {
+                        LocalDateTime createdAt) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
         this.createdAt = createdAt;
-        this.product = product;
     }
 
     public long getId() {
@@ -56,11 +57,12 @@ public class WishlistItem {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(@Nullable Product product) {
         this.product = product;
     }
 

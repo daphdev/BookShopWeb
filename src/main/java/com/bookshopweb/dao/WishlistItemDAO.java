@@ -15,7 +15,7 @@ import java.util.Optional;
 @RegisterBeanMapper(WishlistItem.class)
 public interface WishlistItemDAO extends DAO<WishlistItem> {
     @Override
-    @SqlUpdate("INSERT INTO wishlist_item VALUES (default, :userId, :productId, :createdAt)")
+    @SqlUpdate("INSERT INTO wishlist_item VALUES (default, :userId, :productId, NOW())")
     @GetGeneratedKeys("id")
     long insert(@BindBean WishlistItem wishlistItem);
 
@@ -46,4 +46,7 @@ public interface WishlistItemDAO extends DAO<WishlistItem> {
 
     @SqlQuery("SELECT * FROM wishlist_item WHERE userId = :userId")
     List<WishlistItem> getByUserId(@Bind("userId") long userId);
+
+    @SqlQuery("SELECT COUNT(id) FROM wishlist_item WHERE userId = :userId AND productId = :productId")
+    int countByUserIdAndProductId(@Bind("userId") long userId, @Bind("productId") long productId);
 }
