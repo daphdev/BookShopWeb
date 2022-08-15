@@ -47,7 +47,8 @@ public class SettingServlet extends HttpServlet {
                 values.get("email"),
                 values.get("phoneNumber"),
                 Integer.parseInt(values.get("gender")),
-                values.get("address")
+                values.get("address"),
+                "CUSTOMER"
         );
 
         String successMessage = "Cập nhật thành công!";
