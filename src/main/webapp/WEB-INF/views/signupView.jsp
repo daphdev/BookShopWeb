@@ -59,7 +59,7 @@
           </c:if>
         </div>
         <div class="mb-3">
-          <label for="inputFullname" class="form-label">Họ tên</label>
+          <label for="inputFullname" class="form-label">Họ và tên</label>
           <input type="text"
                  class="form-control ${not empty requestScope.violations.fullnameViolations
                    ? 'is-invalid' : (not empty requestScope.values.fullname ? 'is-valid' : '')}"

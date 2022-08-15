@@ -83,7 +83,6 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("page", page);
             request.setAttribute("orders", orderResponses);
-            request.setAttribute("screen", "order");
         }
 
         request.getRequestDispatcher("/WEB-INF/views/orderView.jsp").forward(request, response);

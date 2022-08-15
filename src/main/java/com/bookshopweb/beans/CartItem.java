@@ -1,6 +1,7 @@
 package com.bookshopweb.beans;
 
 import org.jdbi.v3.core.mapper.Nested;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
@@ -11,7 +12,9 @@ public class CartItem {
     private long productId;
     private int quantity;
     private LocalDateTime createdAt;
+    @Nullable
     private LocalDateTime updatedAt;
+    @Nullable
     private Product product;
 
     public CartItem() {}
@@ -21,15 +24,13 @@ public class CartItem {
                     long productId,
                     int quantity,
                     LocalDateTime createdAt,
-                    LocalDateTime updatedAt,
-                    Product product) {
+                    @Nullable LocalDateTime updatedAt) {
         this.id = id;
         this.cartId = cartId;
         this.productId = productId;
         this.quantity = quantity;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.product = product;
     }
 
     public long getId() {
@@ -72,20 +73,22 @@ public class CartItem {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(@Nullable LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
+    @Nullable
     @Nested("product")
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(@Nullable Product product) {
         this.product = product;
     }
 

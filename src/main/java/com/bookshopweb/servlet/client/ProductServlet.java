@@ -3,9 +3,11 @@ package com.bookshopweb.servlet.client;
 import com.bookshopweb.beans.Category;
 import com.bookshopweb.beans.Product;
 import com.bookshopweb.beans.ProductReview;
+import com.bookshopweb.beans.User;
 import com.bookshopweb.service.CategoryService;
 import com.bookshopweb.service.ProductReviewService;
 import com.bookshopweb.service.ProductService;
+import com.bookshopweb.service.WishlistItemService;
 import com.bookshopweb.utils.Protector;
 import com.bookshopweb.utils.TextUtils;
 
@@ -24,6 +26,7 @@ public class ProductServlet extends HttpServlet {
     private final CategoryService categoryService = new CategoryService();
     private final ProductService productService = new ProductService();
     private final ProductReviewService productReviewService = new ProductReviewService();
+    private final WishlistItemService wishlistItemService = new WishlistItemService();
 
     private static final int PRODUCT_REVIEWS_PER_PAGE = 2;
 
@@ -81,6 +84,13 @@ public class ProductServlet extends HttpServlet {
                     4, 0, category.getId()
             )).get(ArrayList::new);
 
+            // Kiểm tra có phải là sản phẩm yêu thích
+            int isWishlistItem = Optional.ofNullable((User) request.getSession().getAttribute("currentUser"))
+                    .map(User::getId)
+                    .map(userId -> Protector.of(() -> wishlistItemService
+                            .countByUserIdAndProductId(userId, product.getId())).get(0))
+                    .orElse(0);
+
             request.setAttribute("category", category);
             request.setAttribute("product", product);
             request.setAttribute("totalProductReviews", totalProductReviews);
@@ -89,6 +99,7 @@ public class ProductServlet extends HttpServlet {
             request.setAttribute("pageReview", pageReview);
             request.setAttribute("averageRatingScore", averageRatingScore);
             request.setAttribute("relatedProducts", relatedProducts);
+            request.setAttribute("isWishlistItem", isWishlistItem);
             request.getRequestDispatcher("/WEB-INF/views/productView.jsp").forward(request, response);
         } else {
             // Nếu id không phải là số nguyên hoặc không hiện diện trong bảng product

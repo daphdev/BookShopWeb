@@ -3,8 +3,12 @@ package com.bookshopweb.servlet.client;
 import com.bookshopweb.beans.Product;
 import com.bookshopweb.beans.User;
 import com.bookshopweb.beans.WishlistItem;
+import com.bookshopweb.dto.ErrorMessage;
+import com.bookshopweb.dto.SuccessMessage;
+import com.bookshopweb.dto.WishlistItemRequest;
 import com.bookshopweb.service.ProductService;
 import com.bookshopweb.service.WishlistItemService;
+import com.bookshopweb.utils.JsonUtils;
 import com.bookshopweb.utils.Protector;
 
 import javax.servlet.ServletException;
@@ -46,5 +50,30 @@ public class WishlistServlet extends HttpServlet {
         long id = Protector.of(() -> Long.parseLong(request.getParameter("id"))).get(0L);
         Protector.of(() -> wishlistItemService.delete(id));
         response.sendRedirect(request.getContextPath() + "/wishlist");
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        WishlistItemRequest wishlistItemRequest = JsonUtils.get(request, WishlistItemRequest.class);
+
+        String successMessage = "Đã thêm sản phẩm vào danh sách yêu thích thành công!";
+        String errorMessage = "Đã có lỗi truy vấn!";
+
+        Runnable doneFunction = () -> JsonUtils.out(
+                response,
+                new SuccessMessage(200, successMessage),
+                HttpServletResponse.SC_OK);
+        Runnable failFunction = () -> JsonUtils.out(
+                response,
+                new ErrorMessage(404, errorMessage),
+                HttpServletResponse.SC_NOT_FOUND);
+
+        WishlistItem wishlistItem = new WishlistItem();
+        wishlistItem.setUserId(wishlistItemRequest.getUserId());
+        wishlistItem.setProductId(wishlistItemRequest.getProductId());
+
+        Protector.of(() -> wishlistItemService.insert(wishlistItem))
+                .done(r -> doneFunction.run())
+                .fail(e -> failFunction.run());
     }
 }

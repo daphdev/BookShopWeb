@@ -21,7 +21,9 @@
 <section class="section-content padding-y">
   <div class="container">
     <div class="row">
-      <jsp:include page="_navbar.jsp"/>
+      <jsp:include page="_navPanel.jsp">
+        <jsp:param name="active" value="WISHLIST"/>
+      </jsp:include>
 
       <main class="col-md-9">
         <article class="card">

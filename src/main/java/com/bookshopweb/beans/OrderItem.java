@@ -16,6 +16,7 @@ public class OrderItem {
     private LocalDateTime createdAt;
     @Nullable
     private LocalDateTime updatedAt;
+    @Nullable
     private Product product;
 
     public OrderItem() {}
@@ -103,12 +104,13 @@ public class OrderItem {
         this.updatedAt = updatedAt;
     }
 
+    @Nullable
     @Nested("product")
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(@Nullable Product product) {
         this.product = product;
     }
 

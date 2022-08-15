@@ -1,5 +1,7 @@
 package com.bookshopweb.beans;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
@@ -7,6 +9,7 @@ public class Cart {
     private long id;
     private long userId;
     private LocalDateTime createdAt;
+    @Nullable
     private LocalDateTime updatedAt;
 
     public Cart() {}
@@ -14,7 +17,7 @@ public class Cart {
     public Cart(long id,
                 long userId,
                 LocalDateTime createdAt,
-                LocalDateTime updatedAt) {
+                @Nullable LocalDateTime updatedAt) {
         this.id = id;
         this.userId = userId;
         this.createdAt = createdAt;
@@ -45,11 +48,12 @@ public class Cart {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(@Nullable LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 

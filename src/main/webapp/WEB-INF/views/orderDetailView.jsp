@@ -24,7 +24,9 @@
     <div class="row">
       <c:choose>
         <c:when test="${not empty sessionScope.currentUser}">
-          <jsp:include page="_navbar.jsp"/>
+          <jsp:include page="_navPanel.jsp">
+            <jsp:param name="active" value="ORDER"/>
+          </jsp:include>
 
           <main class="col-md-9">
             <article class="card mb-4">
