@@ -1,5 +1,6 @@
 # BookShopWeb
 Dự án Java Web xây dựng một Shop Bán Sách
+![Catalog](https://user-images.githubusercontent.com/60851390/184581244-a2644be7-5319-4cdc-8bd8-9d505359840e.png)
 
 ## A. Set up project BookShopWeb
 
