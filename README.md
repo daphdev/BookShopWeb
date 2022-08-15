@@ -25,7 +25,7 @@ Mở IDEA → Get from VCS (màn hình Welcome) hoặc File | New | Project from
 
 # Sơ đồ CSDL
 
-![DatabaseDesignBSW](https://user-images.githubusercontent.com/60851390/184553293-10175099-9395-4bcc-88cc-8e8b55289b1b.svg)
+![DatabaseDesignBSW](https://user-images.githubusercontent.com/60851390/184755435-bb97a62a-4cdd-408d-9a5a-526430f50c64.svg)
 
 ## Dữ liệu mẫu
 
