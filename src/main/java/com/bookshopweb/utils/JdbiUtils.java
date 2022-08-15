@@ -7,7 +7,7 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 public class JdbiUtils {
     public static Jdbi createInstance() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setPort(3306);
+        dataSource.setPort(ConstantUtils.DB_PORT);
         dataSource.setServerName(ConstantUtils.SERVER_NAME);
         dataSource.setDatabaseName(ConstantUtils.DB_NAME);
         dataSource.setUser(ConstantUtils.DB_USERNAME);
