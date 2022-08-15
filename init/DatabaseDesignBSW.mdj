@@ -38,7 +38,7 @@
 									"fillColor": "#ffeaad",
 									"font": "Arial;13;1",
 									"left": 88,
-									"top": 229,
+									"top": 205,
 									"width": 230.55419921875,
 									"height": 13,
 									"text": "user"
@@ -65,7 +65,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 252,
+											"top": 228,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -81,7 +81,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 267,
+											"top": 243,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -97,7 +97,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 282,
+											"top": 258,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -113,7 +113,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 297,
+											"top": 273,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -129,7 +129,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 312,
+											"top": 288,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -145,7 +145,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 327,
+											"top": 303,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -161,7 +161,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 342,
+											"top": 318,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -177,7 +177,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 357,
+											"top": 333,
 											"width": 220.55419921875,
 											"height": 13
 										},
@@ -193,7 +193,7 @@
 											"fillColor": "#ffeaad",
 											"font": "Arial;13;0",
 											"left": 93,
-											"top": 372,
+											"top": 348,
 											"width": 220.55419921875,
 											"height": 13
 										}
@@ -201,7 +201,7 @@
 									"fillColor": "#ffeaad",
 									"font": "Arial;13;0",
 									"left": 88,
-									"top": 247,
+									"top": 223,
 									"width": 230.55419921875,
 									"height": 143
 								}
@@ -209,7 +209,7 @@
 							"fillColor": "#ffeaad",
 							"font": "Arial;13;0",
 							"left": 88,
-							"top": 224,
+							"top": 200,
 							"width": 230.55419921875,
 							"height": 166,
 							"nameLabel": {
@@ -1733,7 +1733,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 279,
-									"top": 408,
+									"top": 384,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -1767,7 +1767,7 @@
 								"$ref": "AAAAAAF9/BfbIQi1wgY="
 							},
 							"lineStyle": 2,
-							"points": "264:389;264:408;411:408",
+							"points": "264:365;264:408;411:408",
 							"nameLabel": {
 								"$ref": "AAAAAAF+AFytWGQEnEc="
 							},
@@ -2166,7 +2166,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 215,
-									"top": 408,
+									"top": 384,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -2200,7 +2200,7 @@
 								"$ref": "AAAAAAF9/BfbIQi1wgY="
 							},
 							"lineStyle": 2,
-							"points": "200:389;200:664;395:664",
+							"points": "200:365;200:664;395:664",
 							"nameLabel": {
 								"$ref": "AAAAAAF+AGU0CWTW3O4="
 							},
@@ -2610,7 +2610,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 187,
-									"top": 192,
+									"top": 168,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -2644,7 +2644,7 @@
 								"$ref": "AAAAAAF9/BfbIQi1wgY="
 							},
 							"lineStyle": 2,
-							"points": "202:224;202:120;413:120",
+							"points": "202:200;202:120;413:120",
 							"nameLabel": {
 								"$ref": "AAAAAAF+EE2btUYT0Rs="
 							},
